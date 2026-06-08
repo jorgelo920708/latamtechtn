@@ -23,10 +23,12 @@
   <div class="admin-tabs-inner">
     <button type="button" [class.is-active]="activeTab() === 'leads'" (click)="setTab('leads')">
       <app-icon name="briefcase" />
-      Solicitudes
-      @if (loaded().leads) {
-        <span class="tab-count">{{ leads().length }}</span>
-      }
+      <span class="tab-text">
+        <span class="tab-label">Solicitudes</span>
+        @if (loaded().leads && leads().length > 0) {
+          <span class="tab-count">{{ leads().length }}</span>
+        }
+      </span>
     </button>
     <button
       type="button"
@@ -34,10 +36,12 @@
       (click)="setTab('candidates')"
     >
       <app-icon name="users" />
-      Candidatos
-      @if (loaded().candidates) {
-        <span class="tab-count">{{ candidates().length }}</span>
-      }
+      <span class="tab-text">
+        <span class="tab-label">Candidatos</span>
+        @if (loaded().candidates && candidates().length > 0) {
+          <span class="tab-count">{{ candidates().length }}</span>
+        }
+      </span>
     </button>
     <button
       type="button"
@@ -45,14 +49,16 @@
       (click)="setTab('contacts')"
     >
       <app-icon name="chat" />
-      Contactos
-      @if (loaded().contacts) {
-        <span class="tab-count">{{ contacts().length }}</span>
-      }
+      <span class="tab-text">
+        <span class="tab-label">Contactos</span>
+        @if (loaded().contacts && contacts().length > 0) {
+          <span class="tab-count">{{ contacts().length }}</span>
+        }
+      </span>
     </button>
     <button type="button" [class.is-active]="activeTab() === 'account'" (click)="setTab('account')">
       <app-icon name="shield" />
-      Cuenta
+      <span class="tab-text"><span class="tab-label">Cuenta</span></span>
     </button>
   </div>
 </nav>
