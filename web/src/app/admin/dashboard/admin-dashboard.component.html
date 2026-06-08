@@ -1,208 +1,238 @@
-<header class="admin-top">
-  <div class="admin-top-inner">
-    <div class="admin-brand">
-      <span class="admin-mark"><app-icon name="logo" /></span>
-      <div class="admin-brand-text">
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <div class="sidebar-logo">
+      <span class="brand-mark"><app-icon name="logo" /></span>
+      <div class="brand-text">
         <strong>LATAM</strong>
-        <small>Panel de administración</small>
+        <small>Panel admin</small>
       </div>
     </div>
-    <div class="admin-account">
-      @if (email()) {
-        <span class="admin-email">{{ email() }}</span>
-      }
-      <button type="button" class="btn-out" (click)="logout()">
-        <app-icon name="arrow" />
-        Salir
-      </button>
-    </div>
-  </div>
-</header>
 
-<nav class="admin-tabs">
-  <div class="admin-tabs-inner">
-    <button type="button" [class.is-active]="activeTab() === 'leads'" (click)="setTab('leads')">
-      <app-icon name="briefcase" />
-      <span class="tab-text">
-        <span class="tab-label">Solicitudes</span>
+    <nav class="sidebar-nav">
+      <button type="button" class="nav-item" [class.active]="activeTab() === 'leads'" (click)="setTab('leads')">
+        <app-icon name="briefcase" />
+        <span class="nav-label">Solicitudes</span>
         @if (loaded().leads && leads().length > 0) {
-          <span class="tab-count">{{ leads().length }}</span>
+          <span class="nav-count">{{ leads().length }}</span>
         }
-      </span>
-    </button>
-    <button
-      type="button"
-      [class.is-active]="activeTab() === 'candidates'"
-      (click)="setTab('candidates')"
-    >
-      <app-icon name="users" />
-      <span class="tab-text">
-        <span class="tab-label">Candidatos</span>
+      </button>
+      <button type="button" class="nav-item" [class.active]="activeTab() === 'candidates'" (click)="setTab('candidates')">
+        <app-icon name="users" />
+        <span class="nav-label">Candidatos</span>
         @if (loaded().candidates && candidates().length > 0) {
-          <span class="tab-count">{{ candidates().length }}</span>
+          <span class="nav-count">{{ candidates().length }}</span>
         }
-      </span>
-    </button>
-    <button
-      type="button"
-      [class.is-active]="activeTab() === 'contacts'"
-      (click)="setTab('contacts')"
-    >
-      <app-icon name="chat" />
-      <span class="tab-text">
-        <span class="tab-label">Contactos</span>
+      </button>
+      <button type="button" class="nav-item" [class.active]="activeTab() === 'contacts'" (click)="setTab('contacts')">
+        <app-icon name="chat" />
+        <span class="nav-label">Contactos</span>
         @if (loaded().contacts && contacts().length > 0) {
-          <span class="tab-count">{{ contacts().length }}</span>
+          <span class="nav-count">{{ contacts().length }}</span>
         }
-      </span>
-    </button>
-    <button type="button" [class.is-active]="activeTab() === 'account'" (click)="setTab('account')">
-      <app-icon name="shield" />
-      <span class="tab-text"><span class="tab-label">Cuenta</span></span>
-    </button>
-  </div>
-</nav>
+      </button>
 
-<main class="admin-content">
-  @if (activeTab() !== 'account') {
-    @if (isTabLoading()) {
-      <p class="admin-state">Cargando…</p>
-    } @else if (loadError()) {
-      <div class="admin-state">
-        <p>No se pudieron cargar los datos.</p>
-        <button type="button" class="btn btn-ghost" (click)="reload()">Reintentar</button>
+      <div class="nav-sep"></div>
+
+      <button type="button" class="nav-item" [class.active]="activeTab() === 'account'" (click)="setTab('account')">
+        <app-icon name="shield" />
+        <span class="nav-label">Cuenta</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <span class="sidebar-avatar">{{ initials() }}</span>
+      <div class="sidebar-user">
+        <span class="sidebar-user-label">Sesión</span>
+        <span class="sidebar-user-email">{{ email() }}</span>
       </div>
-    }
-  }
-
-  @if (activeTab() === 'leads' && loaded().leads && !loadError()) {
-    @if (leads().length === 0) {
-      <p class="admin-state">Todavía no hay solicitudes de talento.</p>
-    } @else {
-      <div class="cards">
-        @for (lead of leads(); track lead.id) {
-          <article class="record">
-            <div class="record-head">
-              <div>
-                <h3>{{ lead.name }}</h3>
-                <span class="record-sub">{{ lead.company }}</span>
-              </div>
-              <div class="record-meta">
-                <span class="badge">{{ lead.status }}</span>
-                <span class="record-date">{{ formatDate(lead.createdAt) }}</span>
-              </div>
-            </div>
-            <dl class="record-rows">
-              <div><dt>Email</dt><dd><a [href]="'mailto:' + lead.email">{{ lead.email }}</a></dd></div>
-              <div><dt>Rol</dt><dd>{{ lead.role }}</dd></div>
-              <div><dt>Especialidad</dt><dd>{{ lead.specialty }}</dd></div>
-              @if (lead.message) {
-                <div><dt>Mensaje</dt><dd>{{ lead.message }}</dd></div>
-              }
-            </dl>
-          </article>
-        }
-      </div>
-    }
-  }
-
-  @if (activeTab() === 'candidates' && loaded().candidates && !loadError()) {
-    @if (candidates().length === 0) {
-      <p class="admin-state">Todavía no hay aplicaciones de candidatos.</p>
-    } @else {
-      <div class="cards">
-        @for (c of candidates(); track c.id) {
-          <article class="record">
-            <div class="record-head">
-              <div>
-                <h3>{{ c.fullName }}</h3>
-                <span class="record-sub">{{ c.location }}</span>
-              </div>
-              <div class="record-meta">
-                <span class="badge">{{ c.status }}</span>
-                <span class="record-date">{{ formatDate(c.createdAt) }}</span>
-              </div>
-            </div>
-            <dl class="record-rows">
-              <div><dt>Email</dt><dd><a [href]="'mailto:' + c.email">{{ c.email }}</a></dd></div>
-              <div><dt>Especialidad</dt><dd>{{ c.specialty }}</dd></div>
-              <div><dt>Inglés</dt><dd>{{ c.englishLevel }}</dd></div>
-              <div><dt>Stack</dt><dd>{{ c.mainStack }}</dd></div>
-              @if (c.linkedinUrl) {
-                <div>
-                  <dt>LinkedIn</dt>
-                  <dd><a [href]="c.linkedinUrl" target="_blank" rel="noopener">{{ c.linkedinUrl }}</a></dd>
-                </div>
-              }
-              @if (c.message) {
-                <div><dt>Mensaje</dt><dd>{{ c.message }}</dd></div>
-              }
-            </dl>
-          </article>
-        }
-      </div>
-    }
-  }
-
-  @if (activeTab() === 'contacts' && loaded().contacts && !loadError()) {
-    @if (contacts().length === 0) {
-      <p class="admin-state">Todavía no hay contactos.</p>
-    } @else {
-      <div class="cards">
-        @for (ct of contacts(); track ct.id) {
-          <article class="record">
-            <div class="record-head">
-              <div>
-                <h3>{{ ct.name }}</h3>
-              </div>
-              <div class="record-meta">
-                <span class="badge">{{ ct.status }}</span>
-                <span class="record-date">{{ formatDate(ct.createdAt) }}</span>
-              </div>
-            </div>
-            <dl class="record-rows">
-              <div><dt>Email</dt><dd><a [href]="'mailto:' + ct.email">{{ ct.email }}</a></dd></div>
-              <div><dt>Mensaje</dt><dd>{{ ct.message }}</dd></div>
-            </dl>
-          </article>
-        }
-      </div>
-    }
-  }
-
-  @if (activeTab() === 'account') {
-    <div class="account-card">
-      <h2>Cambiar contraseña</h2>
-      <form [formGroup]="pwForm" (ngSubmit)="changePassword()" novalidate>
-        <div class="field">
-          <label for="cp-current">Contraseña actual</label>
-          <input
-            id="cp-current"
-            type="password"
-            formControlName="currentPassword"
-            autocomplete="current-password"
-          />
-        </div>
-        <div class="field">
-          <label for="cp-new">Nueva contraseña</label>
-          <input
-            id="cp-new"
-            type="password"
-            formControlName="newPassword"
-            autocomplete="new-password"
-          />
-          <span class="field-hint">Mínimo 8 caracteres.</span>
-        </div>
-        @if (pwError()) {
-          <p class="form-error">{{ pwError() }}</p>
-        }
-        @if (pwSuccess()) {
-          <p class="form-ok">Contraseña actualizada.</p>
-        }
-        <button type="submit" class="btn btn-primary" [disabled]="pwSubmitting()">
-          {{ pwSubmitting() ? 'Guardando…' : 'Guardar' }}
-        </button>
-      </form>
     </div>
-  }
-</main>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <span class="brand-mark topbar-logo"><app-icon name="logo" /></span>
+        <h1 class="topbar-title">{{ titles[activeTab()] }}</h1>
+      </div>
+      <div class="topbar-right">
+        @if (email()) {
+          <span class="topbar-email">{{ email() }}</span>
+        }
+        <button type="button" class="btn-out" (click)="logout()">
+          <app-icon name="arrow" />
+          <span class="btn-out-label">Salir</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      @if (activeTab() !== 'account') {
+        @if (isTabLoading()) {
+          <p class="admin-state">Cargando…</p>
+        } @else if (loadError()) {
+          <div class="admin-state">
+            <p>No se pudieron cargar los datos.</p>
+            <button type="button" class="btn btn-ghost" (click)="reload()">Reintentar</button>
+          </div>
+        }
+      }
+
+      @if (activeTab() === 'leads' && loaded().leads && !loadError()) {
+        @if (leads().length === 0) {
+          <p class="admin-state">Todavía no hay solicitudes de talento.</p>
+        } @else {
+          <div class="cards">
+            @for (lead of leads(); track lead.id) {
+              <article class="record">
+                <div class="record-head">
+                  <div>
+                    <h3>{{ lead.name }}</h3>
+                    <span class="record-sub">{{ lead.company }}</span>
+                  </div>
+                  <div class="record-meta">
+                    <span class="badge">{{ lead.status }}</span>
+                    <span class="record-date">{{ formatDate(lead.createdAt) }}</span>
+                  </div>
+                </div>
+                <dl class="record-rows">
+                  <div><dt>Email</dt><dd><a [href]="'mailto:' + lead.email">{{ lead.email }}</a></dd></div>
+                  <div><dt>Rol</dt><dd>{{ lead.role }}</dd></div>
+                  <div><dt>Especialidad</dt><dd>{{ lead.specialty }}</dd></div>
+                  @if (lead.message) {
+                    <div><dt>Mensaje</dt><dd>{{ lead.message }}</dd></div>
+                  }
+                </dl>
+              </article>
+            }
+          </div>
+        }
+      }
+
+      @if (activeTab() === 'candidates' && loaded().candidates && !loadError()) {
+        @if (candidates().length === 0) {
+          <p class="admin-state">Todavía no hay aplicaciones de candidatos.</p>
+        } @else {
+          <div class="cards">
+            @for (c of candidates(); track c.id) {
+              <article class="record">
+                <div class="record-head">
+                  <div>
+                    <h3>{{ c.fullName }}</h3>
+                    <span class="record-sub">{{ c.location }}</span>
+                  </div>
+                  <div class="record-meta">
+                    <span class="badge">{{ c.status }}</span>
+                    <span class="record-date">{{ formatDate(c.createdAt) }}</span>
+                  </div>
+                </div>
+                <dl class="record-rows">
+                  <div><dt>Email</dt><dd><a [href]="'mailto:' + c.email">{{ c.email }}</a></dd></div>
+                  <div><dt>Especialidad</dt><dd>{{ c.specialty }}</dd></div>
+                  <div><dt>Inglés</dt><dd>{{ c.englishLevel }}</dd></div>
+                  <div><dt>Stack</dt><dd>{{ c.mainStack }}</dd></div>
+                  @if (c.linkedinUrl) {
+                    <div>
+                      <dt>LinkedIn</dt>
+                      <dd><a [href]="c.linkedinUrl" target="_blank" rel="noopener">{{ c.linkedinUrl }}</a></dd>
+                    </div>
+                  }
+                  @if (c.message) {
+                    <div><dt>Mensaje</dt><dd>{{ c.message }}</dd></div>
+                  }
+                </dl>
+              </article>
+            }
+          </div>
+        }
+      }
+
+      @if (activeTab() === 'contacts' && loaded().contacts && !loadError()) {
+        @if (contacts().length === 0) {
+          <p class="admin-state">Todavía no hay contactos.</p>
+        } @else {
+          <div class="cards">
+            @for (ct of contacts(); track ct.id) {
+              <article class="record">
+                <div class="record-head">
+                  <div><h3>{{ ct.name }}</h3></div>
+                  <div class="record-meta">
+                    <span class="badge">{{ ct.status }}</span>
+                    <span class="record-date">{{ formatDate(ct.createdAt) }}</span>
+                  </div>
+                </div>
+                <dl class="record-rows">
+                  <div><dt>Email</dt><dd><a [href]="'mailto:' + ct.email">{{ ct.email }}</a></dd></div>
+                  <div><dt>Mensaje</dt><dd>{{ ct.message }}</dd></div>
+                </dl>
+              </article>
+            }
+          </div>
+        }
+      }
+
+      @if (activeTab() === 'account') {
+        <div class="account-card">
+          <h2>Cambiar contraseña</h2>
+          <form [formGroup]="pwForm" (ngSubmit)="changePassword()" novalidate>
+            <div class="field">
+              <label for="cp-current">Contraseña actual</label>
+              <input
+                id="cp-current"
+                type="password"
+                formControlName="currentPassword"
+                autocomplete="current-password"
+              />
+            </div>
+            <div class="field">
+              <label for="cp-new">Nueva contraseña</label>
+              <input
+                id="cp-new"
+                type="password"
+                formControlName="newPassword"
+                autocomplete="new-password"
+              />
+              <span class="field-hint">Mínimo 8 caracteres.</span>
+            </div>
+            @if (pwError()) {
+              <p class="form-error">{{ pwError() }}</p>
+            }
+            @if (pwSuccess()) {
+              <p class="form-ok">Contraseña actualizada.</p>
+            }
+            <button type="submit" class="btn btn-primary" [disabled]="pwSubmitting()">
+              {{ pwSubmitting() ? 'Guardando…' : 'Guardar' }}
+            </button>
+          </form>
+        </div>
+      }
+    </main>
+  </div>
+
+  <nav class="admin-mobile-nav" aria-label="Navegación">
+    <button type="button" class="mobile-tab" [class.active]="activeTab() === 'leads'" (click)="setTab('leads')">
+      <app-icon name="briefcase" />
+      <span>Solicitudes</span>
+      @if (loaded().leads && leads().length > 0) {
+        <span class="mobile-dot"></span>
+      }
+    </button>
+    <button type="button" class="mobile-tab" [class.active]="activeTab() === 'candidates'" (click)="setTab('candidates')">
+      <app-icon name="users" />
+      <span>Candidatos</span>
+      @if (loaded().candidates && candidates().length > 0) {
+        <span class="mobile-dot"></span>
+      }
+    </button>
+    <button type="button" class="mobile-tab" [class.active]="activeTab() === 'contacts'" (click)="setTab('contacts')">
+      <app-icon name="chat" />
+      <span>Contactos</span>
+      @if (loaded().contacts && contacts().length > 0) {
+        <span class="mobile-dot"></span>
+      }
+    </button>
+    <button type="button" class="mobile-tab" [class.active]="activeTab() === 'account'" (click)="setTab('account')">
+      <app-icon name="shield" />
+      <span>Cuenta</span>
+    </button>
+  </nav>
+</div>

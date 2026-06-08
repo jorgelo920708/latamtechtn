@@ -27,6 +27,13 @@ export class AdminDashboardComponent implements OnInit {
 
   readonly email = this.adminService.email;
 
+  readonly titles: Record<Tab, string> = {
+    leads: 'Solicitudes de talento',
+    candidates: 'Candidatos',
+    contacts: 'Contactos',
+    account: 'Mi cuenta',
+  };
+
   activeTab = signal<Tab>('leads');
   loadError = signal(false);
 
@@ -128,6 +135,11 @@ export class AdminDashboardComponent implements OnInit {
   logout(): void {
     this.adminService.logout();
     void this.router.navigateByUrl('/admin/login');
+  }
+
+  initials(): string {
+    const mail = this.email() ?? '';
+    return mail.slice(0, 2).toUpperCase() || 'AD';
   }
 
   formatDate(iso: string): string {
