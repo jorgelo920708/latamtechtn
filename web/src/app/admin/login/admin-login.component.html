@@ -1,0 +1,47 @@
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <span class="auth-mark"><app-icon name="logo" /></span>
+      <div class="auth-brand-text">
+        <strong>LATAM</strong>
+        <small>Panel de administración</small>
+      </div>
+    </div>
+
+    <h1>Iniciar sesión</h1>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="field">
+        <label for="al-email">Email</label>
+        <input
+          id="al-email"
+          type="email"
+          formControlName="email"
+          placeholder="tu@email.com"
+          autocomplete="username"
+        />
+      </div>
+
+      <div class="field">
+        <label for="al-pass">Contraseña</label>
+        <input
+          id="al-pass"
+          type="password"
+          formControlName="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+        />
+      </div>
+
+      @if (error()) {
+        <p class="form-error">Email o contraseña incorrectos.</p>
+      }
+
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="submitting()">
+        {{ submitting() ? 'Ingresando...' : 'Ingresar' }}
+      </button>
+    </form>
+
+    <a routerLink="/" class="auth-back">← Volver al sitio</a>
+  </div>
+</div>

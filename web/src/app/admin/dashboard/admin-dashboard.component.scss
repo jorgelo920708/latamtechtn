@@ -1,0 +1,331 @@
+@use '../../shared/styles/forms';
+
+:host {
+  display: block;
+  min-height: 100dvh;
+  background: var(--bg-soft);
+}
+
+.admin-top {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.admin-top-inner {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding: 12px var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-mark {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.admin-mark app-icon {
+  width: 34px;
+  height: 34px;
+}
+
+.admin-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+}
+
+.admin-brand-text strong {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+
+.admin-brand-text small {
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.admin-account {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-email {
+  display: none;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.btn-out {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.btn-out app-icon {
+  width: 15px;
+  height: 15px;
+  transform: rotate(180deg);
+  color: var(--muted);
+}
+
+.btn-out:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.btn-out:hover app-icon {
+  color: var(--danger);
+}
+
+.admin-tabs {
+  position: sticky;
+  top: 61px;
+  z-index: 20;
+  background: #fff;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.admin-tabs-inner {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding: 0 var(--gutter);
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.admin-tabs-inner::-webkit-scrollbar {
+  display: none;
+}
+
+.admin-tabs-inner button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 14px 14px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.admin-tabs-inner button app-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.admin-tabs-inner button:hover {
+  color: var(--ink);
+}
+
+.admin-tabs-inner button.is-active {
+  color: var(--brand-blue);
+  border-bottom-color: var(--brand-blue);
+}
+
+.tab-count {
+  min-width: 20px;
+  padding: 1px 6px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-100);
+  color: var(--body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.admin-tabs-inner button.is-active .tab-count {
+  background: var(--brand-blue-soft);
+  color: var(--brand-blue);
+}
+
+.admin-content {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding: 22px var(--gutter) 60px;
+}
+
+.admin-state {
+  text-align: center;
+  color: var(--muted);
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.record {
+  background: var(--card-bg);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 18px;
+}
+
+.record-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.record-head h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.record-sub {
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.record-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+.badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--brand-blue);
+  background: var(--brand-blue-soft);
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+}
+
+.record-date {
+  font-size: 0.76rem;
+  color: var(--faint);
+  white-space: nowrap;
+}
+
+.record-rows {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.record-rows > div {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 10px;
+  align-items: start;
+}
+
+.record-rows dt {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.record-rows dd {
+  font-size: 0.9rem;
+  color: var(--ink);
+  word-break: break-word;
+}
+
+.record-rows dd a {
+  color: var(--brand-blue);
+}
+
+.record-rows dd a:hover {
+  text-decoration: underline;
+}
+
+.account-card {
+  max-width: 460px;
+  background: var(--card-bg);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 24px;
+}
+
+.account-card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 18px;
+}
+
+.account-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.account-card .btn {
+  align-self: flex-start;
+}
+
+.field-hint {
+  font-size: 0.78rem;
+  color: var(--faint);
+}
+
+.form-ok {
+  padding: 11px 14px;
+  border-radius: var(--radius-xs);
+  background: rgba(22, 163, 74, 0.08);
+  border: 1px solid rgba(22, 163, 74, 0.25);
+  color: var(--success);
+  font-size: 0.85rem;
+}
+
+@media (min-width: 560px) {
+  .admin-email {
+    display: inline;
+  }
+}
+
+@media (min-width: 720px) {
+  .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}

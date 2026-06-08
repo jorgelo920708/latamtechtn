@@ -2,6 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AdminType {
+  email: String!
+  id: ID!
+}
+
+type AuthPayloadType {
+  email: String!
+  token: String!
+}
+
 type CandidateApplicationType {
   createdAt: DateTime!
   email: String!
@@ -15,6 +25,11 @@ type CandidateApplicationType {
   specialty: String!
   status: String!
   updatedAt: DateTime!
+}
+
+input ChangePasswordInput {
+  currentPassword: String!
+  newPassword: String!
 }
 
 type ContactRequestType {
@@ -58,14 +73,25 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input LoginInput {
+  email: String!
+  password: String!
+}
+
 type Mutation {
+  adminLogin(input: LoginInput!): AuthPayloadType!
+  changePassword(input: ChangePasswordInput!): AdminType!
   createCandidateApplication(input: CreateCandidateApplicationInput!): CandidateApplicationType!
   createContactRequest(input: CreateContactRequestInput!): ContactRequestType!
   createTalentLead(input: CreateTalentLeadInput!): TalentLeadType!
 }
 
 type Query {
+  candidateApplications: [CandidateApplicationType!]!
+  contactRequests: [ContactRequestType!]!
   health: String!
+  me: AdminType!
+  talentLeads: [TalentLeadType!]!
 }
 
 type TalentLeadType {
