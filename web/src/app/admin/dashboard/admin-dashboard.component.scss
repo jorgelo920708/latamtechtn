@@ -340,33 +340,41 @@
   .admin-tabs {
     position: fixed;
     top: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-top: 1px solid var(--line);
-    border-bottom: none;
-    box-shadow: 0 -2px 14px rgba(15, 23, 42, 0.07);
-    padding-bottom: env(safe-area-inset-bottom);
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    left: 12px;
+    right: 12px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 14px 36px rgba(15, 23, 42, 0.16);
+    backdrop-filter: blur(16px);
+    z-index: 50;
   }
 
   .admin-tabs-inner {
-    padding: 0;
+    padding: 6px;
     overflow: visible;
     justify-content: space-around;
+    gap: 4px;
   }
 
   .admin-tabs-inner button {
     flex: 1;
     flex-direction: column;
     gap: 4px;
-    padding: 9px 2px 7px;
+    padding: 8px 2px 7px;
     border-bottom: none;
+    border-radius: 14px;
     font-size: 0.64rem;
   }
 
+  .admin-tabs-inner button.is-active {
+    background: var(--brand-blue-soft);
+  }
+
   .admin-tabs-inner button app-icon {
-    width: 22px;
-    height: 22px;
+    width: 21px;
+    height: 21px;
   }
 
   .tab-text {
@@ -374,13 +382,13 @@
   }
 
   .tab-count {
-    min-width: 17px;
+    min-width: 16px;
     padding: 0 5px;
-    font-size: 0.62rem;
-    line-height: 16px;
+    font-size: 0.6rem;
+    line-height: 15px;
   }
 
   .admin-content {
-    padding-bottom: 88px;
+    padding-bottom: 104px;
   }
 }
