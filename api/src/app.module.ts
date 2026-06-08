@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
+import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
 import { PrismaService } from './prisma.service';
 import { TalentLeadModule } from './talent-lead/talent-lead.module';
@@ -21,6 +22,7 @@ import { ContactRequestModule } from './contact-request/contact-request.module';
     CandidateApplicationModule,
     ContactRequestModule,
   ],
+  controllers: [AppController],
   providers: [AppResolver, PrismaService],
   exports: [PrismaService],
 })

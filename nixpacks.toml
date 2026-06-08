@@ -1,0 +1,10 @@
+providers = ["node"]
+
+[phases.setup]
+nixPkgs = ["nodejs_24", "yarn"]
+
+[phases.install]
+cmds = ["yarn --cwd api install --frozen-lockfile --production=false"]
+
+[phases.build]
+cmds = ["yarn --cwd api generate", "yarn --cwd api build"]
