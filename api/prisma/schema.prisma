@@ -1,0 +1,56 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model TalentLead {
+  id        String   @id @default(uuid())
+  name      String
+  company   String
+  email     String
+  role      String
+  specialty String
+  message   String?
+  status    String   @default("NEW")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([createdAt])
+}
+
+model CandidateApplication {
+  id           String   @id @default(uuid())
+  fullName     String
+  email        String
+  location     String
+  specialty    String
+  linkedinUrl  String?
+  englishLevel String
+  mainStack    String
+  message      String?
+  status       String   @default("NEW")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([email])
+  @@index([createdAt])
+}
+
+model ContactRequest {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  message   String
+  status    String   @default("NEW")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([createdAt])
+}

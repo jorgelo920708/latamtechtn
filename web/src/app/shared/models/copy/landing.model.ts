@@ -1,0 +1,153 @@
+export interface NavCopy {
+  forCompanies: string;
+  talent: string;
+  specialties: string;
+  about: string;
+  resources: string;
+  contact: string;
+  cta: string;
+}
+
+export interface HeroCopy {
+  badge: string;
+  titleStart: string;
+  titleAccent: string;
+  titleEnd: string;
+  subtitle: string;
+  ctaPrimary: string;
+  ctaSecondary: string;
+  checks: string[];
+  mapLabel: string;
+}
+
+export interface MetricCopy {
+  icon: string;
+  value: string;
+  label: string;
+}
+
+export interface SpecialtyFilterCopy {
+  key: string;
+  label: string;
+  icon: string;
+}
+
+export interface SpecialtiesCopy {
+  title: string;
+  filters: SpecialtyFilterCopy[];
+}
+
+export interface TalentCardCopy {
+  code: string;
+  topRank: boolean;
+  topRankLabel: string;
+  role: string;
+  location: string;
+  english: string;
+  stack: string[];
+  action: string;
+}
+
+export interface TalentCopy {
+  title: string;
+  englishLabel: string;
+  stackLabel: string;
+  categories: Record<string, TalentCardCopy[]>;
+}
+
+export interface AboutHighlightCopy {
+  icon: string;
+  text: string;
+}
+
+export interface AboutCopy {
+  eyebrow: string;
+  title: string;
+  paragraphs: string[];
+  cta: string;
+  highlights: AboutHighlightCopy[];
+  photoAlt: string;
+}
+
+export interface LogosCopy {
+  title: string;
+  subtitle: string;
+  items: string[];
+}
+
+export interface ContactCopy {
+  title: string;
+  subtitle: string;
+  ctaPrimary: string;
+  ctaSecondary: string;
+  emailLabel: string;
+  linkedinLabel: string;
+  copyright: string;
+}
+
+export interface FormFieldCopy {
+  label: string;
+  placeholder: string;
+}
+
+export interface SelectFieldCopy extends FormFieldCopy {
+  options: string[];
+}
+
+export interface CompanyFormCopy {
+  title: string;
+  subtitle: string;
+  name: FormFieldCopy;
+  company: FormFieldCopy;
+  email: FormFieldCopy;
+  role: FormFieldCopy;
+  specialty: SelectFieldCopy;
+  message: FormFieldCopy;
+  submit: string;
+}
+
+export interface CandidateFormCopy {
+  title: string;
+  subtitle: string;
+  fullName: FormFieldCopy;
+  email: FormFieldCopy;
+  location: FormFieldCopy;
+  specialty: SelectFieldCopy;
+  linkedin: FormFieldCopy;
+  english: SelectFieldCopy;
+  stack: FormFieldCopy;
+  message: FormFieldCopy;
+  submit: string;
+}
+
+export interface FormCommonCopy {
+  close: string;
+  submitting: string;
+  successTitle: string;
+  successBody: string;
+  errorBody: string;
+  requiredError: string;
+  emailError: string;
+  sendAnother: string;
+  selectPlaceholder: string;
+}
+
+export interface FormsCopy {
+  common: FormCommonCopy;
+  company: CompanyFormCopy;
+  candidate: CandidateFormCopy;
+}
+
+export interface LandingCopy {
+  brandName: string;
+  brandTagline: string;
+  nav: NavCopy;
+  hero: HeroCopy;
+  metrics: MetricCopy[];
+  specialties: SpecialtiesCopy;
+  talent: TalentCopy;
+  about: AboutCopy;
+  logos: LogosCopy;
+  contact: ContactCopy;
+  forms: FormsCopy;
+}

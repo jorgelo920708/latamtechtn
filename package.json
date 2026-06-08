@@ -1,0 +1,16 @@
+{
+  "name": "latamtechtn",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "yarn@1.22.22",
+  "scripts": {
+    "start": "yarn --cwd web start",
+    "start:web": "yarn --cwd web start",
+    "start:dev": "yarn --cwd web start:dev",
+    "start:api": "yarn --cwd api start:dev",
+    "build": "yarn --cwd web build && yarn --cwd api build",
+    "build:web": "yarn --cwd web build",
+    "build:api": "yarn --cwd api build",
+    "install:all": "yarn --cwd web install && yarn --cwd api install"
+  }
+}

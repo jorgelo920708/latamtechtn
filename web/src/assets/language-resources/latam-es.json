@@ -1,0 +1,265 @@
+{
+  "landing": {
+    "brandName": "LATAM",
+    "brandTagline": "Tech Talent Network",
+    "nav": {
+      "forCompanies": "Para Empresas",
+      "talent": "Talento",
+      "specialties": "Especialidades",
+      "about": "Sobre Mí",
+      "resources": "Recursos",
+      "contact": "Contacto",
+      "cta": "Solicitar Talento"
+    },
+    "hero": {
+      "badge": "Talento tecnológico en LATAM",
+      "titleStart": "Conectamos talento top de",
+      "titleAccent": "LATAM",
+      "titleEnd": "con oportunidades globales",
+      "subtitle": "Accede a una red curada de profesionales tecnológicos altamente calificados listos para impulsar tu negocio.",
+      "ctaPrimary": "Solicitar Talento",
+      "ctaSecondary": "Unirse a la Red de Talento",
+      "checks": [
+        "Perfiles validados",
+        "Inglés B2-C2",
+        "Disponibilidad Remota",
+        "Proceso ágil"
+      ],
+      "mapLabel": "Talento en +18 países de LATAM"
+    },
+    "metrics": [
+      { "icon": "users", "value": "304+", "label": "Candidatos Activos" },
+      { "icon": "layers", "value": "8", "label": "Especialidades" },
+      { "icon": "globe", "value": "LATAM", "label": "Cobertura Regional" },
+      { "icon": "cap", "value": "B2-C2", "label": "Nivel de Inglés" },
+      { "icon": "clock", "value": "48h", "label": "Tiempo Promedio de Presentación" }
+    ],
+    "specialties": {
+      "title": "Nuestras Especialidades",
+      "filters": [
+        { "key": "cloud", "label": "Cloud & DevOps", "icon": "cloud" },
+        { "key": "data", "label": "Data Engineering", "icon": "database" },
+        { "key": "product", "label": "Product & Leadership", "icon": "rocket" },
+        { "key": "software", "label": "Software Development", "icon": "code" },
+        { "key": "qa", "label": "QA Automation", "icon": "search" }
+      ]
+    },
+    "talent": {
+      "title": "Talento Destacado",
+      "englishLabel": "Inglés",
+      "stackLabel": "Stack",
+      "categories": {
+        "cloud": [
+          {
+            "code": "Candidato #01",
+            "topRank": true,
+            "topRankLabel": "Top Rank",
+            "role": "Senior DevOps Engineer",
+            "location": "Montevideo, Uruguay",
+            "english": "C2",
+            "stack": ["Linux", "AWS", "Kubernetes", "Terraform"],
+            "action": "Ver Perfil"
+          },
+          {
+            "code": "Candidato #02",
+            "topRank": false,
+            "topRankLabel": "",
+            "role": "Senior Solutions Architect",
+            "location": "Ciudad de México, México",
+            "english": "C1",
+            "stack": ["Python", "Java", "AWS"],
+            "action": "Ver Perfil"
+          }
+        ],
+        "data": [
+          {
+            "code": "Candidato #03",
+            "topRank": true,
+            "topRankLabel": "Top Rank",
+            "role": "Senior Data Engineer",
+            "location": "Guadalajara, México",
+            "english": "C2",
+            "stack": ["Power BI", "Python", "Cloud Data", "SQL"],
+            "action": "Ver Perfil"
+          },
+          {
+            "code": "Candidato #04",
+            "topRank": false,
+            "topRankLabel": "",
+            "role": "Senior Data Engineer",
+            "location": "Río de Janeiro, Brasil",
+            "english": "C2",
+            "stack": ["Python", "AWS", "PySpark"],
+            "action": "Ver Perfil"
+          }
+        ],
+        "product": [
+          {
+            "code": "Candidato #05",
+            "topRank": false,
+            "topRankLabel": "",
+            "role": "Senior Product Manager (Híbrido UI/UX)",
+            "location": "Buenos Aires, Argentina",
+            "english": "C2",
+            "stack": ["React", "Node", "Diseño UI/UX"],
+            "action": "Ver Perfil"
+          },
+          {
+            "code": "Candidato #06",
+            "topRank": true,
+            "topRankLabel": "Top Rank",
+            "role": "Director of Product / VP",
+            "location": "Ciudad de México, México",
+            "english": "C2",
+            "stack": ["Python", "AWS", "Agile Leadership"],
+            "action": "Ver Perfil"
+          }
+        ],
+        "software": [
+          {
+            "code": "Candidato #07",
+            "topRank": true,
+            "topRankLabel": "Top Rank",
+            "role": "Lead / Full Stack Engineer",
+            "location": "Montevideo, Uruguay",
+            "english": "C2",
+            "stack": [".NET", "Node", "TypeScript"],
+            "action": "Ver Perfil"
+          },
+          {
+            "code": "Candidato #08",
+            "topRank": false,
+            "topRankLabel": "",
+            "role": "Mid-Senior Backend Engineer",
+            "location": "CABA, Argentina",
+            "english": "C2",
+            "stack": ["Python", "AWS", "React", "Node"],
+            "action": "Ver Perfil"
+          }
+        ],
+        "qa": [
+          {
+            "code": "Candidato #09",
+            "topRank": false,
+            "topRankLabel": "",
+            "role": "Senior QA Automation Engineer",
+            "location": "Cascavel, Brasil",
+            "english": "C1",
+            "stack": ["Playwright", "TypeScript"],
+            "action": "Ver Perfil"
+          },
+          {
+            "code": "Candidato #10",
+            "topRank": false,
+            "topRankLabel": "",
+            "role": "QA Automation Engineer",
+            "location": "Santa Fe, Argentina",
+            "english": "B2/C1",
+            "stack": ["Java", "Selenium", "RESTAssured"],
+            "action": "Ver Perfil"
+          }
+        ]
+      }
+    },
+    "about": {
+      "eyebrow": "Talent Acquisition Specialist",
+      "title": "Sobre Mí",
+      "paragraphs": [
+        "Soy Elba Caseres, Talent Acquisition Specialist con amplia experiencia en reclutamiento internacional y construcción de pipelines de talento tecnológico en LATAM.",
+        "Ayudo a empresas de todo el mundo a encontrar profesionales altamente calificados a través de un proceso de selección transparente, ágil y enfocado en la calidad."
+      ],
+      "cta": "Conocer más sobre mí",
+      "highlights": [
+        { "icon": "badge", "text": "+5 años de experiencia en reclutamiento IT" },
+        { "icon": "shield", "text": "Red de talento verificada en LATAM" },
+        { "icon": "spark", "text": "Enfoque en calidad, velocidad y cultura" }
+      ],
+      "photoAlt": "Elba Caseres, Talent Acquisition Specialist"
+    },
+    "logos": {
+      "title": "Talento con experiencia previa en proyectos globales y empresas líderes de la región.",
+      "subtitle": "y muchas más...",
+      "items": [
+        "Banca & Fintech",
+        "E-commerce Global",
+        "Consultoras IT",
+        "SaaS B2B",
+        "Telecomunicaciones",
+        "Retail Internacional"
+      ]
+    },
+    "contact": {
+      "title": "¿Buscas talento tecnológico?",
+      "subtitle": "Conectemos y llevemos el talento adecuado a tu empresa. Perfiles curados, listos para generar impacto.",
+      "ctaPrimary": "Solicitar Talento",
+      "ctaSecondary": "Agendar una Reunión",
+      "emailLabel": "Escríbeme",
+      "linkedinLabel": "Ver perfil en LinkedIn",
+      "copyright": "© 2026 LATAM Tech Talent Network. Todos los derechos reservados."
+    },
+    "forms": {
+      "common": {
+        "close": "Cerrar",
+        "submitting": "Enviando...",
+        "successTitle": "¡Listo!",
+        "successBody": "Recibimos tu información. Te contactaremos a la brevedad.",
+        "errorBody": "No pudimos enviar tu información. Por favor, intenta nuevamente.",
+        "requiredError": "Este campo es obligatorio",
+        "emailError": "Ingresa un email válido",
+        "sendAnother": "Enviar otra",
+        "selectPlaceholder": "Selecciona una opción"
+      },
+      "company": {
+        "title": "Solicitar Talento",
+        "subtitle": "Cuéntanos qué perfil buscas y te presentamos candidatos en 48h.",
+        "name": { "label": "Nombre", "placeholder": "Tu nombre" },
+        "company": { "label": "Empresa", "placeholder": "Nombre de tu empresa" },
+        "email": { "label": "Email corporativo", "placeholder": "nombre@empresa.com" },
+        "role": { "label": "Rol que buscas", "placeholder": "Ej: Senior DevOps Engineer" },
+        "specialty": {
+          "label": "Especialidad",
+          "placeholder": "Selecciona una especialidad",
+          "options": [
+            "Cloud & DevOps",
+            "Data Engineering",
+            "Product & Leadership",
+            "Software Development",
+            "QA Automation"
+          ]
+        },
+        "message": { "label": "Mensaje", "placeholder": "Cuéntanos más sobre la posición..." },
+        "submit": "Enviar solicitud"
+      },
+      "candidate": {
+        "title": "Unirse a la Red de Talento",
+        "subtitle": "Únete a nuestra red curada de talento tecnológico LATAM.",
+        "fullName": { "label": "Nombre completo", "placeholder": "Tu nombre completo" },
+        "email": { "label": "Email", "placeholder": "nombre@email.com" },
+        "location": { "label": "País / ciudad", "placeholder": "Ej: Bogotá, Colombia" },
+        "specialty": {
+          "label": "Especialidad",
+          "placeholder": "Selecciona una especialidad",
+          "options": [
+            "Cloud & DevOps",
+            "Data Engineering",
+            "Product & Leadership",
+            "Software Development",
+            "QA Automation"
+          ]
+        },
+        "linkedin": {
+          "label": "LinkedIn personal",
+          "placeholder": "https://linkedin.com/in/tu-perfil"
+        },
+        "english": {
+          "label": "Nivel de inglés",
+          "placeholder": "Selecciona tu nivel",
+          "options": ["A1", "A2", "B1", "B2", "C1", "C2"]
+        },
+        "stack": { "label": "Stack principal", "placeholder": "Ej: Python, AWS, React" },
+        "message": { "label": "Mensaje", "placeholder": "Cuéntanos sobre tu experiencia..." },
+        "submit": "Enviar aplicación"
+      }
+    }
+  }
+}

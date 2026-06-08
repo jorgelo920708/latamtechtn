@@ -1,0 +1,135 @@
+@if (forms$ | async; as forms) {
+  <app-modal-shell
+    [title]="forms.candidate.title"
+    [subtitle]="success() ? '' : forms.candidate.subtitle"
+    [closeLabel]="forms.common.close"
+    (dismiss)="dismiss.emit()"
+  >
+    @if (success()) {
+      <div class="success-panel">
+        <span class="success-icon"><app-icon name="check" /></span>
+        <h4>{{ forms.common.successTitle }}</h4>
+        <p>{{ forms.common.successBody }}</p>
+        <button type="button" class="btn btn-ghost" (click)="sendAnother()">
+          {{ forms.common.sendAnother }}
+        </button>
+      </div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="form-grid cols-2">
+          <div class="field">
+            <label for="ca-name">{{ forms.candidate.fullName.label }}</label>
+            <input
+              id="ca-name"
+              type="text"
+              formControlName="fullName"
+              [placeholder]="forms.candidate.fullName.placeholder"
+            />
+            @if (invalid('fullName')) {
+              <span class="field-error">{{ forms.common.requiredError }}</span>
+            }
+          </div>
+
+          <div class="field">
+            <label for="ca-email">{{ forms.candidate.email.label }}</label>
+            <input
+              id="ca-email"
+              type="email"
+              formControlName="email"
+              [placeholder]="forms.candidate.email.placeholder"
+            />
+            @if (invalid('email')) {
+              <span class="field-error">
+                {{ hasEmailError('email') ? forms.common.emailError : forms.common.requiredError }}
+              </span>
+            }
+          </div>
+
+          <div class="field">
+            <label for="ca-location">{{ forms.candidate.location.label }}</label>
+            <input
+              id="ca-location"
+              type="text"
+              formControlName="location"
+              [placeholder]="forms.candidate.location.placeholder"
+            />
+            @if (invalid('location')) {
+              <span class="field-error">{{ forms.common.requiredError }}</span>
+            }
+          </div>
+
+          <div class="field">
+            <label for="ca-specialty">{{ forms.candidate.specialty.label }}</label>
+            <select id="ca-specialty" formControlName="specialty">
+              <option value="" disabled>{{ forms.candidate.specialty.placeholder }}</option>
+              @for (option of forms.candidate.specialty.options; track option) {
+                <option [value]="option">{{ option }}</option>
+              }
+            </select>
+            @if (invalid('specialty')) {
+              <span class="field-error">{{ forms.common.requiredError }}</span>
+            }
+          </div>
+
+          <div class="field">
+            <label for="ca-english">{{ forms.candidate.english.label }}</label>
+            <select id="ca-english" formControlName="englishLevel">
+              <option value="" disabled>{{ forms.candidate.english.placeholder }}</option>
+              @for (option of forms.candidate.english.options; track option) {
+                <option [value]="option">{{ option }}</option>
+              }
+            </select>
+            @if (invalid('englishLevel')) {
+              <span class="field-error">{{ forms.common.requiredError }}</span>
+            }
+          </div>
+
+          <div class="field">
+            <label for="ca-stack">{{ forms.candidate.stack.label }}</label>
+            <input
+              id="ca-stack"
+              type="text"
+              formControlName="mainStack"
+              [placeholder]="forms.candidate.stack.placeholder"
+            />
+            @if (invalid('mainStack')) {
+              <span class="field-error">{{ forms.common.requiredError }}</span>
+            }
+          </div>
+
+          <div class="field span-2">
+            <label for="ca-linkedin">{{ forms.candidate.linkedin.label }}</label>
+            <input
+              id="ca-linkedin"
+              type="url"
+              formControlName="linkedinUrl"
+              [placeholder]="forms.candidate.linkedin.placeholder"
+            />
+          </div>
+
+          <div class="field span-2">
+            <label for="ca-message">{{ forms.candidate.message.label }}</label>
+            <textarea
+              id="ca-message"
+              formControlName="message"
+              [placeholder]="forms.candidate.message.placeholder"
+            ></textarea>
+          </div>
+        </div>
+
+        @if (errored()) {
+          <p class="form-error">{{ forms.common.errorBody }}</p>
+        }
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="submitting()">
+            {{ submitting() ? forms.common.submitting : forms.candidate.submit }}
+            @if (!submitting()) {
+              <app-icon name="arrow" />
+            }
+          </button>
+        </div>
+      </form>
+    }
+  </app-modal-shell>
+}

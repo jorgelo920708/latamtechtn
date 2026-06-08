@@ -1,0 +1,82 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type CandidateApplicationType {
+  createdAt: DateTime!
+  email: String!
+  englishLevel: String!
+  fullName: String!
+  id: ID!
+  linkedinUrl: String
+  location: String!
+  mainStack: String!
+  message: String
+  specialty: String!
+  status: String!
+  updatedAt: DateTime!
+}
+
+type ContactRequestType {
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  message: String!
+  name: String!
+  status: String!
+  updatedAt: DateTime!
+}
+
+input CreateCandidateApplicationInput {
+  email: String!
+  englishLevel: String!
+  fullName: String!
+  linkedinUrl: String
+  location: String!
+  mainStack: String!
+  message: String
+  specialty: String!
+}
+
+input CreateContactRequestInput {
+  email: String!
+  message: String!
+  name: String!
+}
+
+input CreateTalentLeadInput {
+  company: String!
+  email: String!
+  message: String
+  name: String!
+  role: String!
+  specialty: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Mutation {
+  createCandidateApplication(input: CreateCandidateApplicationInput!): CandidateApplicationType!
+  createContactRequest(input: CreateContactRequestInput!): ContactRequestType!
+  createTalentLead(input: CreateTalentLeadInput!): TalentLeadType!
+}
+
+type Query {
+  health: String!
+}
+
+type TalentLeadType {
+  company: String!
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  message: String
+  name: String!
+  role: String!
+  specialty: String!
+  status: String!
+  updatedAt: DateTime!
+}

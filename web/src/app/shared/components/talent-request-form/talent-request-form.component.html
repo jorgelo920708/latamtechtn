@@ -1,0 +1,112 @@
+@if (forms$ | async; as forms) {
+  <app-modal-shell
+    [title]="forms.company.title"
+    [subtitle]="success() ? '' : forms.company.subtitle"
+    [closeLabel]="forms.common.close"
+    (dismiss)="dismiss.emit()"
+  >
+    @if (success()) {
+      <div class="success-panel">
+        <span class="success-icon"><app-icon name="check" /></span>
+        <h4>{{ forms.common.successTitle }}</h4>
+        <p>{{ forms.common.successBody }}</p>
+        <button type="button" class="btn btn-ghost" (click)="sendAnother()">
+          {{ forms.common.sendAnother }}
+        </button>
+      </div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="form-grid cols-2">
+          <div class="field">
+            <label for="tr-name">{{ forms.company.name.label }}</label>
+            <input
+              id="tr-name"
+              type="text"
+              formControlName="name"
+              [placeholder]="forms.company.name.placeholder"
+            />
+            @if (invalid('name')) {
+              <span class="field-error">{{ forms.common.requiredError }}</span>
+            }
+          </div>
+
+          <div class="field">
+            <label for="tr-company">{{ forms.company.company.label }}</label>
+            <input
+              id="tr-company"
+              type="text"
+              formControlName="company"
+              [placeholder]="forms.company.company.placeholder"
+            />
+            @if (invalid('company')) {
+              <span class="field-error">{{ forms.common.requiredError }}</span>
+            }
+          </div>
+
+          <div class="field">
+            <label for="tr-email">{{ forms.company.email.label }}</label>
+            <input
+              id="tr-email"
+              type="email"
+              formControlName="email"
+              [placeholder]="forms.company.email.placeholder"
+            />
+            @if (invalid('email')) {
+              <span class="field-error">
+                {{ hasEmailError('email') ? forms.common.emailError : forms.common.requiredError }}
+              </span>
+            }
+          </div>
+
+          <div class="field">
+            <label for="tr-role">{{ forms.company.role.label }}</label>
+            <input
+              id="tr-role"
+              type="text"
+              formControlName="role"
+              [placeholder]="forms.company.role.placeholder"
+            />
+            @if (invalid('role')) {
+              <span class="field-error">{{ forms.common.requiredError }}</span>
+            }
+          </div>
+
+          <div class="field span-2">
+            <label for="tr-specialty">{{ forms.company.specialty.label }}</label>
+            <select id="tr-specialty" formControlName="specialty">
+              <option value="" disabled>{{ forms.company.specialty.placeholder }}</option>
+              @for (option of forms.company.specialty.options; track option) {
+                <option [value]="option">{{ option }}</option>
+              }
+            </select>
+            @if (invalid('specialty')) {
+              <span class="field-error">{{ forms.common.requiredError }}</span>
+            }
+          </div>
+
+          <div class="field span-2">
+            <label for="tr-message">{{ forms.company.message.label }}</label>
+            <textarea
+              id="tr-message"
+              formControlName="message"
+              [placeholder]="forms.company.message.placeholder"
+            ></textarea>
+          </div>
+        </div>
+
+        @if (errored()) {
+          <p class="form-error">{{ forms.common.errorBody }}</p>
+        }
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="submitting()">
+            {{ submitting() ? forms.common.submitting : forms.company.submit }}
+            @if (!submitting()) {
+              <app-icon name="arrow" />
+            }
+          </button>
+        </div>
+      </form>
+    }
+  </app-modal-shell>
+}

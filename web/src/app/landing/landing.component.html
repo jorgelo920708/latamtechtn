@@ -1,0 +1,268 @@
+@if (copy$ | async; as copy) {
+  <header class="nav" [class.is-open]="mobileNavOpen()">
+    <div class="container nav-inner">
+      <a class="brand" href="#hero" (click)="mobileNavOpen.set(false)">
+        <span class="brand-mark">
+          <app-icon name="logo" />
+        </span>
+        <span class="brand-text">
+          <strong>{{ copy.brandName }}</strong>
+          <small>{{ copy.brandTagline }}</small>
+        </span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#contact" (click)="mobileNavOpen.set(false)">{{ copy.nav.forCompanies }}</a>
+        <a href="#talent" (click)="mobileNavOpen.set(false)">{{ copy.nav.talent }}</a>
+        <a href="#specialties" (click)="mobileNavOpen.set(false)">{{ copy.nav.specialties }}</a>
+        <a href="#about" (click)="mobileNavOpen.set(false)">{{ copy.nav.about }}</a>
+        <a href="#contact" (click)="mobileNavOpen.set(false)">{{ copy.nav.contact }}</a>
+        <button type="button" class="btn btn-primary nav-cta" (click)="openCompany()">
+          {{ copy.nav.cta }}
+        </button>
+      </nav>
+
+      <button
+        type="button"
+        class="nav-toggle"
+        [attr.aria-expanded]="mobileNavOpen()"
+        aria-label="Menú"
+        (click)="toggleMobileNav()"
+      >
+        <app-icon [name]="mobileNavOpen() ? 'close' : 'menu'" />
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section id="hero" class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <span class="hero-badge">{{ copy.hero.badge }}</span>
+          <h1 class="hero-title">
+            {{ copy.hero.titleStart }}
+            <span class="accent">{{ copy.hero.titleAccent }}</span>
+            {{ copy.hero.titleEnd }}
+          </h1>
+          <p class="hero-sub">{{ copy.hero.subtitle }}</p>
+
+          <div class="hero-actions">
+            <button type="button" class="btn btn-primary" (click)="openCompany()">
+              {{ copy.hero.ctaPrimary }}
+              <app-icon name="arrow" />
+            </button>
+            <button type="button" class="btn btn-ghost" (click)="openCandidate()">
+              <app-icon name="users" />
+              {{ copy.hero.ctaSecondary }}
+            </button>
+          </div>
+
+          <ul class="hero-checks">
+            @for (check of copy.hero.checks; track check) {
+              <li>
+                <app-icon name="check" />
+                {{ check }}
+              </li>
+            }
+          </ul>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="hero-map">
+            <div class="map-dots"></div>
+            <span class="map-node n1"><img [src]="AssetUrl.AVATAR_1" alt="" /></span>
+            <span class="map-node n2"><img [src]="AssetUrl.AVATAR_2" alt="" /></span>
+            <span class="map-node n3"><img [src]="AssetUrl.AVATAR_3" alt="" /></span>
+            <span class="map-node n4"><img [src]="AssetUrl.AVATAR_4" alt="" /></span>
+            <div class="map-label">
+              <span class="map-label-icon"><app-icon name="globe" /></span>
+              {{ copy.hero.mapLabel }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="metrics">
+      <div class="container metrics-grid">
+        @for (metric of copy.metrics; track metric.label) {
+          <div class="metric">
+            <span class="metric-icon"><app-icon [name]="metric.icon" /></span>
+            <div class="metric-text">
+              <strong>{{ metric.value }}</strong>
+              <span>{{ metric.label }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section id="specialties" class="specialties">
+      <div class="container">
+        <h2 class="section-title">{{ copy.specialties.title }}</h2>
+        <div class="filters">
+          @for (filter of copy.specialties.filters; track filter.key) {
+            <button
+              type="button"
+              class="filter"
+              [class.is-active]="activeFilter() === filter.key"
+              (click)="setFilter(filter.key)"
+            >
+              <app-icon [name]="filter.icon" />
+              {{ filter.label }}
+            </button>
+          }
+        </div>
+      </div>
+    </section>
+
+    <section id="talent" class="talent">
+      <div class="container">
+        <h2 class="section-title">{{ copy.talent.title }}</h2>
+        <div class="talent-grid">
+          @for (card of copy.talent.categories[activeFilter()]; track card.code) {
+            <article class="talent-card">
+              <div class="talent-card-top">
+                <div class="talent-avatar">
+                  <img [src]="avatarFor(card.code)" alt="" />
+                  <span class="talent-status"></span>
+                </div>
+                @if (card.topRank) {
+                  <span class="top-rank">
+                    <app-icon name="star" />
+                    {{ card.topRankLabel }}
+                  </span>
+                }
+              </div>
+
+              <span class="talent-code">{{ card.code }}</span>
+              <h3 class="talent-role">{{ card.role }}</h3>
+
+              <ul class="talent-meta">
+                <li><app-icon name="pin" /> {{ card.location }}</li>
+                <li><app-icon name="chat" /> {{ copy.talent.englishLabel }}: {{ card.english }}</li>
+              </ul>
+
+              <div class="talent-stack">
+                @for (tech of card.stack; track tech) {
+                  <span class="chip">{{ tech }}</span>
+                }
+              </div>
+
+              <button type="button" class="btn btn-locked" (click)="openCompany()">
+                <app-icon name="lock" />
+                {{ card.action }}
+                <app-icon name="arrow" />
+              </button>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="container about-inner">
+        <div class="about-photo">
+          <img [src]="AssetUrl.ELBA_PHOTO" [alt]="copy.about.photoAlt" (error)="onPhotoError($event)" />
+        </div>
+        <div class="about-body">
+          @if (copy.about.eyebrow) {
+            <span class="eyebrow">{{ copy.about.eyebrow }}</span>
+          }
+          <h2 class="section-title">{{ copy.about.title }}</h2>
+          @for (paragraph of copy.about.paragraphs; track paragraph) {
+            <p class="about-text">{{ paragraph }}</p>
+          }
+          <a
+            class="btn btn-blue about-cta"
+            [href]="externalLink(CONTACT.elbaLinkedInUrl)"
+            target="_blank"
+            rel="noopener"
+          >
+            <app-icon name="linkedin" />
+            {{ copy.about.cta }}
+          </a>
+
+          <ul class="about-highlights">
+            @for (highlight of copy.about.highlights; track highlight.text) {
+              <li>
+                <span class="about-highlight-icon"><app-icon [name]="highlight.icon" /></span>
+                {{ highlight.text }}
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="logos">
+      <div class="container">
+        <p class="logos-title">{{ copy.logos.title }}</p>
+        <div class="logos-row">
+          @for (item of copy.logos.items; track item) {
+            <span class="logo-pill"><app-icon name="briefcase" /> {{ item }}</span>
+          }
+        </div>
+        <p class="logos-sub">{{ copy.logos.subtitle }}</p>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="container">
+        <div class="contact-banner">
+          <div class="contact-banner-text">
+            <h2>{{ copy.contact.title }}</h2>
+            <p>{{ copy.contact.subtitle }}</p>
+          </div>
+          <div class="contact-actions">
+            <button type="button" class="btn btn-blue" (click)="openCompany()">
+              {{ copy.contact.ctaPrimary }}
+              <app-icon name="arrow" />
+            </button>
+            <a
+              class="btn btn-ghost-dark"
+              [href]="externalLink(CONTACT.calendlyUrl)"
+              target="_blank"
+              rel="noopener"
+            >
+              <app-icon name="calendar" />
+              {{ copy.contact.ctaSecondary }}
+            </a>
+          </div>
+        </div>
+
+        <footer class="footer">
+          <a class="brand brand-light" href="#hero">
+            <span class="brand-mark"><app-icon name="logo" /></span>
+            <span class="brand-text">
+              <strong>{{ copy.brandName }}</strong>
+              <small>{{ copy.brandTagline }}</small>
+            </span>
+          </a>
+          <div class="footer-contacts">
+            <a [href]="'mailto:' + CONTACT.email">
+              <app-icon name="mail" />
+              {{ CONTACT.email }}
+            </a>
+            <a [href]="externalLink(CONTACT.elbaLinkedInUrl)" target="_blank" rel="noopener">
+              <app-icon name="linkedin" />
+              {{ copy.contact.linkedinLabel }}
+            </a>
+            <a [href]="CONTACT.whatsappUrl" target="_blank" rel="noopener">
+              <app-icon name="whatsapp" />
+              {{ CONTACT.phoneDisplay }}
+            </a>
+          </div>
+          <p class="footer-copy">{{ copy.contact.copyright }}</p>
+        </footer>
+      </div>
+    </section>
+  </main>
+
+  @if (modal() === 'company') {
+    <app-talent-request-form (dismiss)="closeModal()" />
+  }
+  @if (modal() === 'candidate') {
+    <app-candidate-form (dismiss)="closeModal()" />
+  }
+}

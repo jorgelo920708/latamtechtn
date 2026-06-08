@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="LATAM Tech Talent Network">
+  <rect width="64" height="64" rx="14" fill="#15295c" />
+  <path
+    d="M14 22 30 12 48 18 M14 22 22 38 40 45 54 38 M48 18 54 38 M30 12 40 45"
+    stroke="#5a7fc4"
+    stroke-width="2.4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <circle cx="14" cy="22" r="4.6" fill="#93c5fd" />
+  <circle cx="30" cy="12" r="4" fill="#bfdbfe" />
+  <circle cx="48" cy="18" r="5.6" fill="#3b82f6" />
+  <circle cx="22" cy="38" r="4.4" fill="#60a5fa" />
+  <circle cx="40" cy="45" r="6.6" fill="#eff6ff" />
+  <circle cx="54" cy="38" r="3.8" fill="#93c5fd" />
+</svg>
