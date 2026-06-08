@@ -4,8 +4,6 @@ RUN apt-get update -y \
   && apt-get install -y --no-install-recommends openssl ca-certificates \
   && rm -rf /var/lib/apt/lists/*
 
-RUN npm install -g yarn@1.22.22
-
 WORKDIR /app/api
 
 COPY api/package.json api/yarn.lock ./
