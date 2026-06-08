@@ -4,7 +4,7 @@ providers = ["node"]
 nixPkgs = ["nodejs_22", "yarn"]
 
 [phases.install]
-cmds = ["yarn --cwd api install --frozen-lockfile --production=false"]
+cmds = ["yarn --cwd api install --frozen-lockfile --production=false --ignore-engines"]
 
 [phases.build]
 cmds = ["yarn --cwd api generate", "yarn --cwd api build"]
