@@ -16,7 +16,7 @@
       "titleStart": "Conectamos talento top de",
       "titleAccent": "LATAM",
       "titleEnd": "con oportunidades globales",
-      "subtitle": "Accede a una red curada de profesionales tecnológicos altamente calificados listos para impulsar tu negocio.",
+      "subtitle": "Construyendo puentes entre talento LATAM y oportunidades internacionales.",
       "ctaPrimary": "Solicitar Talento",
       "ctaSecondary": "Unirse a la Red de Talento",
       "checks": [
@@ -28,7 +28,7 @@
       "mapLabel": "Talento en +18 países de LATAM"
     },
     "metrics": [
-      { "icon": "users", "value": "304+", "label": "Candidatos Activos" },
+      { "icon": "users", "value": "500+", "label": "Candidatos Activos" },
       { "icon": "layers", "value": "8", "label": "Especialidades" },
       { "icon": "globe", "value": "LATAM", "label": "Cobertura Regional" },
       { "icon": "cap", "value": "B2-C2", "label": "Nivel de Inglés" },

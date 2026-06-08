@@ -16,7 +16,7 @@
       "titleStart": "We connect top",
       "titleAccent": "LATAM",
       "titleEnd": "talent with global opportunities",
-      "subtitle": "Access a curated network of highly qualified tech professionals ready to power your business.",
+      "subtitle": "Building bridges between LATAM talent and international opportunities.",
       "ctaPrimary": "Request Talent",
       "ctaSecondary": "Join the Talent Network",
       "checks": [
@@ -28,7 +28,7 @@
       "mapLabel": "Talent across +18 LATAM countries"
     },
     "metrics": [
-      { "icon": "users", "value": "304+", "label": "Active Candidates" },
+      { "icon": "users", "value": "500+", "label": "Active Candidates" },
       { "icon": "layers", "value": "8", "label": "Specialties" },
       { "icon": "globe", "value": "LATAM", "label": "Regional Coverage" },
       { "icon": "cap", "value": "B2-C2", "label": "English Level" },
