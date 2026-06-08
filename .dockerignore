@@ -1,0 +1,9 @@
+**/node_modules
+**/dist
+**/.env
+**/.git
+**/.angular
+**/out-tsc
+**/.DS_Store
+web
+.claude
