@@ -16,6 +16,17 @@ model Admin {
   updatedAt    DateTime @updatedAt
 }
 
+model PasswordResetToken {
+  id        String    @id @default(uuid())
+  token     String    @unique
+  adminId   String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([adminId])
+}
+
 model TalentLead {
   id        String   @id @default(uuid())
   name      String

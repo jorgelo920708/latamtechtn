@@ -1,0 +1,50 @@
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <span class="auth-mark"><app-icon name="logo" /></span>
+      <div class="auth-brand-text">
+        <strong>LATAM</strong>
+        <small>Panel de administración</small>
+      </div>
+    </div>
+
+    @if (done()) {
+      <div class="auth-success">
+        <span class="auth-success-icon"><app-icon name="check" /></span>
+        <h1>Contraseña actualizada</h1>
+        <p>Ya podés iniciar sesión con tu nueva contraseña.</p>
+        <a routerLink="/admin/login" class="btn btn-primary">Iniciar sesión</a>
+      </div>
+    } @else if (!hasToken()) {
+      <div class="auth-success">
+        <h1>Enlace inválido</h1>
+        <p>El enlace no es válido. Pedí uno nuevo desde "Recuperar contraseña".</p>
+        <a routerLink="/admin/forgot" class="btn btn-ghost">Pedir enlace nuevo</a>
+      </div>
+    } @else {
+      <h1>Nueva contraseña</h1>
+      <p class="auth-lead">Elegí una contraseña nueva para tu panel.</p>
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="field">
+          <label for="ar-pass">Nueva contraseña</label>
+          <input
+            id="ar-pass"
+            type="password"
+            formControlName="newPassword"
+            autocomplete="new-password"
+          />
+          <span class="field-hint">Mínimo 8 caracteres.</span>
+        </div>
+        @if (error()) {
+          <p class="form-error">{{ error() }}</p>
+        }
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="submitting()">
+          {{ submitting() ? 'Guardando…' : 'Guardar contraseña' }}
+        </button>
+      </form>
+      <div class="auth-foot">
+        <a routerLink="/admin/login" class="auth-back">← Volver al login</a>
+      </div>
+    }
+  </div>
+</div>

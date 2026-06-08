@@ -13,4 +13,12 @@ export class AuthFacade {
   changePassword(adminId: string, input: ChangePasswordInput) {
     return this.authService.changePassword(adminId, input);
   }
+
+  requestPasswordReset(email: string) {
+    return this.authService.requestPasswordReset(email);
+  }
+
+  resetPassword(token: string, newPassword: string) {
+    return this.authService.resetPassword(token, newPassword);
+  }
 }

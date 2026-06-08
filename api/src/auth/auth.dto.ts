@@ -40,3 +40,27 @@ export class ChangePasswordInput {
   @MinLength(8)
   newPassword!: string;
 }
+
+@ObjectType()
+export class StatusType {
+  @Field()
+  success!: boolean;
+}
+
+@InputType()
+export class RequestPasswordResetInput {
+  @Field()
+  @IsEmail()
+  email!: string;
+}
+
+@InputType()
+export class ResetPasswordInput {
+  @Field()
+  @IsNotEmpty()
+  token!: string;
+
+  @Field()
+  @MinLength(8)
+  newPassword!: string;
+}

@@ -10,6 +10,7 @@ import {
 import { IconComponent } from '../../shared/components/icon/icon.component';
 
 type Tab = 'leads' | 'candidates' | 'contacts' | 'account';
+type DataTab = 'leads' | 'candidates' | 'contacts';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -27,14 +28,12 @@ export class AdminDashboardComponent implements OnInit {
   readonly email = this.adminService.email;
 
   activeTab = signal<Tab>('leads');
-  loading = signal(false);
   loadError = signal(false);
 
   leads = signal<TalentLead[]>([]);
   candidates = signal<CandidateApplication[]>([]);
   contacts = signal<ContactRequest[]>([]);
-
-  loaded = { leads: false, candidates: false, contacts: false };
+  loaded = signal({ leads: false, candidates: false, contacts: false });
 
   pwSubmitting = signal(false);
   pwSuccess = signal(false);
@@ -47,13 +46,12 @@ export class AdminDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadLeads();
+    this.loadCandidates();
+    this.loadContacts();
   }
 
   setTab(tab: Tab): void {
     this.activeTab.set(tab);
-    if (tab === 'leads' && !this.loaded.leads) this.loadLeads();
-    if (tab === 'candidates' && !this.loaded.candidates) this.loadCandidates();
-    if (tab === 'contacts' && !this.loaded.contacts) this.loadContacts();
   }
 
   reload(): void {
@@ -63,37 +61,38 @@ export class AdminDashboardComponent implements OnInit {
     else if (tab === 'contacts') this.loadContacts();
   }
 
+  isTabLoading(): boolean {
+    const tab = this.activeTab();
+    if (tab === 'account') return false;
+    return !this.loaded()[tab] && !this.loadError();
+  }
+
   loadLeads(): void {
-    this.startLoad();
+    this.loadError.set(false);
     this.adminService.getTalentLeads().subscribe({
       next: (data) => {
         this.leads.set(data);
-        this.loaded.leads = true;
-        this.loading.set(false);
+        this.markLoaded('leads');
       },
       error: (err) => this.handleError(err),
     });
   }
 
   loadCandidates(): void {
-    this.startLoad();
     this.adminService.getCandidateApplications().subscribe({
       next: (data) => {
         this.candidates.set(data);
-        this.loaded.candidates = true;
-        this.loading.set(false);
+        this.markLoaded('candidates');
       },
       error: (err) => this.handleError(err),
     });
   }
 
   loadContacts(): void {
-    this.startLoad();
     this.adminService.getContactRequests().subscribe({
       next: (data) => {
         this.contacts.set(data);
-        this.loaded.contacts = true;
-        this.loading.set(false);
+        this.markLoaded('contacts');
       },
       error: (err) => this.handleError(err),
     });
@@ -140,13 +139,11 @@ export class AdminDashboardComponent implements OnInit {
     );
   }
 
-  private startLoad(): void {
-    this.loading.set(true);
-    this.loadError.set(false);
+  private markLoaded(key: DataTab): void {
+    this.loaded.update((state) => ({ ...state, [key]: true }));
   }
 
   private handleError(err: unknown): void {
-    this.loading.set(false);
     const msg = String((err as { message?: string })?.message ?? '');
     if (msg.includes('Unauthorized') || msg.includes('UNAUTHENTICATED')) {
       this.logout();

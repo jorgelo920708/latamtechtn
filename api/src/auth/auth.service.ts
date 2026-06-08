@@ -5,15 +5,18 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { randomBytes } from 'crypto';
 import * as bcrypt from 'bcryptjs';
 import { AuthRepository } from './auth.repository';
 import { ChangePasswordInput, LoginInput } from './auth.dto';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class AuthService implements OnModuleInit {
   constructor(
     private readonly authRepository: AuthRepository,
     private readonly jwtService: JwtService,
+    private readonly mailService: MailService,
   ) {}
 
   async onModuleInit(): Promise<void> {
@@ -60,5 +63,34 @@ export class AuthService implements OnModuleInit {
     const passwordHash = await bcrypt.hash(input.newPassword, 10);
     await this.authRepository.updatePassword(admin.id, passwordHash);
     return { id: admin.id, email: admin.email };
+  }
+
+  async requestPasswordReset(email: string) {
+    const admin = await this.authRepository.findByEmail(email.toLowerCase());
+    if (admin) {
+      const token = randomBytes(32).toString('hex');
+      const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
+      await this.authRepository.createResetToken(admin.id, token, expiresAt);
+      const resetUrl = `${this.webUrl()}/admin/reset?token=${token}`;
+      void this.mailService
+        .sendPasswordReset(admin.email, resetUrl)
+        .catch(() => undefined);
+    }
+    return { success: true };
+  }
+
+  async resetPassword(token: string, newPassword: string) {
+    const record = await this.authRepository.findResetToken(token);
+    if (!record || record.usedAt || record.expiresAt < new Date()) {
+      throw new BadRequestException('El enlace es inválido o expiró');
+    }
+    const passwordHash = await bcrypt.hash(newPassword, 10);
+    await this.authRepository.updatePassword(record.adminId, passwordHash);
+    await this.authRepository.markResetTokenUsed(record.id);
+    return { success: true };
+  }
+
+  private webUrl(): string {
+    return process.env.WEB_URL ?? 'https://www.latamtechtn.com';
   }
 }

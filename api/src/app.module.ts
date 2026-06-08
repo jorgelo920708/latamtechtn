@@ -9,6 +9,7 @@ import { TalentLeadModule } from './talent-lead/talent-lead.module';
 import { CandidateApplicationModule } from './candidate-application/candidate-application.module';
 import { ContactRequestModule } from './contact-request/contact-request.module';
 import { AuthModule } from './auth/auth.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { AuthModule } from './auth/auth.module';
     CandidateApplicationModule,
     ContactRequestModule,
     AuthModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppResolver, PrismaService],

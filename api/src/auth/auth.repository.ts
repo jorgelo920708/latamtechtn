@@ -20,4 +20,21 @@ export class AuthRepository {
   updatePassword(id: string, passwordHash: string) {
     return this.prisma.admin.update({ where: { id }, data: { passwordHash } });
   }
+
+  createResetToken(adminId: string, token: string, expiresAt: Date) {
+    return this.prisma.passwordResetToken.create({
+      data: { adminId, token, expiresAt },
+    });
+  }
+
+  findResetToken(token: string) {
+    return this.prisma.passwordResetToken.findUnique({ where: { token } });
+  }
+
+  markResetTokenUsed(id: string) {
+    return this.prisma.passwordResetToken.update({
+      where: { id },
+      data: { usedAt: new Date() },
+    });
+  }
 }

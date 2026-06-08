@@ -1,0 +1,46 @@
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <span class="auth-mark"><app-icon name="logo" /></span>
+      <div class="auth-brand-text">
+        <strong>LATAM</strong>
+        <small>Panel de administración</small>
+      </div>
+    </div>
+
+    @if (sent()) {
+      <div class="auth-success">
+        <span class="auth-success-icon"><app-icon name="mail" /></span>
+        <h1>Revisá tu correo</h1>
+        <p>
+          Si el email está registrado, te enviamos un enlace para crear una contraseña nueva. El
+          enlace vence en 1 hora.
+        </p>
+        <a routerLink="/admin/login" class="btn btn-ghost">Volver al login</a>
+      </div>
+    } @else {
+      <h1>Recuperar contraseña</h1>
+      <p class="auth-lead">
+        Ingresá tu email y te enviamos un enlace para crear una contraseña nueva.
+      </p>
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="field">
+          <label for="af-email">Email</label>
+          <input
+            id="af-email"
+            type="email"
+            formControlName="email"
+            placeholder="tu@email.com"
+            autocomplete="username"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="submitting()">
+          {{ submitting() ? 'Enviando…' : 'Enviar enlace' }}
+        </button>
+      </form>
+      <div class="auth-foot">
+        <a routerLink="/admin/login" class="auth-back">← Volver al login</a>
+      </div>
+    }
+  </div>
+</div>

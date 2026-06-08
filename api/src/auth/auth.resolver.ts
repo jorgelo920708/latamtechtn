@@ -7,6 +7,9 @@ import {
   AuthPayloadType,
   ChangePasswordInput,
   LoginInput,
+  RequestPasswordResetInput,
+  ResetPasswordInput,
+  StatusType,
 } from './auth.dto';
 
 interface AdminContext {
@@ -35,5 +38,15 @@ export class AuthResolver {
   @UseGuards(AdminGuard)
   me(@Context() context: AdminContext) {
     return { id: context.req.admin.sub, email: context.req.admin.email };
+  }
+
+  @Mutation(() => StatusType)
+  requestPasswordReset(@Args('input') input: RequestPasswordResetInput) {
+    return this.authFacade.requestPasswordReset(input.email);
+  }
+
+  @Mutation(() => StatusType)
+  resetPassword(@Args('input') input: ResetPasswordInput) {
+    return this.authFacade.resetPassword(input.token, input.newPassword);
   }
 }

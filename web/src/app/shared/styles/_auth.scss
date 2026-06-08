@@ -1,0 +1,144 @@
+@use 'forms';
+
+.auth-wrap {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px var(--gutter);
+  background: linear-gradient(180deg, #eff5ff 0%, #ffffff 70%);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 30px 26px 24px;
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.auth-mark {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.auth-mark app-icon {
+  width: 42px;
+  height: 42px;
+}
+
+.auth-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.auth-brand-text strong {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+
+.auth-brand-text small {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.auth-card h1 {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+}
+
+.auth-lead {
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin-bottom: 18px;
+  line-height: 1.55;
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auth-card .btn {
+  margin-top: 4px;
+}
+
+.auth-foot {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.auth-link {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--brand-blue);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+.auth-back {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.auth-back:hover {
+  color: var(--brand-blue);
+}
+
+.auth-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 10px 4px 6px;
+}
+
+.auth-success-icon {
+  width: 56px;
+  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  background: rgba(22, 163, 74, 0.12);
+  color: var(--success);
+}
+
+.auth-success-icon app-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.auth-success p {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}

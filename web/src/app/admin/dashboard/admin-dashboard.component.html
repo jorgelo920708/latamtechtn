@@ -24,7 +24,7 @@
     <button type="button" [class.is-active]="activeTab() === 'leads'" (click)="setTab('leads')">
       <app-icon name="briefcase" />
       Solicitudes
-      @if (loaded.leads) {
+      @if (loaded().leads) {
         <span class="tab-count">{{ leads().length }}</span>
       }
     </button>
@@ -35,7 +35,7 @@
     >
       <app-icon name="users" />
       Candidatos
-      @if (loaded.candidates) {
+      @if (loaded().candidates) {
         <span class="tab-count">{{ candidates().length }}</span>
       }
     </button>
@@ -46,7 +46,7 @@
     >
       <app-icon name="chat" />
       Contactos
-      @if (loaded.contacts) {
+      @if (loaded().contacts) {
         <span class="tab-count">{{ contacts().length }}</span>
       }
     </button>
@@ -59,7 +59,7 @@
 
 <main class="admin-content">
   @if (activeTab() !== 'account') {
-    @if (loading()) {
+    @if (isTabLoading()) {
       <p class="admin-state">Cargando…</p>
     } @else if (loadError()) {
       <div class="admin-state">
@@ -69,7 +69,7 @@
     }
   }
 
-  @if (activeTab() === 'leads' && !loading() && !loadError()) {
+  @if (activeTab() === 'leads' && loaded().leads && !loadError()) {
     @if (leads().length === 0) {
       <p class="admin-state">Todavía no hay solicitudes de talento.</p>
     } @else {
@@ -100,7 +100,7 @@
     }
   }
 
-  @if (activeTab() === 'candidates' && !loading() && !loadError()) {
+  @if (activeTab() === 'candidates' && loaded().candidates && !loadError()) {
     @if (candidates().length === 0) {
       <p class="admin-state">Todavía no hay aplicaciones de candidatos.</p>
     } @else {
@@ -138,7 +138,7 @@
     }
   }
 
-  @if (activeTab() === 'contacts' && !loading() && !loadError()) {
+  @if (activeTab() === 'contacts' && loaded().contacts && !loadError()) {
     @if (contacts().length === 0) {
       <p class="admin-state">Todavía no hay contactos.</p>
     } @else {

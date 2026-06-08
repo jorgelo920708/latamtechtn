@@ -92,6 +92,22 @@ const CANDIDATE_APPLICATIONS = gql`
   }
 `;
 
+const REQUEST_PASSWORD_RESET = gql`
+  mutation RequestPasswordReset($input: RequestPasswordResetInput!) {
+    requestPasswordReset(input: $input) {
+      success
+    }
+  }
+`;
+
+const RESET_PASSWORD = gql`
+  mutation ResetPassword($input: ResetPasswordInput!) {
+    resetPassword(input: $input) {
+      success
+    }
+  }
+`;
+
 const CONTACT_REQUESTS = gql`
   query ContactRequests {
     contactRequests {
@@ -150,6 +166,26 @@ export class AdminService {
     localStorage.removeItem(EMAIL_KEY);
     this.email.set(null);
     void this.apollo.client.clearStore();
+  }
+
+  requestPasswordReset(email: string) {
+    return this.apollo
+      .mutate<{ requestPasswordReset: { success: boolean } }>({
+        mutation: REQUEST_PASSWORD_RESET,
+        variables: { input: { email } },
+        fetchPolicy: 'no-cache',
+      })
+      .pipe(map((r) => r.data!.requestPasswordReset));
+  }
+
+  resetPassword(token: string, newPassword: string) {
+    return this.apollo
+      .mutate<{ resetPassword: { success: boolean } }>({
+        mutation: RESET_PASSWORD,
+        variables: { input: { token, newPassword } },
+        fetchPolicy: 'no-cache',
+      })
+      .pipe(map((r) => r.data!.resetPassword));
   }
 
   getTalentLeads() {

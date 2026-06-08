@@ -84,6 +84,8 @@ type Mutation {
   createCandidateApplication(input: CreateCandidateApplicationInput!): CandidateApplicationType!
   createContactRequest(input: CreateContactRequestInput!): ContactRequestType!
   createTalentLead(input: CreateTalentLeadInput!): TalentLeadType!
+  requestPasswordReset(input: RequestPasswordResetInput!): StatusType!
+  resetPassword(input: ResetPasswordInput!): StatusType!
 }
 
 type Query {
@@ -92,6 +94,19 @@ type Query {
   health: String!
   me: AdminType!
   talentLeads: [TalentLeadType!]!
+}
+
+input RequestPasswordResetInput {
+  email: String!
+}
+
+input ResetPasswordInput {
+  newPassword: String!
+  token: String!
+}
+
+type StatusType {
+  success: Boolean!
 }
 
 type TalentLeadType {
