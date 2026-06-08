@@ -781,6 +781,19 @@ section[id] {
   color: var(--brand-blue);
 }
 
+.footer-contacts a.footer-admin {
+  color: var(--faint);
+}
+
+.footer-contacts a.footer-admin app-icon {
+  color: var(--faint);
+}
+
+.footer-contacts a.footer-admin:hover,
+.footer-contacts a.footer-admin:hover app-icon {
+  color: var(--brand-blue);
+}
+
 .footer-copy {
   color: var(--faint);
   font-size: 0.84rem;

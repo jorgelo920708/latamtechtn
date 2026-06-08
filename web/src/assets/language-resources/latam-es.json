@@ -195,7 +195,8 @@
       "ctaSecondary": "Agendar una Reunión",
       "emailLabel": "Escríbeme",
       "linkedinLabel": "Ver perfil en LinkedIn",
-      "copyright": "© 2026 LATAM Tech Talent Network. Todos los derechos reservados."
+      "copyright": "© 2026 LATAM Tech Talent Network. Todos los derechos reservados.",
+      "adminLink": "Panel"
     },
     "forms": {
       "common": {

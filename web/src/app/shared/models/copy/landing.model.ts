@@ -83,6 +83,7 @@ export interface ContactCopy {
   emailLabel: string;
   linkedinLabel: string;
   copyright: string;
+  adminLink: string;
 }
 
 export interface FormFieldCopy {

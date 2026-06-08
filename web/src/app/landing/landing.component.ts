@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LatamCopyService } from '../shared/services/latam-copy.service';
@@ -16,7 +17,13 @@ type ModalKind = 'company' | 'candidate' | null;
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [AsyncPipe, IconComponent, TalentRequestFormComponent, CandidateFormComponent],
+  imports: [
+    AsyncPipe,
+    RouterLink,
+    IconComponent,
+    TalentRequestFormComponent,
+    CandidateFormComponent,
+  ],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
