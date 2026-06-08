@@ -292,6 +292,28 @@
   gap: 14px;
 }
 
+.search-bar {
+  position: relative;
+  max-width: 440px;
+  margin-bottom: 16px;
+}
+
+.search-bar app-icon {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 17px;
+  height: 17px;
+  color: var(--faint);
+  pointer-events: none;
+}
+
+.search-bar input {
+  width: 100%;
+  padding-left: 40px;
+}
+
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));

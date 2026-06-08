@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
@@ -42,6 +42,38 @@ export class AdminDashboardComponent implements OnInit {
   contacts = signal<ContactRequest[]>([]);
   loaded = signal({ leads: false, candidates: false, contacts: false });
 
+  search = signal('');
+
+  filteredLeads = computed(() => {
+    const q = this.search().trim().toLowerCase();
+    if (!q) return this.leads();
+    return this.leads().filter((l) =>
+      this.match(q, [l.name, l.company, l.email, l.role, l.specialty, l.message]),
+    );
+  });
+
+  filteredCandidates = computed(() => {
+    const q = this.search().trim().toLowerCase();
+    if (!q) return this.candidates();
+    return this.candidates().filter((c) =>
+      this.match(q, [
+        c.fullName,
+        c.email,
+        c.location,
+        c.specialty,
+        c.englishLevel,
+        c.mainStack,
+        c.message,
+      ]),
+    );
+  });
+
+  filteredContacts = computed(() => {
+    const q = this.search().trim().toLowerCase();
+    if (!q) return this.contacts();
+    return this.contacts().filter((c) => this.match(q, [c.name, c.email, c.message]));
+  });
+
   pwSubmitting = signal(false);
   pwSuccess = signal(false);
   pwError = signal<string | null>(null);
@@ -59,6 +91,15 @@ export class AdminDashboardComponent implements OnInit {
 
   setTab(tab: Tab): void {
     this.activeTab.set(tab);
+    this.search.set('');
+  }
+
+  onSearch(event: Event): void {
+    this.search.set((event.target as HTMLInputElement).value);
+  }
+
+  private match(query: string, fields: (string | null | undefined)[]): boolean {
+    return fields.some((value) => (value ?? '').toLowerCase().includes(query));
   }
 
   reload(): void {

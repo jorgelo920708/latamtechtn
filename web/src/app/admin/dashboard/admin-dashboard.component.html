@@ -81,30 +81,43 @@
         @if (leads().length === 0) {
           <p class="admin-state">Todavía no hay solicitudes de talento.</p>
         } @else {
-          <div class="cards">
-            @for (lead of leads(); track lead.id) {
-              <article class="record">
-                <div class="record-head">
-                  <div>
-                    <h3>{{ lead.name }}</h3>
-                    <span class="record-sub">{{ lead.company }}</span>
-                  </div>
-                  <div class="record-meta">
-                    <span class="badge">{{ lead.status }}</span>
-                    <span class="record-date">{{ formatDate(lead.createdAt) }}</span>
-                  </div>
-                </div>
-                <dl class="record-rows">
-                  <div><dt>Email</dt><dd><a [href]="'mailto:' + lead.email">{{ lead.email }}</a></dd></div>
-                  <div><dt>Rol</dt><dd>{{ lead.role }}</dd></div>
-                  <div><dt>Especialidad</dt><dd>{{ lead.specialty }}</dd></div>
-                  @if (lead.message) {
-                    <div><dt>Mensaje</dt><dd>{{ lead.message }}</dd></div>
-                  }
-                </dl>
-              </article>
-            }
+          <div class="search-bar">
+            <app-icon name="search" />
+            <input
+              type="search"
+              [value]="search()"
+              (input)="onSearch($event)"
+              placeholder="Buscar empresa, email, rol…"
+            />
           </div>
+          @if (filteredLeads().length === 0) {
+            <p class="admin-state">Sin resultados para "{{ search() }}".</p>
+          } @else {
+            <div class="cards">
+              @for (lead of filteredLeads(); track lead.id) {
+                <article class="record">
+                  <div class="record-head">
+                    <div>
+                      <h3>{{ lead.name }}</h3>
+                      <span class="record-sub">{{ lead.company }}</span>
+                    </div>
+                    <div class="record-meta">
+                      <span class="badge">{{ lead.status }}</span>
+                      <span class="record-date">{{ formatDate(lead.createdAt) }}</span>
+                    </div>
+                  </div>
+                  <dl class="record-rows">
+                    <div><dt>Email</dt><dd><a [href]="'mailto:' + lead.email">{{ lead.email }}</a></dd></div>
+                    <div><dt>Rol</dt><dd>{{ lead.role }}</dd></div>
+                    <div><dt>Especialidad</dt><dd>{{ lead.specialty }}</dd></div>
+                    @if (lead.message) {
+                      <div><dt>Mensaje</dt><dd>{{ lead.message }}</dd></div>
+                    }
+                  </dl>
+                </article>
+              }
+            </div>
+          }
         }
       }
 
@@ -112,37 +125,50 @@
         @if (candidates().length === 0) {
           <p class="admin-state">Todavía no hay aplicaciones de candidatos.</p>
         } @else {
-          <div class="cards">
-            @for (c of candidates(); track c.id) {
-              <article class="record">
-                <div class="record-head">
-                  <div>
-                    <h3>{{ c.fullName }}</h3>
-                    <span class="record-sub">{{ c.location }}</span>
-                  </div>
-                  <div class="record-meta">
-                    <span class="badge">{{ c.status }}</span>
-                    <span class="record-date">{{ formatDate(c.createdAt) }}</span>
-                  </div>
-                </div>
-                <dl class="record-rows">
-                  <div><dt>Email</dt><dd><a [href]="'mailto:' + c.email">{{ c.email }}</a></dd></div>
-                  <div><dt>Especialidad</dt><dd>{{ c.specialty }}</dd></div>
-                  <div><dt>Inglés</dt><dd>{{ c.englishLevel }}</dd></div>
-                  <div><dt>Stack</dt><dd>{{ c.mainStack }}</dd></div>
-                  @if (c.linkedinUrl) {
-                    <div>
-                      <dt>LinkedIn</dt>
-                      <dd><a [href]="c.linkedinUrl" target="_blank" rel="noopener">{{ c.linkedinUrl }}</a></dd>
-                    </div>
-                  }
-                  @if (c.message) {
-                    <div><dt>Mensaje</dt><dd>{{ c.message }}</dd></div>
-                  }
-                </dl>
-              </article>
-            }
+          <div class="search-bar">
+            <app-icon name="search" />
+            <input
+              type="search"
+              [value]="search()"
+              (input)="onSearch($event)"
+              placeholder="Buscar nombre, email, stack…"
+            />
           </div>
+          @if (filteredCandidates().length === 0) {
+            <p class="admin-state">Sin resultados para "{{ search() }}".</p>
+          } @else {
+            <div class="cards">
+              @for (c of filteredCandidates(); track c.id) {
+                <article class="record">
+                  <div class="record-head">
+                    <div>
+                      <h3>{{ c.fullName }}</h3>
+                      <span class="record-sub">{{ c.location }}</span>
+                    </div>
+                    <div class="record-meta">
+                      <span class="badge">{{ c.status }}</span>
+                      <span class="record-date">{{ formatDate(c.createdAt) }}</span>
+                    </div>
+                  </div>
+                  <dl class="record-rows">
+                    <div><dt>Email</dt><dd><a [href]="'mailto:' + c.email">{{ c.email }}</a></dd></div>
+                    <div><dt>Especialidad</dt><dd>{{ c.specialty }}</dd></div>
+                    <div><dt>Inglés</dt><dd>{{ c.englishLevel }}</dd></div>
+                    <div><dt>Stack</dt><dd>{{ c.mainStack }}</dd></div>
+                    @if (c.linkedinUrl) {
+                      <div>
+                        <dt>LinkedIn</dt>
+                        <dd><a [href]="c.linkedinUrl" target="_blank" rel="noopener">{{ c.linkedinUrl }}</a></dd>
+                      </div>
+                    }
+                    @if (c.message) {
+                      <div><dt>Mensaje</dt><dd>{{ c.message }}</dd></div>
+                    }
+                  </dl>
+                </article>
+              }
+            </div>
+          }
         }
       }
 
@@ -150,23 +176,36 @@
         @if (contacts().length === 0) {
           <p class="admin-state">Todavía no hay contactos.</p>
         } @else {
-          <div class="cards">
-            @for (ct of contacts(); track ct.id) {
-              <article class="record">
-                <div class="record-head">
-                  <div><h3>{{ ct.name }}</h3></div>
-                  <div class="record-meta">
-                    <span class="badge">{{ ct.status }}</span>
-                    <span class="record-date">{{ formatDate(ct.createdAt) }}</span>
-                  </div>
-                </div>
-                <dl class="record-rows">
-                  <div><dt>Email</dt><dd><a [href]="'mailto:' + ct.email">{{ ct.email }}</a></dd></div>
-                  <div><dt>Mensaje</dt><dd>{{ ct.message }}</dd></div>
-                </dl>
-              </article>
-            }
+          <div class="search-bar">
+            <app-icon name="search" />
+            <input
+              type="search"
+              [value]="search()"
+              (input)="onSearch($event)"
+              placeholder="Buscar nombre, email, mensaje…"
+            />
           </div>
+          @if (filteredContacts().length === 0) {
+            <p class="admin-state">Sin resultados para "{{ search() }}".</p>
+          } @else {
+            <div class="cards">
+              @for (ct of filteredContacts(); track ct.id) {
+                <article class="record">
+                  <div class="record-head">
+                    <div><h3>{{ ct.name }}</h3></div>
+                    <div class="record-meta">
+                      <span class="badge">{{ ct.status }}</span>
+                      <span class="record-date">{{ formatDate(ct.createdAt) }}</span>
+                    </div>
+                  </div>
+                  <dl class="record-rows">
+                    <div><dt>Email</dt><dd><a [href]="'mailto:' + ct.email">{{ ct.email }}</a></dd></div>
+                    <div><dt>Mensaje</dt><dd>{{ ct.message }}</dd></div>
+                  </dl>
+                </article>
+              }
+            </div>
+          }
         }
       }
 
