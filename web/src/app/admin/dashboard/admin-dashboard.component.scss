@@ -586,6 +586,18 @@
   border-color: var(--brand-navy);
   color: #fff;
 }
+.filter-chips.roles {
+  margin-bottom: 8px;
+}
+.chip-attr {
+  font-size: 0.76rem;
+  padding: 5px 11px;
+}
+.chip-attr.active {
+  background: var(--brand-blue);
+  border-color: var(--brand-blue);
+  color: #fff;
+}
 
 .cards {
   display: grid;

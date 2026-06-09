@@ -152,6 +152,25 @@ export class AdminDashboardComponent implements OnInit {
   ];
   candidateFilters = signal<Set<string>>(new Set<string>());
 
+  // Quick filters by role/specialty (match against mainRole + otherRoles).
+  readonly candidateRoleChips: { key: string; label: string; re: RegExp }[] = [
+    { key: 'fullstack', label: 'Full Stack', re: /full ?stack/i },
+    { key: 'backend', label: 'Backend', re: /backend/i },
+    { key: 'frontend', label: 'Frontend', re: /frontend/i },
+    { key: 'mobile', label: 'Mobile', re: /mobile/i },
+    { key: 'data', label: 'Data', re: /\bdata\b/i },
+    { key: 'ai', label: 'AI / ML', re: /\bai\b|machine learning|\bml\b/i },
+    { key: 'devops', label: 'DevOps / Cloud', re: /devops|cloud|\binfra|\bsre\b/i },
+    { key: 'qa', label: 'QA', re: /\bqa\b|quality|testing/i },
+    { key: 'product', label: 'Product / PM', re: /product|project manager|scrum|\bpm\b/i },
+    { key: 'salesforce', label: 'Salesforce', re: /salesforce/i },
+    { key: 'security', label: 'Security', re: /security|cyber/i },
+    { key: 'marketing', label: 'Marketing', re: /marketing|\bseo\b/i },
+    { key: 'sales', label: 'Sales', re: /\bsales\b|\bsdr\b|\bbdr\b|account manager/i },
+    { key: 'hr', label: 'HR / Recruiting', re: /recruit|talent acquisition|hrbp|people partner/i },
+  ];
+  candidateRoleFilters = signal<Set<string>>(new Set<string>());
+
   filteredLeads = computed(() => {
     const q = this.search().trim().toLowerCase();
     if (!q) return this.leads();
@@ -164,7 +183,15 @@ export class AdminDashboardComponent implements OnInit {
     const q = this.search().trim().toLowerCase();
     const active = this.candidateFilters();
     const tests = this.candidateQuickFilters.filter((f) => active.has(f.key)).map((f) => f.test);
+    const activeRoles = this.candidateRoleFilters();
+    const roleRes = this.candidateRoleChips.filter((r) => activeRoles.has(r.key)).map((r) => r.re);
     let list = this.candidates();
+    if (roleRes.length) {
+      list = list.filter((c) => {
+        const text = c.mainRole ?? '';
+        return roleRes.some((re) => re.test(text));
+      });
+    }
     if (tests.length) list = list.filter((c) => tests.every((t) => t(c)));
     if (q) {
       list = list.filter((c) =>
@@ -368,6 +395,7 @@ export class AdminDashboardComponent implements OnInit {
     this.search.set('');
     this.page.set(0);
     this.candidateFilters.set(new Set<string>());
+    this.candidateRoleFilters.set(new Set<string>());
     try {
       localStorage.setItem(TAB_KEY, tab);
     } catch {
@@ -385,6 +413,18 @@ export class AdminDashboardComponent implements OnInit {
 
   isCandidateFilterActive(key: string): boolean {
     return this.candidateFilters().has(key);
+  }
+
+  toggleCandidateRole(key: string): void {
+    const next = new Set(this.candidateRoleFilters());
+    if (next.has(key)) next.delete(key);
+    else next.add(key);
+    this.candidateRoleFilters.set(next);
+    this.page.set(0);
+  }
+
+  isCandidateRoleActive(key: string): boolean {
+    return this.candidateRoleFilters().has(key);
   }
 
   pageItems<T>(list: T[]): T[] {

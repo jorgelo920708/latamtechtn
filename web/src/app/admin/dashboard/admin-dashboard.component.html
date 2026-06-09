@@ -242,11 +242,23 @@
             <app-icon name="search" />
             <input type="search" [value]="search()" (input)="onSearch($event)" [placeholder]="t()?.searchCandidates" />
           </div>
+          <div class="filter-chips roles">
+            @for (r of candidateRoleChips; track r.key) {
+              <button
+                type="button"
+                class="filter-chip"
+                [class.active]="isCandidateRoleActive(r.key)"
+                (click)="toggleCandidateRole(r.key)"
+              >
+                {{ r.label }}
+              </button>
+            }
+          </div>
           <div class="filter-chips">
             @for (f of candidateQuickFilters; track f.key) {
               <button
                 type="button"
-                class="filter-chip"
+                class="filter-chip chip-attr"
                 [class.active]="isCandidateFilterActive(f.key)"
                 (click)="toggleCandidateFilter(f.key)"
               >
