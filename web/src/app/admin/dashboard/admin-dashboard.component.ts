@@ -9,8 +9,16 @@ import {
 } from '../admin.service';
 import { IconComponent } from '../../shared/components/icon/icon.component';
 
-type Tab = 'leads' | 'candidates' | 'contacts' | 'account';
+type Tab = 'overview' | 'leads' | 'candidates' | 'contacts' | 'account';
 type DataTab = 'leads' | 'candidates' | 'contacts';
+
+interface ActivityItem {
+  kind: string;
+  icon: string;
+  title: string;
+  subtitle: string;
+  date: string;
+}
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -26,15 +34,17 @@ export class AdminDashboardComponent implements OnInit {
   private fb = inject(FormBuilder);
 
   readonly email = this.adminService.email;
+  readonly adminName = 'Elba Caseres';
 
   readonly titles: Record<Tab, string> = {
+    overview: 'Resumen',
     leads: 'Solicitudes de talento',
     candidates: 'Candidatos',
     contacts: 'Contactos',
     account: 'Mi cuenta',
   };
 
-  activeTab = signal<Tab>('leads');
+  activeTab = signal<Tab>('overview');
   loadError = signal(false);
 
   leads = signal<TalentLead[]>([]);
@@ -72,6 +82,48 @@ export class AdminDashboardComponent implements OnInit {
     const q = this.search().trim().toLowerCase();
     if (!q) return this.contacts();
     return this.contacts().filter((c) => this.match(q, [c.name, c.email, c.message]));
+  });
+
+  allLoaded = computed(
+    () => this.loaded().leads && this.loaded().candidates && this.loaded().contacts,
+  );
+
+  totalRecords = computed(
+    () => this.leads().length + this.candidates().length + this.contacts().length,
+  );
+
+  recentActivity = computed<ActivityItem[]>(() => {
+    const items: ActivityItem[] = [];
+    for (const lead of this.leads()) {
+      items.push({
+        kind: 'Solicitud',
+        icon: 'briefcase',
+        title: lead.name,
+        subtitle: `${lead.company} · ${lead.role}`,
+        date: lead.createdAt,
+      });
+    }
+    for (const candidate of this.candidates()) {
+      items.push({
+        kind: 'Candidato',
+        icon: 'users',
+        title: candidate.fullName,
+        subtitle: `${candidate.specialty} · ${candidate.location}`,
+        date: candidate.createdAt,
+      });
+    }
+    for (const contact of this.contacts()) {
+      items.push({
+        kind: 'Contacto',
+        icon: 'chat',
+        title: contact.name,
+        subtitle: contact.email,
+        date: contact.createdAt,
+      });
+    }
+    return items
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, 6);
   });
 
   pwSubmitting = signal(false);
@@ -112,6 +164,7 @@ export class AdminDashboardComponent implements OnInit {
   isTabLoading(): boolean {
     const tab = this.activeTab();
     if (tab === 'account') return false;
+    if (tab === 'overview') return !this.allLoaded() && !this.loadError();
     return !this.loaded()[tab] && !this.loadError();
   }
 
@@ -179,8 +232,12 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   initials(): string {
-    const mail = this.email() ?? '';
-    return mail.slice(0, 2).toUpperCase() || 'AD';
+    return this.adminName
+      .split(' ')
+      .map((part) => part.charAt(0))
+      .join('')
+      .slice(0, 2)
+      .toUpperCase();
   }
 
   formatDate(iso: string): string {

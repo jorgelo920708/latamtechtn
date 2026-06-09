@@ -9,6 +9,10 @@
     </div>
 
     <nav class="sidebar-nav">
+      <button type="button" class="nav-item" [class.active]="activeTab() === 'overview'" (click)="setTab('overview')">
+        <app-icon name="layers" />
+        <span class="nav-label">Resumen</span>
+      </button>
       <button type="button" class="nav-item" [class.active]="activeTab() === 'leads'" (click)="setTab('leads')">
         <app-icon name="briefcase" />
         <span class="nav-label">Solicitudes</span>
@@ -42,8 +46,8 @@
     <div class="sidebar-foot">
       <span class="sidebar-avatar">{{ initials() }}</span>
       <div class="sidebar-user">
-        <span class="sidebar-user-label">Sesión</span>
-        <span class="sidebar-user-email">{{ email() }}</span>
+        <span class="sidebar-user-name">{{ adminName }}</span>
+        <span class="sidebar-user-label">Administradora</span>
       </div>
     </div>
   </aside>
@@ -55,9 +59,7 @@
         <h1 class="topbar-title">{{ titles[activeTab()] }}</h1>
       </div>
       <div class="topbar-right">
-        @if (email()) {
-          <span class="topbar-email">{{ email() }}</span>
-        }
+        <span class="topbar-email">{{ adminName }}</span>
         <button type="button" class="btn-out" (click)="logout()">
           <app-icon name="arrow" />
           <span class="btn-out-label">Salir</span>
@@ -75,6 +77,69 @@
             <button type="button" class="btn btn-ghost" (click)="reload()">Reintentar</button>
           </div>
         }
+      }
+
+      @if (activeTab() === 'overview' && allLoaded() && !loadError()) {
+        <div class="overview">
+          <div class="overview-greet">
+            <h2>Hola, {{ adminName }} 👋</h2>
+            <p>Este es el resumen de tu red de talento.</p>
+          </div>
+
+          <div class="stat-cards">
+            <button type="button" class="stat-card" (click)="setTab('leads')">
+              <span class="stat-icon blue"><app-icon name="briefcase" /></span>
+              <span class="stat-text">
+                <strong>{{ leads().length }}</strong>
+                <span>Solicitudes de talento</span>
+              </span>
+            </button>
+            <button type="button" class="stat-card" (click)="setTab('candidates')">
+              <span class="stat-icon green"><app-icon name="users" /></span>
+              <span class="stat-text">
+                <strong>{{ candidates().length }}</strong>
+                <span>Candidatos</span>
+              </span>
+            </button>
+            <button type="button" class="stat-card" (click)="setTab('contacts')">
+              <span class="stat-icon purple"><app-icon name="chat" /></span>
+              <span class="stat-text">
+                <strong>{{ contacts().length }}</strong>
+                <span>Contactos</span>
+              </span>
+            </button>
+            <div class="stat-card is-static">
+              <span class="stat-icon navy"><app-icon name="layers" /></span>
+              <span class="stat-text">
+                <strong>{{ totalRecords() }}</strong>
+                <span>Registros totales</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="overview-recent">
+            <h3>Actividad reciente</h3>
+            @if (recentActivity().length === 0) {
+              <p class="admin-state">Todavía no hay actividad.</p>
+            } @else {
+              <ul class="activity-list">
+                @for (item of recentActivity(); track $index) {
+                  <li class="activity-item">
+                    <span class="activity-icon"><app-icon [name]="item.icon" /></span>
+                    <div class="activity-body">
+                      <span class="activity-title">{{ item.title }}</span>
+                      <span class="activity-sub">{{ item.subtitle }}</span>
+                    </div>
+                    <div class="activity-meta">
+                      <span class="activity-kind">{{ item.kind }}</span>
+                      <span class="activity-date">{{ formatDate(item.date) }}</span>
+                    </div>
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+        </div>
       }
 
       @if (activeTab() === 'leads' && loaded().leads && !loadError()) {
@@ -248,6 +313,10 @@
   </div>
 
   <nav class="admin-mobile-nav" aria-label="Navegación">
+    <button type="button" class="mobile-tab" [class.active]="activeTab() === 'overview'" (click)="setTab('overview')">
+      <app-icon name="layers" />
+      <span>Resumen</span>
+    </button>
     <button type="button" class="mobile-tab" [class.active]="activeTab() === 'leads'" (click)="setTab('leads')">
       <app-icon name="briefcase" />
       <span>Solicitudes</span>
