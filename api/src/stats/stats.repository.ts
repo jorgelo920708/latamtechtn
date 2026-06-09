@@ -63,6 +63,10 @@ export class StatsRepository {
     return this.prisma.contactRequest.count();
   }
 
+  countCompanies() {
+    return this.prisma.company.count();
+  }
+
   // Number of distinct specialty categories represented across registered
   // candidates (derived from each candidate's mainRole).
   async countDistinctSpecialties() {

@@ -19,13 +19,15 @@ export class StatsService {
   }
 
   async buildSnapshot() {
-    const [candidateCount, leadCount, contactCount, specialtyCount] = await Promise.all([
-      this.statsRepository.countCandidates(),
-      this.statsRepository.countLeads(),
-      this.statsRepository.countContacts(),
-      this.statsRepository.countDistinctSpecialties(),
-    ]);
-    return { candidateCount, leadCount, contactCount, specialtyCount };
+    const [candidateCount, leadCount, contactCount, companyCount, specialtyCount] =
+      await Promise.all([
+        this.statsRepository.countCandidates(),
+        this.statsRepository.countLeads(),
+        this.statsRepository.countContacts(),
+        this.statsRepository.countCompanies(),
+        this.statsRepository.countDistinctSpecialties(),
+      ]);
+    return { candidateCount, leadCount, contactCount, companyCount, specialtyCount };
   }
 
   /** Recompute the counts and push them to all subscribed clients. */

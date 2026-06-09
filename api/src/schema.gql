@@ -213,6 +213,7 @@ input ResetPasswordInput {
 
 type StatsSnapshotType {
   candidateCount: Int!
+  companyCount: Int!
   contactCount: Int!
   leadCount: Int!
   specialtyCount: Int!

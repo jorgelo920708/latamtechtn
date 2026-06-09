@@ -21,5 +21,8 @@ export class StatsSnapshotType {
   contactCount!: number;
 
   @Field(() => Int)
+  companyCount!: number;
+
+  @Field(() => Int)
   specialtyCount!: number;
 }
