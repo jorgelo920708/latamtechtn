@@ -18,6 +18,11 @@ import { CountUpDirective } from '../shared/directives/count-up.directive';
 type ModalKind = 'company' | 'candidate' | null;
 
 const ROLE_TO_CATEGORY: Record<string, string> = {
+  // software
+  'Full Stack': 'software',
+  Frontend: 'software',
+  Backend: 'software',
+  Mobile: 'software',
   'Backend Engineer': 'software',
   'Frontend Engineer': 'software',
   'Full Stack Engineer': 'software',
@@ -29,17 +34,64 @@ const ROLE_TO_CATEGORY: Record<string, string> = {
   'Python Developer': 'software',
   '.NET Developer': 'software',
   'Ruby on Rails Developer': 'software',
-  'DevOps Engineer': 'cloud',
-  'Site Reliability Engineer (SRE)': 'cloud',
-  'QA Manual': 'qa',
-  'QA Automation': 'qa',
+  // data & AI
   'Data Engineer': 'data',
+  'Data Analyst': 'data',
   'Data Scientist': 'data',
+  'AI Engineer': 'data',
   'Machine Learning Engineer': 'data',
   'Data Architect': 'data',
   'Power BI Developer': 'data',
+  // cloud / devops / infra
+  DevOps: 'cloud',
+  Cloud: 'cloud',
+  Infrastructure: 'cloud',
+  Networking: 'cloud',
+  'Technical Support': 'cloud',
+  'DevOps Engineer': 'cloud',
+  'Site Reliability Engineer (SRE)': 'cloud',
+  // security
+  Cybersecurity: 'security',
+  // qa
+  'QA Manual': 'qa',
+  'QA Automation': 'qa',
+  // product & PM
   'Product Manager': 'product',
+  'Product Owner': 'product',
+  'Project Manager': 'product',
+  'Scrum Master': 'product',
+  'Business Analyst': 'product',
+  'Functional Analyst': 'product',
+  'UX/UI Designer': 'product',
+  // salesforce
   'Salesforce Developer': 'salesforce',
+  'Salesforce Admin': 'salesforce',
+  'Salesforce Consultant': 'salesforce',
+  // marketing & SEO
+  'Digital Marketing': 'marketing',
+  SEO: 'marketing',
+  'Local SEO': 'marketing',
+  'Link Building': 'marketing',
+  Content: 'marketing',
+  // sales & account management
+  SDR: 'sales',
+  BDR: 'sales',
+  'Account Manager': 'sales',
+  'Sales Manager': 'sales',
+  'Customer Success Manager': 'sales',
+  // finance & admin
+  Accounting: 'finance',
+  CPA: 'finance',
+  'Financial Analyst': 'finance',
+  'Finance Manager': 'finance',
+  'Finance & Accounting Lead': 'finance',
+  'Executive Assistant': 'finance',
+  // HR & recruiting
+  Recruiter: 'hr',
+  'IT Recruiter': 'hr',
+  'Talent Acquisition': 'hr',
+  HRBP: 'hr',
+  'People Partner': 'hr',
 };
 
 @Component({

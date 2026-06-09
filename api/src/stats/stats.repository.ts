@@ -9,15 +9,34 @@ function categorizeRole(role: string): string | null {
   if (/salesforce/.test(r)) return 'salesforce';
   if (/\bqa\b|quality|sdet|tester|testing|automation/.test(r)) return 'qa';
   if (/security|ciberseg|seguridad|infosec|pentest/.test(r)) return 'security';
-  if (/devops|sre|site reliability|cloud|infra|platform engineer|kubernetes/.test(r)) return 'cloud';
+  if (
+    /devops|sre|site reliability|cloud|infra|platform engineer|kubernetes|network|technical support|\bsupport\b|soporte|helpdesk/.test(
+      r,
+    )
+  )
+    return 'cloud';
   if (/data|machine learning|\bml\b|\bai\b|analytic|scientist|power bi|cientific|analista de datos/.test(r))
     return 'data';
-  if (/product manager|product owner|\bscrum\b|project manager|\bpm\b|\bpo\b|agile|delivery/.test(r))
+  if (
+    /product manager|product owner|\bscrum\b|project manager|\bpm\b|\bpo\b|agile|delivery|business analyst|functional analyst|analista funcional|designer|ux\/ui|\bux\b|\bui\b/.test(
+      r,
+    )
+  )
     return 'product';
-  if (/marketing|growth|\bseo\b|content|community/.test(r)) return 'marketing';
-  if (/\bsales\b|ventas|account exec|business development|comercial/.test(r)) return 'sales';
-  if (/finance|finanzas|accounting|contad|contab/.test(r)) return 'finance';
-  if (/recruit|talent acquisition|rrhh|human resources|recursos humanos|people ops/.test(r))
+  if (/marketing|growth|\bseo\b|content|community|link building|linkbuilding/.test(r))
+    return 'marketing';
+  if (
+    /\bsales\b|ventas|account exec|account manager|business development|comercial|customer success|\bsdr\b|\bbdr\b/.test(
+      r,
+    )
+  )
+    return 'sales';
+  if (/financ|finanzas|accounting|contad|contab|\bcpa\b|executive assistant/.test(r)) return 'finance';
+  if (
+    /recruit|talent acquisition|rrhh|human resources|recursos humanos|people ops|people partner|hrbp/.test(
+      r,
+    )
+  )
     return 'hr';
   if (
     /engineer|developer|software|backend|frontend|full ?stack|mobile|react|angular|node|python|java|\.net|ruby|rails|php|web|programad|desarrollad|architect/.test(
