@@ -251,6 +251,19 @@
           </div>
         </div>
 
+        <label class="form-consent">
+          <input type="checkbox" formControlName="acceptTerms" />
+          <span>
+            {{ lang() === 'es' ? 'He leído y acepto los' : 'I have read and accept the' }}
+            <a href="/terminos" target="_blank" rel="noopener">{{ lang() === 'es' ? 'Términos' : 'Terms' }}</a>
+            {{ lang() === 'es' ? 'y la' : 'and the' }}
+            <a href="/privacidad" target="_blank" rel="noopener">{{ lang() === 'es' ? 'Política de Privacidad' : 'Privacy Policy' }}</a>.
+          </span>
+        </label>
+        @if (invalid('acceptTerms')) {
+          <span class="field-error consent-error">{{ lang() === 'es' ? 'Debes aceptar para continuar.' : 'You must accept to continue.' }}</span>
+        }
+
         @if (errored()) {
           <p class="form-error">{{ forms.common.errorBody }}</p>
         }

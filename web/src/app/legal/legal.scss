@@ -1,0 +1,109 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+  background: var(--bg-soft);
+}
+
+.legal-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px var(--gutter, 20px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.legal-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--body);
+}
+.legal-back app-icon {
+  width: 16px;
+  height: 16px;
+}
+.legal-back:hover {
+  color: var(--brand-blue);
+}
+
+.legal-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 12px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-pill);
+  background: var(--card-bg);
+  color: var(--body);
+  font-weight: 700;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.legal-lang app-icon {
+  width: 15px;
+  height: 15px;
+  color: var(--muted);
+}
+.legal-lang:hover {
+  border-color: var(--brand-blue);
+  color: var(--brand-blue);
+}
+
+.legal-main {
+  max-width: 800px;
+  margin-inline: auto;
+  padding: 44px var(--gutter, 20px) 90px;
+}
+
+.legal-main h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.legal-updated {
+  margin-top: 8px;
+  margin-bottom: 32px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.legal-main section {
+  margin-bottom: 26px;
+}
+
+.legal-main h2 {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.legal-main p {
+  color: var(--body);
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+
+.legal-main a {
+  color: var(--brand-blue);
+  font-weight: 600;
+}
+.legal-main a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .legal-main h1 {
+    font-size: 1.6rem;
+  }
+}

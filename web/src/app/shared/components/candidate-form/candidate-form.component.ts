@@ -71,6 +71,7 @@ export class CandidateFormComponent {
     minSalary: [''],
     availability: [''],
     message: [''],
+    acceptTerms: [false, Validators.requiredTrue],
   });
 
   constructor() {

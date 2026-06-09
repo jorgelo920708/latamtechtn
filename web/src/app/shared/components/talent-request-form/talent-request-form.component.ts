@@ -29,6 +29,8 @@ export class TalentRequestFormComponent {
     .getObservableSlice<LatamCopyModel>(LATAM_COPY_ID)
     .pipe(map((copy) => copy?.landing?.forms));
 
+  readonly lang = this.copyService.currentLang;
+
   submitting = signal(false);
   success = signal(false);
   errored = signal(false);
@@ -40,6 +42,7 @@ export class TalentRequestFormComponent {
     role: ['', Validators.required],
     specialty: ['', Validators.required],
     message: [''],
+    acceptTerms: [false, Validators.requiredTrue],
   });
 
   invalid(field: string): boolean {
@@ -59,7 +62,17 @@ export class TalentRequestFormComponent {
     }
     this.submitting.set(true);
     this.errored.set(false);
-    this.talentService.createTalentLead(this.form.getRawValue()).subscribe({
+    const raw = this.form.getRawValue();
+    this.talentService
+      .createTalentLead({
+        name: raw.name,
+        company: raw.company,
+        email: raw.email,
+        role: raw.role,
+        specialty: raw.specialty,
+        message: raw.message,
+      })
+      .subscribe({
       next: () => {
         this.submitting.set(false);
         this.success.set(true);

@@ -8,6 +8,14 @@ import { adminGuard } from './admin/admin.guard';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
+  {
+    path: 'terminos',
+    loadComponent: () => import('./legal/terms.component').then((m) => m.TermsComponent),
+  },
+  {
+    path: 'privacidad',
+    loadComponent: () => import('./legal/privacy.component').then((m) => m.PrivacyComponent),
+  },
   { path: 'admin/login', component: AdminLoginComponent },
   { path: 'admin/forgot', component: AdminForgotComponent },
   { path: 'admin/reset', component: AdminResetComponent },
