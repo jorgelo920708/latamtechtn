@@ -88,11 +88,17 @@ type Mutation {
   resetPassword(input: ResetPasswordInput!): StatusType!
 }
 
+type PublicStatsType {
+  candidateCount: Int!
+  specialtyCount: Int!
+}
+
 type Query {
   candidateApplications: [CandidateApplicationType!]!
   contactRequests: [ContactRequestType!]!
   health: String!
   me: AdminType!
+  publicStats: PublicStatsType!
   talentLeads: [TalentLeadType!]!
 }
 

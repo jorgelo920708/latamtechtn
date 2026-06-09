@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LatamCopyService } from '../shared/services/latam-copy.service';
 import { LATAM_COPY_ID, LatamCopyModel } from '../shared/models/copy/latam-copy.model';
-import { LandingCopy } from '../shared/models/copy/landing.model';
+import { LandingCopy, MetricCopy } from '../shared/models/copy/landing.model';
+import { PublicStats, StatsService } from '../shared/services/stats.service';
 import { AssetUrl, TALENT_AVATARS } from '../shared/enums/asset-url.enum';
 import { CONTACT, isPlaceholderLink } from '../shared/constants/contact.constants';
 import { IconComponent } from '../shared/components/icon/icon.component';
@@ -28,8 +29,9 @@ type ModalKind = 'company' | 'candidate' | null;
   styleUrl: './landing.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LandingComponent {
+export class LandingComponent implements OnInit {
   private copyService = inject(LatamCopyService);
+  private statsService = inject(StatsService);
 
   readonly CONTACT = CONTACT;
   readonly AssetUrl = AssetUrl;
@@ -41,6 +43,23 @@ export class LandingComponent {
   activeFilter = signal('cloud');
   modal = signal<ModalKind>(null);
   mobileNavOpen = signal(false);
+  stats = signal<PublicStats | null>(null);
+
+  ngOnInit(): void {
+    this.statsService.getPublicStats().subscribe({
+      next: (stats) => this.stats.set(stats),
+      error: () => undefined,
+    });
+  }
+
+  metricValue(metric: MetricCopy): string {
+    const stats = this.stats();
+    if (stats) {
+      if (metric.icon === 'users') return `${stats.candidateCount}`;
+      if (metric.icon === 'layers') return `${stats.specialtyCount}`;
+    }
+    return metric.value;
+  }
 
   setFilter(key: string): void {
     this.activeFilter.set(key);

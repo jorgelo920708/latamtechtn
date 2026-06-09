@@ -10,6 +10,7 @@ import { CandidateApplicationModule } from './candidate-application/candidate-ap
 import { ContactRequestModule } from './contact-request/contact-request.module';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
+import { StatsModule } from './stats/stats.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { MailModule } from './mail/mail.module';
     ContactRequestModule,
     AuthModule,
     MailModule,
+    StatsModule,
   ],
   controllers: [AppController],
   providers: [AppResolver, PrismaService],
