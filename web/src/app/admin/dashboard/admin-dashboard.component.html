@@ -34,6 +34,13 @@
           <span class="nav-count">{{ contacts().length }}</span>
         }
       </button>
+      <button type="button" class="nav-item" [class.active]="activeTab() === 'companies'" (click)="setTab('companies')">
+        <app-icon name="badge" />
+        <span class="nav-label">{{ t()?.navCompanies }}</span>
+        @if (loaded().companies && companies().length > 0) {
+          <span class="nav-count">{{ companies().length }}</span>
+        }
+      </button>
 
       <div class="nav-sep"></div>
 
@@ -347,6 +354,59 @@
         }
       }
 
+      @if (activeTab() === 'companies' && loaded().companies && !loadError()) {
+        <div class="section-toolbar">
+          <button type="button" class="btn btn-primary btn-sm" (click)="openCreate('company')">
+            <app-icon name="plus" /> {{ t()?.newItem }}
+          </button>
+        </div>
+        @if (companies().length === 0) {
+          <p class="admin-state">{{ t()?.emptyCompanies }}</p>
+        } @else {
+          <div class="search-bar">
+            <app-icon name="search" />
+            <input type="search" [value]="search()" (input)="onSearch($event)" [placeholder]="t()?.searchCompanies" />
+          </div>
+          @if (filteredCompanies().length === 0) {
+            <p class="admin-state">{{ t()?.noResults }} "{{ search() }}".</p>
+          } @else {
+            <div class="cards">
+              @for (co of filteredCompanies(); track co.id) {
+                <article class="record">
+                  <div class="record-head">
+                    <div><h3>{{ co.name }}</h3></div>
+                    <div class="record-meta">
+                      <span class="record-date">{{ formatDate(co.createdAt) }}</span>
+                    </div>
+                  </div>
+                  @if (co.website || co.notes) {
+                    <dl class="record-rows">
+                      @if (co.website) {
+                        <div>
+                          <dt>{{ t()?.fieldWebsite }}</dt>
+                          <dd><a [href]="co.website" target="_blank" rel="noopener">{{ co.website }}</a></dd>
+                        </div>
+                      }
+                      @if (co.notes) {
+                        <div><dt>{{ t()?.fieldNotes }}</dt><dd>{{ co.notes }}</dd></div>
+                      }
+                    </dl>
+                  }
+                  <div class="record-actions">
+                    <button type="button" class="record-action" (click)="editCompany(co)">
+                      <app-icon name="edit" /> {{ t()?.editItem }}
+                    </button>
+                    <button type="button" class="record-action danger" (click)="deleteCompany(co.id)">
+                      <app-icon name="trash" /> {{ t()?.deleteItem }}
+                    </button>
+                  </div>
+                </article>
+              }
+            </div>
+          }
+        }
+      }
+
       @if (activeTab() === 'account') {
         <div class="account-card">
           <h2>{{ t()?.accountTitle }}</h2>
@@ -429,6 +489,13 @@
         <span class="mobile-dot"></span>
       }
     </button>
+    <button type="button" class="mobile-tab" [class.active]="activeTab() === 'companies'" (click)="setTab('companies')">
+      <app-icon name="badge" />
+      <span>{{ t()?.navCompanies }}</span>
+      @if (loaded().companies && companies().length > 0) {
+        <span class="mobile-dot"></span>
+      }
+    </button>
     <button type="button" class="mobile-tab" [class.active]="activeTab() === 'account'" (click)="setTab('account')">
       <app-icon name="shield" />
       <span>{{ t()?.navAccount }}</span>
@@ -448,10 +515,18 @@
           </div>
           <div class="field">
             <label>{{ t()?.fieldCompany }}</label>
-            <input type="text" formControlName="company" />
+            <input type="text" formControlName="company" list="company-list" autocomplete="off" />
+            <datalist id="company-list">
+              @for (cname of companyNames(); track cname) {
+                <option [value]="cname"></option>
+              }
+            </datalist>
             @if (ctrlInvalid(leadForm, 'company')) {
               <span class="field-error">{{ lang() === 'es' ? 'Obligatorio' : 'Required' }}</span>
             }
+            <button type="button" class="link-btn" (click)="openCreate('company')">
+              <app-icon name="plus" /> {{ t()?.registerCompany }}
+            </button>
           </div>
           <div class="field">
             <label>{{ r()?.email }}</label>
@@ -632,6 +707,38 @@
           <div class="field span-2">
             <label>{{ r()?.message }}</label>
             <textarea formControlName="message"></textarea>
+          </div>
+        </div>
+        @if (modalError()) {
+          <p class="form-error">{{ t()?.formError }}</p>
+        }
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="modalSubmitting()">
+            {{ modalSubmitting() ? t()?.saving : t()?.save }}
+          </button>
+        </div>
+      </form>
+    </app-modal-shell>
+  }
+
+  @if (modalEntity() === 'company') {
+    <app-modal-shell [title]="modalTitle()" [closeLabel]="t()?.cancel ?? ''" (dismiss)="closeModal()">
+      <form [formGroup]="companyForm" (ngSubmit)="saveCompany()" novalidate>
+        <div class="form-grid cols-2">
+          <div class="field span-2">
+            <label>{{ t()?.fieldCompany }}</label>
+            <input type="text" formControlName="name" />
+            @if (ctrlInvalid(companyForm, 'name')) {
+              <span class="field-error">{{ lang() === 'es' ? 'Obligatorio' : 'Required' }}</span>
+            }
+          </div>
+          <div class="field span-2">
+            <label>{{ t()?.fieldWebsite }}</label>
+            <input type="url" formControlName="website" placeholder="https://" />
+          </div>
+          <div class="field span-2">
+            <label>{{ t()?.fieldNotes }}</label>
+            <textarea formControlName="notes"></textarea>
           </div>
         </div>
         @if (modalError()) {

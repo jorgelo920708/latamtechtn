@@ -84,6 +84,20 @@ export interface AdminContactInput {
   status?: string;
 }
 
+export interface Company {
+  id: string;
+  name: string;
+  website?: string | null;
+  notes?: string | null;
+  createdAt: string;
+}
+
+export interface AdminCompanyInput {
+  name: string;
+  website?: string;
+  notes?: string;
+}
+
 const ADMIN_LOGIN = gql`
   mutation AdminLogin($input: LoginInput!) {
     adminLogin(input: $input) {
@@ -205,6 +219,27 @@ const ADMIN_DELETE_CANDIDATE = gql`
     adminDeleteCandidate(id: $id) { id }
   }
 `;
+const COMPANIES = gql`
+  query Companies {
+    companies { id name website notes createdAt }
+  }
+`;
+const ADMIN_CREATE_COMPANY = gql`
+  mutation AdminCreateCompany($input: AdminCompanyInput!) {
+    adminCreateCompany(input: $input) { id }
+  }
+`;
+const ADMIN_UPDATE_COMPANY = gql`
+  mutation AdminUpdateCompany($id: ID!, $input: AdminCompanyInput!) {
+    adminUpdateCompany(id: $id, input: $input) { id }
+  }
+`;
+const ADMIN_DELETE_COMPANY = gql`
+  mutation AdminDeleteCompany($id: ID!) {
+    adminDeleteCompany(id: $id) { id }
+  }
+`;
+
 const ADMIN_CREATE_CONTACT = gql`
   mutation AdminCreateContact($input: AdminContactInput!) {
     adminCreateContact(input: $input) { id }
@@ -346,5 +381,20 @@ export class AdminService {
   }
   deleteContact(id: string) {
     return this.run(ADMIN_DELETE_CONTACT, { id });
+  }
+
+  getCompanies() {
+    return this.apollo
+      .query<{ companies: Company[] }>({ query: COMPANIES, fetchPolicy: 'network-only' })
+      .pipe(map((r) => r.data!.companies));
+  }
+  createCompany(input: AdminCompanyInput) {
+    return this.run(ADMIN_CREATE_COMPANY, { input });
+  }
+  updateCompany(id: string, input: AdminCompanyInput) {
+    return this.run(ADMIN_UPDATE_COMPANY, { id, input });
+  }
+  deleteCompany(id: string) {
+    return this.run(ADMIN_DELETE_COMPANY, { id });
   }
 }

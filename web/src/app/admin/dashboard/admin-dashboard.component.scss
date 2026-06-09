@@ -705,6 +705,30 @@
   margin-bottom: 16px;
 }
 
+.link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--brand-blue);
+  font-weight: 600;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.link-btn app-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.link-btn:hover {
+  text-decoration: underline;
+}
+
 .btn-sm {
   padding: 9px 16px;
   font-size: 0.86rem;
@@ -814,21 +838,21 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  padding: 8px 1px 7px;
+  gap: 3px;
+  padding: 7px 1px 6px;
   border: 0;
   background: transparent;
-  border-radius: 14px;
+  border-radius: 12px;
   color: var(--muted);
-  font-size: 0.6rem;
+  font-size: 0.54rem;
   font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
 }
 
 .mobile-tab app-icon {
-  width: 21px;
-  height: 21px;
+  width: 19px;
+  height: 19px;
 }
 
 .mobile-tab.active {

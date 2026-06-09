@@ -1032,6 +1032,13 @@
       "fieldCompany": "Company",
       "fieldStatus": "Status",
       "formError": "Couldn't save. Check the fields.",
+      "navCompanies": "Companies",
+      "titleCompanies": "Companies",
+      "emptyCompanies": "No companies yet. Add the first one.",
+      "searchCompanies": "Search company…",
+      "fieldWebsite": "Website",
+      "fieldNotes": "Notes",
+      "registerCompany": "Register new company",
       "records": {
         "email": "Email",
         "phone": "Phone",

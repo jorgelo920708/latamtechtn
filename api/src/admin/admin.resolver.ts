@@ -4,6 +4,8 @@ import { AdminGuard } from '../auth/auth.guard';
 import { TalentLeadFacade } from '../talent-lead/talent-lead.facade';
 import { CandidateApplicationFacade } from '../candidate-application/candidate-application.facade';
 import { ContactRequestFacade } from '../contact-request/contact-request.facade';
+import { CompanyFacade } from '../company/company.facade';
+import { AdminCompanyInput, CompanyType } from '../company/company.dto';
 import { AdminLeadInput, TalentLeadType } from '../talent-lead/talent-lead.dto';
 import {
   AdminCandidateInput,
@@ -21,6 +23,7 @@ export class AdminResolver {
     private readonly talentLeadFacade: TalentLeadFacade,
     private readonly candidateApplicationFacade: CandidateApplicationFacade,
     private readonly contactRequestFacade: ContactRequestFacade,
+    private readonly companyFacade: CompanyFacade,
   ) {}
 
   @Query(() => [TalentLeadType])
@@ -36,6 +39,29 @@ export class AdminResolver {
   @Query(() => [ContactRequestType])
   contactRequests() {
     return this.contactRequestFacade.findAll();
+  }
+
+  @Query(() => [CompanyType])
+  companies() {
+    return this.companyFacade.findAll();
+  }
+
+  @Mutation(() => CompanyType)
+  adminCreateCompany(@Args('input') input: AdminCompanyInput) {
+    return this.companyFacade.create(input);
+  }
+
+  @Mutation(() => CompanyType)
+  adminUpdateCompany(
+    @Args('id', { type: () => ID }) id: string,
+    @Args('input') input: AdminCompanyInput,
+  ) {
+    return this.companyFacade.update(id, input);
+  }
+
+  @Mutation(() => CompanyType)
+  adminDeleteCompany(@Args('id', { type: () => ID }) id: string) {
+    return this.companyFacade.remove(id);
   }
 
   @Mutation(() => TalentLeadType)

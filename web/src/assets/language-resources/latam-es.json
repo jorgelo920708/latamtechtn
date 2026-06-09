@@ -1032,6 +1032,13 @@
       "fieldCompany": "Empresa",
       "fieldStatus": "Estado",
       "formError": "No se pudo guardar. Revisa los campos.",
+      "navCompanies": "Empresas",
+      "titleCompanies": "Empresas",
+      "emptyCompanies": "Todavía no hay empresas. Agrega la primera.",
+      "searchCompanies": "Buscar empresa…",
+      "fieldWebsite": "Sitio web",
+      "fieldNotes": "Notas",
+      "registerCompany": "Registrar nueva empresa",
       "records": {
         "email": "Email",
         "phone": "Teléfono",

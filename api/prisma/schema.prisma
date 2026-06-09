@@ -72,6 +72,17 @@ model CandidateApplication {
   @@index([createdAt])
 }
 
+model Company {
+  id        String   @id @default(uuid())
+  name      String
+  website   String?
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
+}
+
 model CvFile {
   id        String   @id @default(uuid())
   filename  String

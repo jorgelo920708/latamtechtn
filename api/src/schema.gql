@@ -24,6 +24,12 @@ input AdminCandidateInput {
   yearsExperience: String
 }
 
+input AdminCompanyInput {
+  name: String!
+  notes: String
+  website: String
+}
+
 input AdminContactInput {
   email: String!
   message: String!
@@ -79,6 +85,15 @@ type CandidateApplicationType {
 input ChangePasswordInput {
   currentPassword: String!
   newPassword: String!
+}
+
+type CompanyType {
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  notes: String
+  updatedAt: DateTime!
+  website: String
 }
 
 type ContactRequestType {
@@ -148,13 +163,16 @@ input LoginInput {
 
 type Mutation {
   adminCreateCandidate(input: AdminCandidateInput!): CandidateApplicationType!
+  adminCreateCompany(input: AdminCompanyInput!): CompanyType!
   adminCreateContact(input: AdminContactInput!): ContactRequestType!
   adminCreateTalentLead(input: AdminLeadInput!): TalentLeadType!
   adminDeleteCandidate(id: ID!): CandidateApplicationType!
+  adminDeleteCompany(id: ID!): CompanyType!
   adminDeleteContact(id: ID!): ContactRequestType!
   adminDeleteTalentLead(id: ID!): TalentLeadType!
   adminLogin(input: LoginInput!): AuthPayloadType!
   adminUpdateCandidate(id: ID!, input: AdminCandidateInput!): CandidateApplicationType!
+  adminUpdateCompany(id: ID!, input: AdminCompanyInput!): CompanyType!
   adminUpdateContact(id: ID!, input: AdminContactInput!): ContactRequestType!
   adminUpdateTalentLead(id: ID!, input: AdminLeadInput!): TalentLeadType!
   changePassword(input: ChangePasswordInput!): AdminType!
@@ -172,6 +190,7 @@ type PublicStatsType {
 
 type Query {
   candidateApplications: [CandidateApplicationType!]!
+  companies: [CompanyType!]!
   contactRequests: [ContactRequestType!]!
   featuredCandidates: [FeaturedCandidateType!]!
   health: String!

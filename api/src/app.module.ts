@@ -12,6 +12,7 @@ import { ContactRequestModule } from './contact-request/contact-request.module';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
 import { StatsModule } from './stats/stats.module';
+import { CompanyModule } from './company/company.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { StatsModule } from './stats/stats.module';
     AuthModule,
     MailModule,
     StatsModule,
+    CompanyModule,
   ],
   controllers: [AppController, CvController],
   providers: [AppResolver, PrismaService],

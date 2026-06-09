@@ -10,6 +10,7 @@ import { PrismaService } from '../prisma.service';
 import { TalentLeadModule } from '../talent-lead/talent-lead.module';
 import { CandidateApplicationModule } from '../candidate-application/candidate-application.module';
 import { ContactRequestModule } from '../contact-request/contact-request.module';
+import { CompanyModule } from '../company/company.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ContactRequestModule } from '../contact-request/contact-request.module'
     TalentLeadModule,
     CandidateApplicationModule,
     ContactRequestModule,
+    CompanyModule,
   ],
   providers: [
     AuthResolver,

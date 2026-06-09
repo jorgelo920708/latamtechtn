@@ -5,10 +5,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import {
   AdminCandidateInput,
+  AdminCompanyInput,
   AdminContactInput,
   AdminLeadInput,
   AdminService,
   CandidateApplication,
+  Company,
   ContactRequest,
   TalentLead,
 } from '../admin.service';
@@ -19,9 +21,9 @@ import { IconComponent } from '../../shared/components/icon/icon.component';
 import { ModalShellComponent } from '../../shared/components/modal-shell/modal-shell.component';
 import { Observable } from 'rxjs';
 
-type Tab = 'overview' | 'leads' | 'candidates' | 'contacts' | 'account';
-type DataTab = 'leads' | 'candidates' | 'contacts';
-type ModalEntity = 'lead' | 'candidate' | 'contact';
+type Tab = 'overview' | 'leads' | 'candidates' | 'contacts' | 'companies' | 'account';
+type DataTab = 'leads' | 'candidates' | 'contacts' | 'companies';
+type ModalEntity = 'lead' | 'candidate' | 'contact' | 'company';
 
 interface ActivityItem {
   kind: string;
@@ -67,7 +69,10 @@ export class AdminDashboardComponent implements OnInit {
   leads = signal<TalentLead[]>([]);
   candidates = signal<CandidateApplication[]>([]);
   contacts = signal<ContactRequest[]>([]);
-  loaded = signal({ leads: false, candidates: false, contacts: false });
+  companies = signal<Company[]>([]);
+  loaded = signal({ leads: false, candidates: false, contacts: false, companies: false });
+
+  readonly companyNames = computed(() => this.companies().map((c) => c.name));
 
   search = signal('');
 
@@ -101,6 +106,12 @@ export class AdminDashboardComponent implements OnInit {
     const q = this.search().trim().toLowerCase();
     if (!q) return this.contacts();
     return this.contacts().filter((c) => this.match(q, [c.name, c.email, c.message]));
+  });
+
+  filteredCompanies = computed(() => {
+    const q = this.search().trim().toLowerCase();
+    if (!q) return this.companies();
+    return this.companies().filter((c) => this.match(q, [c.name, c.website, c.notes]));
   });
 
   allLoaded = computed(
@@ -195,10 +206,17 @@ export class AdminDashboardComponent implements OnInit {
     message: ['', Validators.required],
   });
 
+  companyForm = this.fb.nonNullable.group({
+    name: ['', Validators.required],
+    website: [''],
+    notes: [''],
+  });
+
   ngOnInit(): void {
     this.loadLeads();
     this.loadCandidates();
     this.loadContacts();
+    this.loadCompanies();
   }
 
   setTab(tab: Tab): void {
@@ -222,6 +240,8 @@ export class AdminDashboardComponent implements OnInit {
         return t.titleCandidates;
       case 'contacts':
         return t.titleContacts;
+      case 'companies':
+        return t.titleCompanies;
       default:
         return t.titleAccount;
     }
@@ -248,7 +268,8 @@ export class AdminDashboardComponent implements OnInit {
     this.modalError.set(false);
     if (entity === 'lead') this.leadForm.reset();
     else if (entity === 'candidate') this.candidateForm.reset({ phoneCode: '+52' });
-    else this.contactForm.reset();
+    else if (entity === 'contact') this.contactForm.reset();
+    else this.companyForm.reset();
     this.modalEntity.set(entity);
   }
 
@@ -315,7 +336,9 @@ export class AdminDashboardComponent implements OnInit {
         ? t.navLeads
         : this.modalEntity() === 'candidate'
           ? t.navCandidates
-          : t.navContacts;
+          : this.modalEntity() === 'contact'
+            ? t.navContacts
+            : t.navCompanies;
     return `${action} · ${section}`;
   }
 
@@ -410,6 +433,43 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
+  editCompany(company: Company): void {
+    this.editingId.set(company.id);
+    this.modalError.set(false);
+    this.companyForm.setValue({
+      name: company.name,
+      website: company.website ?? '',
+      notes: company.notes ?? '',
+    });
+    this.modalEntity.set('company');
+  }
+
+  saveCompany(): void {
+    if (this.companyForm.invalid) {
+      this.companyForm.markAllAsTouched();
+      return;
+    }
+    const raw = this.companyForm.getRawValue();
+    const input: AdminCompanyInput = {
+      name: raw.name.trim(),
+      website: raw.website.trim() || undefined,
+      notes: raw.notes.trim() || undefined,
+    };
+    const id = this.editingId();
+    this.persist(
+      id ? this.adminService.updateCompany(id, input) : this.adminService.createCompany(input),
+      () => this.loadCompanies(),
+    );
+  }
+
+  deleteCompany(id: string): void {
+    if (!this.confirmDelete()) return;
+    this.adminService.deleteCompany(id).subscribe({
+      next: () => this.loadCompanies(),
+      error: (err) => this.handleError(err),
+    });
+  }
+
   private confirmDelete(): boolean {
     return window.confirm(this.t()?.deleteConfirm ?? '¿Eliminar este registro?');
   }
@@ -469,6 +529,7 @@ export class AdminDashboardComponent implements OnInit {
     if (tab === 'leads') this.loadLeads();
     else if (tab === 'candidates') this.loadCandidates();
     else if (tab === 'contacts') this.loadContacts();
+    else if (tab === 'companies') this.loadCompanies();
   }
 
   isTabLoading(): boolean {
@@ -504,6 +565,16 @@ export class AdminDashboardComponent implements OnInit {
       next: (data) => {
         this.contacts.set(data);
         this.markLoaded('contacts');
+      },
+      error: (err) => this.handleError(err),
+    });
+  }
+
+  loadCompanies(): void {
+    this.adminService.getCompanies().subscribe({
+      next: (data) => {
+        this.companies.set(data);
+        this.markLoaded('companies');
       },
       error: (err) => this.handleError(err),
     });
