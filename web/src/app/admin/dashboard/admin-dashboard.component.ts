@@ -143,6 +143,8 @@ export class AdminDashboardComponent implements OnInit {
   pwSubmitting = signal(false);
   pwSuccess = signal(false);
   pwError = signal<string | null>(null);
+  resetSending = signal(false);
+  resetSent = signal(false);
 
   pwForm = this.fb.nonNullable.group({
     currentPassword: ['', Validators.required],
@@ -522,6 +524,23 @@ export class AdminDashboardComponent implements OnInit {
             ? (copy?.errorCurrent ?? '')
             : (copy?.errorGeneric ?? ''),
         );
+      },
+    });
+  }
+
+  sendResetLink(): void {
+    const email = this.email();
+    if (!email) return;
+    this.resetSending.set(true);
+    this.resetSent.set(false);
+    this.adminService.requestPasswordReset(email).subscribe({
+      next: () => {
+        this.resetSending.set(false);
+        this.resetSent.set(true);
+      },
+      error: () => {
+        this.resetSending.set(false);
+        this.resetSent.set(true);
       },
     });
   }

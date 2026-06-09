@@ -769,6 +769,26 @@
   font-size: 0.85rem;
 }
 
+.account-card + .account-card {
+  margin-top: 18px;
+}
+
+.account-lead {
+  margin: 6px 0 18px;
+  line-height: 1.5;
+}
+
+.account-card .btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.account-card .btn-ghost app-icon {
+  width: 16px;
+  height: 16px;
+}
+
 /* ===== Mobile floating nav ===== */
 .admin-mobile-nav {
   position: fixed;

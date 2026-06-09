@@ -104,6 +104,11 @@ export interface AdminDashboardCopy {
   saved: string;
   errorCurrent: string;
   errorGeneric: string;
+  resetByEmailTitle: string;
+  resetByEmailText: string;
+  resetByEmailBtn: string;
+  resetByEmailSending: string;
+  resetByEmailSent: string;
   yes: string;
   no: string;
   newItem: string;

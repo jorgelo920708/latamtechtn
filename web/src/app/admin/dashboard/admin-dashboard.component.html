@@ -381,6 +381,24 @@
             </button>
           </form>
         </div>
+
+        <div class="account-card">
+          <h2>{{ t()?.resetByEmailTitle }}</h2>
+          <p class="field-hint account-lead">{{ t()?.resetByEmailText }}</p>
+          @if (resetSent()) {
+            <p class="form-ok">{{ t()?.resetByEmailSent }}</p>
+          } @else {
+            <button
+              type="button"
+              class="btn btn-ghost"
+              (click)="sendResetLink()"
+              [disabled]="resetSending()"
+            >
+              <app-icon name="mail" />
+              {{ resetSending() ? t()?.resetByEmailSending : t()?.resetByEmailBtn }}
+            </button>
+          }
+        </div>
       }
     </main>
   </div>
