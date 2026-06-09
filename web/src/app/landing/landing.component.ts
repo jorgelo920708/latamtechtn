@@ -40,7 +40,7 @@ export class LandingComponent implements OnInit {
     .getObservableSlice<LatamCopyModel>(LATAM_COPY_ID)
     .pipe(map((copy) => copy?.landing));
 
-  activeFilter = signal('cloud');
+  activeFilter = signal('software');
   modal = signal<ModalKind>(null);
   mobileNavOpen = signal(false);
   stats = signal<PublicStats | null>(null);

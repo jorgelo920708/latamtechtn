@@ -28,60 +28,237 @@
       "mapLabel": "Talento en +18 países de LATAM"
     },
     "metrics": [
-      { "icon": "users", "value": "500+", "label": "Candidatos Activos" },
-      { "icon": "layers", "value": "8", "label": "Especialidades" },
-      { "icon": "globe", "value": "LATAM", "label": "Cobertura Regional" },
-      { "icon": "cap", "value": "B2-C2", "label": "Nivel de Inglés" },
-      { "icon": "clock", "value": "48h", "label": "Tiempo Promedio de Presentación" }
+      {
+        "icon": "users",
+        "value": "500+",
+        "label": "Candidatos Activos"
+      },
+      {
+        "icon": "layers",
+        "value": "8",
+        "label": "Especialidades"
+      },
+      {
+        "icon": "globe",
+        "value": "LATAM",
+        "label": "Cobertura Regional"
+      },
+      {
+        "icon": "cap",
+        "value": "B2-C2",
+        "label": "Nivel de Inglés"
+      },
+      {
+        "icon": "clock",
+        "value": "48h",
+        "label": "Tiempo Promedio de Presentación"
+      }
     ],
     "specialties": {
       "title": "Nuestras Especialidades",
-      "subtitle": "Cubrimos perfiles tech y de negocio en toda la región.",
+      "subtitle": "Cubrimos perfiles tech y de negocio en toda LATAM.",
       "categories": [
-        { "icon": "code", "title": "Software Engineering", "items": ["Full Stack", "Frontend", "Backend", "Mobile"] },
-        { "icon": "database", "title": "Data & AI", "items": ["Data Engineer", "Data Analyst", "Data Scientist", "AI Engineer"] },
-        { "icon": "cloud", "title": "Cloud / DevOps / Infra", "items": ["DevOps", "Cloud", "Infrastructure", "Networking", "Technical Support"] },
-        { "icon": "shield", "title": "Cybersecurity", "items": ["Cybersecurity"] },
-        { "icon": "check", "title": "QA", "items": ["QA Manual", "QA Automation"] },
-        { "icon": "rocket", "title": "Product & PM", "items": ["Product Manager", "Product Owner", "Project Manager", "Scrum Master", "Business Analyst", "Functional Analyst"] },
-        { "icon": "layers", "title": "Salesforce", "items": ["Salesforce Developer", "Salesforce Admin", "Salesforce Consultant"] },
-        { "icon": "spark", "title": "Marketing & SEO", "items": ["Digital Marketing", "SEO", "Local SEO", "Link Building", "Content"] },
-        { "icon": "briefcase", "title": "Sales & Account Management", "items": ["SDR", "BDR", "Account Manager", "Sales Manager"] },
-        { "icon": "badge", "title": "Finance & Admin", "items": ["Finance", "Accounting", "CPA", "Financial Analyst", "Executive Assistant"] },
-        { "icon": "users", "title": "HR & Recruiting", "items": ["Recruiter", "IT Recruiter", "Talent Acquisition", "HRBP", "People Partner"] }
+        {
+          "icon": "code",
+          "title": "Software Engineering",
+          "items": [
+            "Full Stack",
+            "Frontend",
+            "Backend",
+            "Mobile"
+          ]
+        },
+        {
+          "icon": "database",
+          "title": "Data & AI",
+          "items": [
+            "Data Engineer",
+            "Data Analyst",
+            "Data Scientist",
+            "AI Engineer"
+          ]
+        },
+        {
+          "icon": "cloud",
+          "title": "Cloud / DevOps / Infra",
+          "items": [
+            "DevOps",
+            "Cloud",
+            "Infrastructure",
+            "Networking",
+            "Technical Support"
+          ]
+        },
+        {
+          "icon": "shield",
+          "title": "Cybersecurity",
+          "items": [
+            "Cybersecurity"
+          ]
+        },
+        {
+          "icon": "check",
+          "title": "QA",
+          "items": [
+            "QA Manual",
+            "QA Automation"
+          ]
+        },
+        {
+          "icon": "rocket",
+          "title": "Product & PM",
+          "items": [
+            "Product Manager",
+            "Product Owner",
+            "Project Manager",
+            "Scrum Master",
+            "Business Analyst",
+            "Functional Analyst"
+          ]
+        },
+        {
+          "icon": "layers",
+          "title": "Salesforce",
+          "items": [
+            "Salesforce Developer",
+            "Salesforce Admin",
+            "Salesforce Consultant"
+          ]
+        },
+        {
+          "icon": "spark",
+          "title": "Marketing & SEO",
+          "items": [
+            "Digital Marketing",
+            "SEO",
+            "Local SEO",
+            "Link Building",
+            "Content"
+          ]
+        },
+        {
+          "icon": "briefcase",
+          "title": "Sales & Account Management",
+          "items": [
+            "SDR",
+            "BDR",
+            "Account Manager",
+            "Sales Manager"
+          ]
+        },
+        {
+          "icon": "badge",
+          "title": "Finance & Admin",
+          "items": [
+            "Finance",
+            "Accounting",
+            "CPA",
+            "Financial Analyst",
+            "Executive Assistant"
+          ]
+        },
+        {
+          "icon": "users",
+          "title": "HR & Recruiting",
+          "items": [
+            "Recruiter",
+            "IT Recruiter",
+            "Talent Acquisition",
+            "HRBP",
+            "People Partner"
+          ]
+        }
       ]
     },
     "talent": {
       "title": "Talento Destacado",
       "filters": [
-        { "key": "cloud", "label": "Cloud & DevOps", "icon": "cloud" },
-        { "key": "data", "label": "Data Engineering", "icon": "database" },
-        { "key": "product", "label": "Product & Leadership", "icon": "rocket" },
-        { "key": "software", "label": "Software Development", "icon": "code" },
-        { "key": "qa", "label": "QA Automation", "icon": "search" }
+        {
+          "key": "software",
+          "label": "Software Engineering",
+          "icon": "code"
+        },
+        {
+          "key": "data",
+          "label": "Data & AI",
+          "icon": "database"
+        },
+        {
+          "key": "cloud",
+          "label": "Cloud / DevOps / Infra",
+          "icon": "cloud"
+        },
+        {
+          "key": "security",
+          "label": "Cybersecurity",
+          "icon": "shield"
+        },
+        {
+          "key": "qa",
+          "label": "QA",
+          "icon": "check"
+        },
+        {
+          "key": "product",
+          "label": "Product & PM",
+          "icon": "rocket"
+        },
+        {
+          "key": "salesforce",
+          "label": "Salesforce",
+          "icon": "layers"
+        },
+        {
+          "key": "marketing",
+          "label": "Marketing & SEO",
+          "icon": "spark"
+        },
+        {
+          "key": "sales",
+          "label": "Sales & Account Management",
+          "icon": "briefcase"
+        },
+        {
+          "key": "finance",
+          "label": "Finance & Admin",
+          "icon": "badge"
+        },
+        {
+          "key": "hr",
+          "label": "HR & Recruiting",
+          "icon": "users"
+        }
       ],
       "englishLabel": "Inglés",
       "stackLabel": "Stack",
       "categories": {
-        "cloud": [
+        "software": [
           {
             "code": "Candidato #01",
             "topRank": true,
             "topRankLabel": "Top Rank",
-            "role": "Senior DevOps Engineer",
+            "role": "Lead / Full Stack Engineer",
             "location": "Montevideo, Uruguay",
             "english": "C2",
-            "stack": ["Linux", "AWS", "Kubernetes", "Terraform"],
+            "stack": [
+              ".NET",
+              "Node",
+              "TypeScript"
+            ],
             "action": "Ver Perfil"
           },
           {
             "code": "Candidato #02",
             "topRank": false,
             "topRankLabel": "",
-            "role": "Senior Solutions Architect",
-            "location": "Ciudad de México, México",
+            "role": "Mid-Senior Backend Engineer",
+            "location": "CABA, Argentina",
             "english": "C1",
-            "stack": ["Python", "Java", "AWS"],
+            "stack": [
+              "Python",
+              "AWS",
+              "Node"
+            ],
             "action": "Ver Perfil"
           }
         ],
@@ -93,61 +270,87 @@
             "role": "Senior Data Engineer",
             "location": "Guadalajara, México",
             "english": "C2",
-            "stack": ["Power BI", "Python", "Cloud Data", "SQL"],
+            "stack": [
+              "Python",
+              "SQL",
+              "Cloud Data",
+              "Power BI"
+            ],
             "action": "Ver Perfil"
           },
           {
             "code": "Candidato #04",
             "topRank": false,
             "topRankLabel": "",
-            "role": "Senior Data Engineer",
+            "role": "Data Scientist / AI Engineer",
             "location": "Río de Janeiro, Brasil",
-            "english": "C2",
-            "stack": ["Python", "AWS", "PySpark"],
+            "english": "C1",
+            "stack": [
+              "Python",
+              "PyTorch",
+              "PySpark"
+            ],
             "action": "Ver Perfil"
           }
         ],
-        "product": [
+        "cloud": [
           {
             "code": "Candidato #05",
-            "topRank": false,
-            "topRankLabel": "",
-            "role": "Senior Product Manager (Híbrido UI/UX)",
-            "location": "Buenos Aires, Argentina",
+            "topRank": true,
+            "topRankLabel": "Top Rank",
+            "role": "Senior DevOps Engineer",
+            "location": "Montevideo, Uruguay",
             "english": "C2",
-            "stack": ["React", "Node", "Diseño UI/UX"],
+            "stack": [
+              "AWS",
+              "Kubernetes",
+              "Terraform",
+              "Linux"
+            ],
             "action": "Ver Perfil"
           },
           {
             "code": "Candidato #06",
-            "topRank": true,
-            "topRankLabel": "Top Rank",
-            "role": "Director of Product / VP",
+            "topRank": false,
+            "topRankLabel": "",
+            "role": "Cloud / Infrastructure Engineer",
             "location": "Ciudad de México, México",
-            "english": "C2",
-            "stack": ["Python", "AWS", "Agile Leadership"],
+            "english": "C1",
+            "stack": [
+              "Azure",
+              "Networking",
+              "Linux"
+            ],
             "action": "Ver Perfil"
           }
         ],
-        "software": [
+        "security": [
           {
             "code": "Candidato #07",
-            "topRank": true,
-            "topRankLabel": "Top Rank",
-            "role": "Lead / Full Stack Engineer",
-            "location": "Montevideo, Uruguay",
-            "english": "C2",
-            "stack": [".NET", "Node", "TypeScript"],
+            "topRank": false,
+            "topRankLabel": "",
+            "role": "Cybersecurity Engineer",
+            "location": "Bogotá, Colombia",
+            "english": "C1",
+            "stack": [
+              "SIEM",
+              "Pentesting",
+              "Cloud Security"
+            ],
             "action": "Ver Perfil"
           },
           {
             "code": "Candidato #08",
-            "topRank": false,
-            "topRankLabel": "",
-            "role": "Mid-Senior Backend Engineer",
-            "location": "CABA, Argentina",
+            "topRank": true,
+            "topRankLabel": "Top Rank",
+            "role": "Security Analyst (SOC)",
+            "location": "Santiago, Chile",
             "english": "C2",
-            "stack": ["Python", "AWS", "React", "Node"],
+            "stack": [
+              "SOC",
+              "Incident Response",
+              "SIEM"
+            ],
             "action": "Ver Perfil"
           }
         ],
@@ -156,20 +359,207 @@
             "code": "Candidato #09",
             "topRank": false,
             "topRankLabel": "",
-            "role": "Senior QA Automation Engineer",
+            "role": "QA Automation Engineer",
             "location": "Cascavel, Brasil",
             "english": "C1",
-            "stack": ["Playwright", "TypeScript"],
+            "stack": [
+              "Playwright",
+              "TypeScript"
+            ],
             "action": "Ver Perfil"
           },
           {
             "code": "Candidato #10",
             "topRank": false,
             "topRankLabel": "",
-            "role": "QA Automation Engineer",
+            "role": "QA Manual & Automation",
             "location": "Santa Fe, Argentina",
-            "english": "B2/C1",
-            "stack": ["Java", "Selenium", "RESTAssured"],
+            "english": "B2",
+            "stack": [
+              "Selenium",
+              "Java",
+              "RESTAssured"
+            ],
+            "action": "Ver Perfil"
+          }
+        ],
+        "product": [
+          {
+            "code": "Candidato #11",
+            "topRank": true,
+            "topRankLabel": "Top Rank",
+            "role": "Senior Product Manager",
+            "location": "Buenos Aires, Argentina",
+            "english": "C2",
+            "stack": [
+              "Agile",
+              "UX",
+              "Roadmapping"
+            ],
+            "action": "Ver Perfil"
+          },
+          {
+            "code": "Candidato #12",
+            "topRank": false,
+            "topRankLabel": "",
+            "role": "Project Manager / Scrum Master",
+            "location": "Lima, Perú",
+            "english": "C1",
+            "stack": [
+              "Scrum",
+              "Jira",
+              "Stakeholders"
+            ],
+            "action": "Ver Perfil"
+          }
+        ],
+        "salesforce": [
+          {
+            "code": "Candidato #13",
+            "topRank": false,
+            "topRankLabel": "",
+            "role": "Salesforce Developer",
+            "location": "Medellín, Colombia",
+            "english": "C1",
+            "stack": [
+              "Apex",
+              "LWC",
+              "SOQL"
+            ],
+            "action": "Ver Perfil"
+          },
+          {
+            "code": "Candidato #14",
+            "topRank": true,
+            "topRankLabel": "Top Rank",
+            "role": "Salesforce Consultant",
+            "location": "Ciudad de México, México",
+            "english": "C2",
+            "stack": [
+              "Sales Cloud",
+              "Service Cloud",
+              "Flows"
+            ],
+            "action": "Ver Perfil"
+          }
+        ],
+        "marketing": [
+          {
+            "code": "Candidato #15",
+            "topRank": false,
+            "topRankLabel": "",
+            "role": "Digital Marketing Specialist",
+            "location": "Guadalajara, México",
+            "english": "C1",
+            "stack": [
+              "SEO",
+              "Google Ads",
+              "Analytics"
+            ],
+            "action": "Ver Perfil"
+          },
+          {
+            "code": "Candidato #16",
+            "topRank": true,
+            "topRankLabel": "Top Rank",
+            "role": "SEO & Content Lead",
+            "location": "Buenos Aires, Argentina",
+            "english": "C2",
+            "stack": [
+              "Technical SEO",
+              "Link Building",
+              "Content"
+            ],
+            "action": "Ver Perfil"
+          }
+        ],
+        "sales": [
+          {
+            "code": "Candidato #17",
+            "topRank": true,
+            "topRankLabel": "Top Rank",
+            "role": "Account Manager",
+            "location": "Bogotá, Colombia",
+            "english": "C2",
+            "stack": [
+              "B2B Sales",
+              "CRM",
+              "Negotiation"
+            ],
+            "action": "Ver Perfil"
+          },
+          {
+            "code": "Candidato #18",
+            "topRank": false,
+            "topRankLabel": "",
+            "role": "SDR / BDR",
+            "location": "Montevideo, Uruguay",
+            "english": "C1",
+            "stack": [
+              "Outbound",
+              "HubSpot",
+              "Prospecting"
+            ],
+            "action": "Ver Perfil"
+          }
+        ],
+        "finance": [
+          {
+            "code": "Candidato #19",
+            "topRank": false,
+            "topRankLabel": "",
+            "role": "Financial Analyst",
+            "location": "Ciudad de México, México",
+            "english": "C1",
+            "stack": [
+              "FP&A",
+              "Excel",
+              "Reporting"
+            ],
+            "action": "Ver Perfil"
+          },
+          {
+            "code": "Candidato #20",
+            "topRank": true,
+            "topRankLabel": "Top Rank",
+            "role": "Accountant / CPA",
+            "location": "São Paulo, Brasil",
+            "english": "C2",
+            "stack": [
+              "US GAAP",
+              "QuickBooks",
+              "Reporting"
+            ],
+            "action": "Ver Perfil"
+          }
+        ],
+        "hr": [
+          {
+            "code": "Candidato #21",
+            "topRank": false,
+            "topRankLabel": "",
+            "role": "IT Recruiter / Talent Acquisition",
+            "location": "Buenos Aires, Argentina",
+            "english": "C1",
+            "stack": [
+              "Sourcing",
+              "ATS",
+              "Tech Hiring"
+            ],
+            "action": "Ver Perfil"
+          },
+          {
+            "code": "Candidato #22",
+            "topRank": true,
+            "topRankLabel": "Top Rank",
+            "role": "HRBP / People Partner",
+            "location": "Santiago, Chile",
+            "english": "C2",
+            "stack": [
+              "People Ops",
+              "Culture",
+              "Onboarding"
+            ],
             "action": "Ver Perfil"
           }
         ]
@@ -184,9 +574,18 @@
       ],
       "cta": "Conocer más sobre mí",
       "highlights": [
-        { "icon": "badge", "text": "+5 años de experiencia en reclutamiento IT" },
-        { "icon": "shield", "text": "Red de talento verificada en LATAM" },
-        { "icon": "spark", "text": "Enfoque en calidad, velocidad y cultura" }
+        {
+          "icon": "badge",
+          "text": "+5 años de experiencia en reclutamiento IT"
+        },
+        {
+          "icon": "shield",
+          "text": "Red de talento verificada en LATAM"
+        },
+        {
+          "icon": "spark",
+          "text": "Enfoque en calidad, velocidad y cultura"
+        }
       ],
       "photoAlt": "Elba Caseres, Talent Acquisition Specialist"
     },
@@ -227,51 +626,251 @@
       "company": {
         "title": "Solicitar Talento",
         "subtitle": "Cuéntanos qué perfil buscas y te presentamos candidatos en 48h.",
-        "name": { "label": "Nombre", "placeholder": "Tu nombre" },
-        "company": { "label": "Empresa", "placeholder": "Nombre de tu empresa" },
-        "email": { "label": "Email corporativo", "placeholder": "nombre@empresa.com" },
-        "role": { "label": "Rol que buscas", "placeholder": "Ej: Senior DevOps Engineer" },
+        "name": {
+          "label": "Nombre",
+          "placeholder": "Tu nombre"
+        },
+        "company": {
+          "label": "Empresa",
+          "placeholder": "Nombre de tu empresa"
+        },
+        "email": {
+          "label": "Email corporativo",
+          "placeholder": "nombre@empresa.com"
+        },
+        "role": {
+          "label": "Rol que buscas",
+          "placeholder": "Ej: Senior DevOps Engineer"
+        },
         "specialty": {
           "label": "Especialidad",
           "placeholder": "Selecciona una especialidad",
-          "options": [
-            "Software Engineering",
-            "Data & AI",
-            "Cloud / DevOps / Infra",
-            "Cybersecurity",
-            "QA",
-            "Product & PM",
-            "Salesforce",
-            "Marketing & SEO",
-            "Sales & Account Management",
-            "Finance & Admin",
-            "HR & Recruiting"
+          "groups": [
+            {
+              "label": "Software Engineering",
+              "items": [
+                "Full Stack",
+                "Frontend",
+                "Backend",
+                "Mobile"
+              ]
+            },
+            {
+              "label": "Data & AI",
+              "items": [
+                "Data Engineer",
+                "Data Analyst",
+                "Data Scientist",
+                "AI Engineer"
+              ]
+            },
+            {
+              "label": "Cloud / DevOps / Infra",
+              "items": [
+                "DevOps",
+                "Cloud",
+                "Infrastructure",
+                "Networking",
+                "Technical Support"
+              ]
+            },
+            {
+              "label": "Cybersecurity",
+              "items": [
+                "Cybersecurity"
+              ]
+            },
+            {
+              "label": "QA",
+              "items": [
+                "QA Manual",
+                "QA Automation"
+              ]
+            },
+            {
+              "label": "Product & PM",
+              "items": [
+                "Product Manager",
+                "Product Owner",
+                "Project Manager",
+                "Scrum Master",
+                "Business Analyst",
+                "Functional Analyst"
+              ]
+            },
+            {
+              "label": "Salesforce",
+              "items": [
+                "Salesforce Developer",
+                "Salesforce Admin",
+                "Salesforce Consultant"
+              ]
+            },
+            {
+              "label": "Marketing & SEO",
+              "items": [
+                "Digital Marketing",
+                "SEO",
+                "Local SEO",
+                "Link Building",
+                "Content"
+              ]
+            },
+            {
+              "label": "Sales & Account Management",
+              "items": [
+                "SDR",
+                "BDR",
+                "Account Manager",
+                "Sales Manager"
+              ]
+            },
+            {
+              "label": "Finance & Admin",
+              "items": [
+                "Finance",
+                "Accounting",
+                "CPA",
+                "Financial Analyst",
+                "Executive Assistant"
+              ]
+            },
+            {
+              "label": "HR & Recruiting",
+              "items": [
+                "Recruiter",
+                "IT Recruiter",
+                "Talent Acquisition",
+                "HRBP",
+                "People Partner"
+              ]
+            }
           ]
         },
-        "message": { "label": "Mensaje", "placeholder": "Cuéntanos más sobre la posición..." },
+        "message": {
+          "label": "Mensaje",
+          "placeholder": "Cuéntanos más sobre la posición..."
+        },
         "submit": "Enviar solicitud"
       },
       "candidate": {
         "title": "Unirse a la Red de Talento",
         "subtitle": "Únete a nuestra red curada de talento tecnológico LATAM.",
-        "fullName": { "label": "Nombre completo", "placeholder": "Tu nombre completo" },
-        "email": { "label": "Email", "placeholder": "nombre@email.com" },
-        "location": { "label": "País / ciudad", "placeholder": "Ej: Bogotá, Colombia" },
+        "fullName": {
+          "label": "Nombre completo",
+          "placeholder": "Tu nombre completo"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "nombre@email.com"
+        },
+        "location": {
+          "label": "País / ciudad",
+          "placeholder": "Ej: Bogotá, Colombia"
+        },
         "specialty": {
           "label": "Especialidad",
           "placeholder": "Selecciona una especialidad",
-          "options": [
-            "Software Engineering",
-            "Data & AI",
-            "Cloud / DevOps / Infra",
-            "Cybersecurity",
-            "QA",
-            "Product & PM",
-            "Salesforce",
-            "Marketing & SEO",
-            "Sales & Account Management",
-            "Finance & Admin",
-            "HR & Recruiting"
+          "groups": [
+            {
+              "label": "Software Engineering",
+              "items": [
+                "Full Stack",
+                "Frontend",
+                "Backend",
+                "Mobile"
+              ]
+            },
+            {
+              "label": "Data & AI",
+              "items": [
+                "Data Engineer",
+                "Data Analyst",
+                "Data Scientist",
+                "AI Engineer"
+              ]
+            },
+            {
+              "label": "Cloud / DevOps / Infra",
+              "items": [
+                "DevOps",
+                "Cloud",
+                "Infrastructure",
+                "Networking",
+                "Technical Support"
+              ]
+            },
+            {
+              "label": "Cybersecurity",
+              "items": [
+                "Cybersecurity"
+              ]
+            },
+            {
+              "label": "QA",
+              "items": [
+                "QA Manual",
+                "QA Automation"
+              ]
+            },
+            {
+              "label": "Product & PM",
+              "items": [
+                "Product Manager",
+                "Product Owner",
+                "Project Manager",
+                "Scrum Master",
+                "Business Analyst",
+                "Functional Analyst"
+              ]
+            },
+            {
+              "label": "Salesforce",
+              "items": [
+                "Salesforce Developer",
+                "Salesforce Admin",
+                "Salesforce Consultant"
+              ]
+            },
+            {
+              "label": "Marketing & SEO",
+              "items": [
+                "Digital Marketing",
+                "SEO",
+                "Local SEO",
+                "Link Building",
+                "Content"
+              ]
+            },
+            {
+              "label": "Sales & Account Management",
+              "items": [
+                "SDR",
+                "BDR",
+                "Account Manager",
+                "Sales Manager"
+              ]
+            },
+            {
+              "label": "Finance & Admin",
+              "items": [
+                "Finance",
+                "Accounting",
+                "CPA",
+                "Financial Analyst",
+                "Executive Assistant"
+              ]
+            },
+            {
+              "label": "HR & Recruiting",
+              "items": [
+                "Recruiter",
+                "IT Recruiter",
+                "Talent Acquisition",
+                "HRBP",
+                "People Partner"
+              ]
+            }
           ]
         },
         "linkedin": {
@@ -281,10 +880,23 @@
         "english": {
           "label": "Nivel de inglés",
           "placeholder": "Selecciona tu nivel",
-          "options": ["A1", "A2", "B1", "B2", "C1", "C2"]
+          "options": [
+            "A1",
+            "A2",
+            "B1",
+            "B2",
+            "C1",
+            "C2"
+          ]
         },
-        "stack": { "label": "Stack principal", "placeholder": "Ej: Python, AWS, React" },
-        "message": { "label": "Mensaje", "placeholder": "Cuéntanos sobre tu experiencia..." },
+        "stack": {
+          "label": "Stack principal",
+          "placeholder": "Ej: Python, AWS, React"
+        },
+        "message": {
+          "label": "Mensaje",
+          "placeholder": "Cuéntanos sobre tu experiencia..."
+        },
         "submit": "Enviar aplicación"
       }
     }

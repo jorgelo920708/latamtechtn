@@ -103,6 +103,15 @@ export interface SelectFieldCopy extends FormFieldCopy {
   options: string[];
 }
 
+export interface SpecialtyGroupCopy {
+  label: string;
+  items: string[];
+}
+
+export interface SpecialtySelectCopy extends FormFieldCopy {
+  groups: SpecialtyGroupCopy[];
+}
+
 export interface CompanyFormCopy {
   title: string;
   subtitle: string;
@@ -110,7 +119,7 @@ export interface CompanyFormCopy {
   company: FormFieldCopy;
   email: FormFieldCopy;
   role: FormFieldCopy;
-  specialty: SelectFieldCopy;
+  specialty: SpecialtySelectCopy;
   message: FormFieldCopy;
   submit: string;
 }
@@ -121,7 +130,7 @@ export interface CandidateFormCopy {
   fullName: FormFieldCopy;
   email: FormFieldCopy;
   location: FormFieldCopy;
-  specialty: SelectFieldCopy;
+  specialty: SpecialtySelectCopy;
   linkedin: FormFieldCopy;
   english: SelectFieldCopy;
   stack: FormFieldCopy;

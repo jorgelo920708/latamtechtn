@@ -62,8 +62,12 @@
             <label for="ca-specialty">{{ forms.candidate.specialty.label }}</label>
             <select id="ca-specialty" formControlName="specialty">
               <option value="" disabled>{{ forms.candidate.specialty.placeholder }}</option>
-              @for (option of forms.candidate.specialty.options; track option) {
-                <option [value]="option">{{ option }}</option>
+              @for (group of forms.candidate.specialty.groups; track group.label) {
+                <optgroup [label]="group.label">
+                  @for (item of group.items; track item) {
+                    <option [value]="item">{{ item }}</option>
+                  }
+                </optgroup>
               }
             </select>
             @if (invalid('specialty')) {
