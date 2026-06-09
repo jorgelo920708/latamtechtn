@@ -28,6 +28,9 @@ export class CandidateApplicationType {
   location!: string;
 
   @Field({ nullable: true })
+  city?: string;
+
+  @Field({ nullable: true })
   linkedinUrl?: string;
 
   @Field({ nullable: true })
@@ -115,6 +118,11 @@ export class AdminCandidateInput {
   @IsNotEmpty()
   @MaxLength(160)
   location!: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @MaxLength(120)
+  city?: string;
 
   @Field()
   @IsNotEmpty()
@@ -219,6 +227,11 @@ export class CreateCandidateApplicationInput {
   @IsNotEmpty()
   @MaxLength(160)
   location!: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @MaxLength(120)
+  city?: string;
 
   @Field()
   @IsUrl()

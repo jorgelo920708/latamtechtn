@@ -49,6 +49,7 @@ model CandidateApplication {
   email               String
   phone               String?
   location            String
+  city                String?
   specialty           String?
   linkedinUrl         String?
   cvUrl               String?
