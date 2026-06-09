@@ -7,10 +7,28 @@ export interface PublicStats {
   specialtyCount: number;
 }
 
+export interface StatsSnapshot {
+  candidateCount: number;
+  leadCount: number;
+  contactCount: number;
+  specialtyCount: number;
+}
+
 const PUBLIC_STATS = gql`
   query PublicStats {
     publicStats {
       candidateCount
+      specialtyCount
+    }
+  }
+`;
+
+const STATS_CHANGED = gql`
+  subscription StatsChanged {
+    statsChanged {
+      candidateCount
+      leadCount
+      contactCount
       specialtyCount
     }
   }
@@ -27,5 +45,12 @@ export class StatsService {
         fetchPolicy: 'network-only',
       })
       .pipe(map((r) => r.data!.publicStats));
+  }
+
+  /** Real-time stream of stats, pushed by the server over WebSocket. */
+  statsChanged() {
+    return this.apollo
+      .subscribe<{ statsChanged: StatsSnapshot }>({ query: STATS_CHANGED })
+      .pipe(map((r) => r.data?.statsChanged));
   }
 }

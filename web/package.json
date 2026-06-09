@@ -22,6 +22,7 @@
     "@apollo/client": "^4.1.9",
     "apollo-angular": "^13.0.0",
     "graphql": "^16.13.2",
+    "graphql-ws": "^6.0.8",
     "rxjs": "^7.8.2",
     "tslib": "^2.3.0",
     "zone.js": "^0.16.1"

@@ -90,6 +90,18 @@ export class LandingComponent implements OnInit {
       next: (list) => this.featured.set(list),
       error: () => undefined,
     });
+    // Real-time: update the counters live when the server pushes changes.
+    this.statsService.statsChanged().subscribe({
+      next: (snap) => {
+        if (snap) {
+          this.stats.set({
+            candidateCount: snap.candidateCount,
+            specialtyCount: snap.specialtyCount,
+          });
+        }
+      },
+      error: () => undefined,
+    });
   }
 
   talentCards(copy: LandingCopy, key: string): TalentCardCopy[] {

@@ -17,6 +17,7 @@ import {
 import { LatamCopyService } from '../../shared/services/latam-copy.service';
 import { GeoService } from '../../shared/services/geo.service';
 import { CountUpDirective } from '../../shared/directives/count-up.directive';
+import { StatsService, StatsSnapshot } from '../../shared/services/stats.service';
 import { LATAM_COPY_ID, LatamCopyModel } from '../../shared/models/copy/latam-copy.model';
 import { PHONE_CODES, formatPhoneNumber } from '../../shared/constants/phone-codes';
 import { IconComponent } from '../../shared/components/icon/icon.component';
@@ -70,9 +71,11 @@ export class AdminDashboardComponent implements OnInit {
   private fb = inject(FormBuilder);
   private copy = inject(LatamCopyService);
   private geo = inject(GeoService);
+  private statsService = inject(StatsService);
 
   candidateStates = signal<string[]>([]);
   candidateCities = signal<string[]>([]);
+  liveStats = signal<StatsSnapshot | null>(null);
 
   readonly email = this.adminService.email;
   readonly adminName = 'Elba Caseres';
@@ -276,6 +279,19 @@ export class AdminDashboardComponent implements OnInit {
       const f = formatPhoneNumber(v);
       if (f !== v) phoneCtrl.setValue(f, { emitEvent: false });
     });
+
+    // Real-time: counters update live when the server pushes changes.
+    this.statsService.statsChanged().subscribe({
+      next: (snap) => {
+        if (snap) this.liveStats.set(snap);
+      },
+      error: () => undefined,
+    });
+  }
+
+  liveTotal(): number {
+    const s = this.liveStats();
+    return s ? s.leadCount + s.candidateCount + s.contactCount : this.totalRecords();
   }
 
   setTab(tab: Tab): void {

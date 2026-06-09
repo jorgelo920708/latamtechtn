@@ -3,7 +3,10 @@ import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { provideApollo } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
-import { ApolloLink, InMemoryCache } from '@apollo/client/core';
+import { ApolloLink, InMemoryCache, split } from '@apollo/client/core';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { createClient } from 'graphql-ws';
 import { routes } from './app.routes';
 import { environment } from '../environments/environment';
 
@@ -28,8 +31,29 @@ export const appConfig: ApplicationConfig = {
         }
         return forward(operation);
       });
+      const http = authLink.concat(httpLink.create({ uri: environment.apiUrl }));
+
+      // WebSocket link for real-time subscriptions (graphql-ws).
+      const wsLink = new GraphQLWsLink(
+        createClient({
+          url: environment.apiUrl.replace(/^http/, 'ws'),
+          lazy: true,
+          retryAttempts: Infinity,
+        }),
+      );
+
+      // Route subscriptions over the WebSocket, everything else over HTTP.
+      const link = split(
+        ({ query }) => {
+          const def = getMainDefinition(query);
+          return def.kind === 'OperationDefinition' && def.operation === 'subscription';
+        },
+        wsLink,
+        http,
+      );
+
       return {
-        link: authLink.concat(httpLink.create({ uri: environment.apiUrl })),
+        link,
         cache: new InMemoryCache(),
       };
     }),

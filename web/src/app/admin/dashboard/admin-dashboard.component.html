@@ -101,28 +101,28 @@
             <button type="button" class="stat-card" (click)="setTab('leads')">
               <span class="stat-icon blue"><app-icon name="briefcase" /></span>
               <span class="stat-text">
-                <strong [appCountUp]="leads().length"></strong>
+                <strong [appCountUp]="liveStats()?.leadCount ?? leads().length"></strong>
                 <span>{{ t()?.statLeads }}</span>
               </span>
             </button>
             <button type="button" class="stat-card" (click)="setTab('candidates')">
               <span class="stat-icon green"><app-icon name="users" /></span>
               <span class="stat-text">
-                <strong [appCountUp]="candidates().length"></strong>
+                <strong [appCountUp]="liveStats()?.candidateCount ?? candidates().length"></strong>
                 <span>{{ t()?.statCandidates }}</span>
               </span>
             </button>
             <button type="button" class="stat-card" (click)="setTab('contacts')">
               <span class="stat-icon purple"><app-icon name="chat" /></span>
               <span class="stat-text">
-                <strong [appCountUp]="contacts().length"></strong>
+                <strong [appCountUp]="liveStats()?.contactCount ?? contacts().length"></strong>
                 <span>{{ t()?.statContacts }}</span>
               </span>
             </button>
             <div class="stat-card is-static">
               <span class="stat-icon navy"><app-icon name="layers" /></span>
               <span class="stat-text">
-                <strong [appCountUp]="totalRecords()"></strong>
+                <strong [appCountUp]="liveTotal()"></strong>
                 <span>{{ t()?.statTotal }}</span>
               </span>
             </div>
