@@ -2,6 +2,45 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AdminCandidateInput {
+  availability: String
+  cvUrl: String
+  desiredSalary: Int
+  email: String!
+  englishLevel: String!
+  fullName: String!
+  jobSearchStatus: String
+  linkedinUrl: String
+  location: String!
+  mainRole: String
+  mainStack: String
+  message: String
+  minSalary: Int
+  otherRoles: String
+  phone: String
+  status: String
+  willingContractor: Boolean
+  workedInternational: Boolean
+  yearsExperience: String
+}
+
+input AdminContactInput {
+  email: String!
+  message: String!
+  name: String!
+  status: String
+}
+
+input AdminLeadInput {
+  company: String!
+  email: String!
+  message: String
+  name: String!
+  role: String!
+  specialty: String!
+  status: String
+}
+
 type AdminType {
   email: String!
   id: ID!
@@ -22,9 +61,9 @@ type CandidateApplicationType {
   fullName: String!
   id: ID!
   jobSearchStatus: String
-  linkedinUrl: String!
+  linkedinUrl: String
   location: String!
-  mainRole: String!
+  mainRole: String
   mainStack: String
   message: String
   minSalary: Int
@@ -34,7 +73,7 @@ type CandidateApplicationType {
   updatedAt: DateTime!
   willingContractor: Boolean
   workedInternational: Boolean!
-  yearsExperience: String!
+  yearsExperience: String
 }
 
 input ChangePasswordInput {
@@ -97,9 +136,9 @@ type FeaturedCandidateType {
   englishLevel: String!
   id: ID!
   location: String!
-  mainRole: String!
+  mainRole: String
   mainStack: String
-  yearsExperience: String!
+  yearsExperience: String
 }
 
 input LoginInput {
@@ -108,7 +147,16 @@ input LoginInput {
 }
 
 type Mutation {
+  adminCreateCandidate(input: AdminCandidateInput!): CandidateApplicationType!
+  adminCreateContact(input: AdminContactInput!): ContactRequestType!
+  adminCreateTalentLead(input: AdminLeadInput!): TalentLeadType!
+  adminDeleteCandidate(id: ID!): CandidateApplicationType!
+  adminDeleteContact(id: ID!): ContactRequestType!
+  adminDeleteTalentLead(id: ID!): TalentLeadType!
   adminLogin(input: LoginInput!): AuthPayloadType!
+  adminUpdateCandidate(id: ID!, input: AdminCandidateInput!): CandidateApplicationType!
+  adminUpdateContact(id: ID!, input: AdminContactInput!): ContactRequestType!
+  adminUpdateTalentLead(id: ID!, input: AdminLeadInput!): TalentLeadType!
   changePassword(input: ChangePasswordInput!): AdminType!
   createCandidateApplication(input: CreateCandidateApplicationInput!): CandidateApplicationType!
   createContactRequest(input: CreateContactRequestInput!): ContactRequestType!

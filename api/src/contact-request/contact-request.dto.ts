@@ -1,5 +1,5 @@
 import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
-import { IsEmail, IsNotEmpty, MaxLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
 
 @ObjectType()
 export class ContactRequestType {
@@ -23,6 +23,28 @@ export class ContactRequestType {
 
   @Field()
   updatedAt!: Date;
+}
+
+@InputType()
+export class AdminContactInput {
+  @Field()
+  @IsNotEmpty()
+  @MaxLength(120)
+  name!: string;
+
+  @Field()
+  @IsEmail()
+  email!: string;
+
+  @Field()
+  @IsNotEmpty()
+  @MaxLength(2000)
+  message!: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @MaxLength(40)
+  status?: string;
 }
 
 @InputType()

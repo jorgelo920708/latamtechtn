@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { TalentLeadRepository } from './talent-lead.repository';
-import { CreateTalentLeadInput } from './talent-lead.dto';
+import { AdminLeadInput, CreateTalentLeadInput } from './talent-lead.dto';
 import { MailService } from '../mail/mail.service';
 
 @Injectable()
@@ -22,5 +22,17 @@ export class TalentLeadService {
 
   findById(id: string) {
     return this.talentLeadRepository.findById(id);
+  }
+
+  adminCreate(data: AdminLeadInput) {
+    return this.talentLeadRepository.adminCreate(data);
+  }
+
+  update(id: string, data: AdminLeadInput) {
+    return this.talentLeadRepository.update(id, data);
+  }
+
+  remove(id: string) {
+    return this.talentLeadRepository.remove(id);
   }
 }

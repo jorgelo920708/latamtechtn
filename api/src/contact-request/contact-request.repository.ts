@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { CreateContactRequestInput } from './contact-request.dto';
+import {
+  AdminContactInput,
+  CreateContactRequestInput,
+} from './contact-request.dto';
 
 @Injectable()
 export class ContactRequestRepository {
@@ -8,6 +11,18 @@ export class ContactRequestRepository {
 
   create(data: CreateContactRequestInput) {
     return this.prisma.contactRequest.create({ data });
+  }
+
+  adminCreate(data: AdminContactInput) {
+    return this.prisma.contactRequest.create({ data });
+  }
+
+  update(id: string, data: AdminContactInput) {
+    return this.prisma.contactRequest.update({ where: { id }, data });
+  }
+
+  remove(id: string) {
+    return this.prisma.contactRequest.delete({ where: { id } });
   }
 
   findAll() {

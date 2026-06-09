@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { ContactRequestRepository } from './contact-request.repository';
-import { CreateContactRequestInput } from './contact-request.dto';
+import {
+  AdminContactInput,
+  CreateContactRequestInput,
+} from './contact-request.dto';
 import { MailService } from '../mail/mail.service';
 
 @Injectable()
@@ -22,5 +25,17 @@ export class ContactRequestService {
 
   findById(id: string) {
     return this.contactRequestRepository.findById(id);
+  }
+
+  adminCreate(data: AdminContactInput) {
+    return this.contactRequestRepository.adminCreate(data);
+  }
+
+  update(id: string, data: AdminContactInput) {
+    return this.contactRequestRepository.update(id, data);
+  }
+
+  remove(id: string) {
+    return this.contactRequestRepository.remove(id);
   }
 }

@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
+  AdminCandidateInput,
+  AdminContactInput,
+  AdminLeadInput,
   AdminService,
   CandidateApplication,
   ContactRequest,
@@ -11,10 +14,14 @@ import {
 } from '../admin.service';
 import { LatamCopyService } from '../../shared/services/latam-copy.service';
 import { LATAM_COPY_ID, LatamCopyModel } from '../../shared/models/copy/latam-copy.model';
+import { PHONE_CODES } from '../../shared/constants/phone-codes';
 import { IconComponent } from '../../shared/components/icon/icon.component';
+import { ModalShellComponent } from '../../shared/components/modal-shell/modal-shell.component';
+import { Observable } from 'rxjs';
 
 type Tab = 'overview' | 'leads' | 'candidates' | 'contacts' | 'account';
 type DataTab = 'leads' | 'candidates' | 'contacts';
+type ModalEntity = 'lead' | 'candidate' | 'contact';
 
 interface ActivityItem {
   kind: string;
@@ -27,7 +34,7 @@ interface ActivityItem {
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [ReactiveFormsModule, IconComponent],
+  imports: [ReactiveFormsModule, IconComponent, ModalShellComponent],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -142,6 +149,47 @@ export class AdminDashboardComponent implements OnInit {
     newPassword: ['', [Validators.required, Validators.minLength(8)]],
   });
 
+  readonly phoneCodes = PHONE_CODES;
+  modalEntity = signal<ModalEntity | null>(null);
+  editingId = signal<string | null>(null);
+  modalSubmitting = signal(false);
+  modalError = signal(false);
+
+  leadForm = this.fb.nonNullable.group({
+    name: ['', Validators.required],
+    company: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    role: ['', Validators.required],
+    specialty: ['', Validators.required],
+    status: ['NEW'],
+    message: [''],
+  });
+
+  candidateForm = this.fb.nonNullable.group({
+    fullName: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    location: ['', Validators.required],
+    englishLevel: ['', Validators.required],
+    phoneCode: ['+52'],
+    phone: [''],
+    linkedinUrl: [''],
+    mainRole: [''],
+    mainStack: [''],
+    yearsExperience: [''],
+    desiredSalary: [''],
+    minSalary: [''],
+    availability: [''],
+    status: ['NEW'],
+    message: [''],
+  });
+
+  contactForm = this.fb.nonNullable.group({
+    name: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    message: ['', Validators.required],
+    status: ['NEW'],
+  });
+
   ngOnInit(): void {
     this.loadLeads();
     this.loadCandidates();
@@ -183,6 +231,218 @@ export class AdminDashboardComponent implements OnInit {
   waLink(phone: string | null | undefined): string {
     const digits = (phone ?? '').replace(/\D/g, '');
     return `https://wa.me/${digits}`;
+  }
+
+  ctrlInvalid(form: FormGroup, field: string): boolean {
+    const control = form.get(field);
+    return !!control && control.invalid && (control.touched || control.dirty);
+  }
+
+  openCreate(entity: ModalEntity): void {
+    this.editingId.set(null);
+    this.modalError.set(false);
+    if (entity === 'lead') this.leadForm.reset({ status: 'NEW' });
+    else if (entity === 'candidate') this.candidateForm.reset({ phoneCode: '+52', status: 'NEW' });
+    else this.contactForm.reset({ status: 'NEW' });
+    this.modalEntity.set(entity);
+  }
+
+  editLead(lead: TalentLead): void {
+    this.editingId.set(lead.id);
+    this.modalError.set(false);
+    this.leadForm.setValue({
+      name: lead.name,
+      company: lead.company,
+      email: lead.email,
+      role: lead.role,
+      specialty: lead.specialty,
+      status: lead.status,
+      message: lead.message ?? '',
+    });
+    this.modalEntity.set('lead');
+  }
+
+  editCandidate(c: CandidateApplication): void {
+    this.editingId.set(c.id);
+    this.modalError.set(false);
+    const phone = this.splitPhone(c.phone);
+    this.candidateForm.setValue({
+      fullName: c.fullName,
+      email: c.email,
+      location: c.location,
+      englishLevel: c.englishLevel,
+      phoneCode: phone.code,
+      phone: phone.number,
+      linkedinUrl: c.linkedinUrl ?? '',
+      mainRole: c.mainRole ?? '',
+      mainStack: c.mainStack ?? '',
+      yearsExperience: c.yearsExperience ?? '',
+      desiredSalary: c.desiredSalary != null ? String(c.desiredSalary) : '',
+      minSalary: c.minSalary != null ? String(c.minSalary) : '',
+      availability: c.availability ?? '',
+      status: c.status,
+      message: c.message ?? '',
+    });
+    this.modalEntity.set('candidate');
+  }
+
+  editContact(ct: ContactRequest): void {
+    this.editingId.set(ct.id);
+    this.modalError.set(false);
+    this.contactForm.setValue({
+      name: ct.name,
+      email: ct.email,
+      message: ct.message,
+      status: ct.status,
+    });
+    this.modalEntity.set('contact');
+  }
+
+  closeModal(): void {
+    this.modalEntity.set(null);
+  }
+
+  modalTitle(): string {
+    const t = this.t();
+    if (!t) return '';
+    const action = this.editingId() ? t.editItem : t.newItem;
+    const section =
+      this.modalEntity() === 'lead'
+        ? t.navLeads
+        : this.modalEntity() === 'candidate'
+          ? t.navCandidates
+          : t.navContacts;
+    return `${action} · ${section}`;
+  }
+
+  saveLead(): void {
+    if (this.leadForm.invalid) {
+      this.leadForm.markAllAsTouched();
+      return;
+    }
+    const raw = this.leadForm.getRawValue();
+    const input: AdminLeadInput = {
+      name: raw.name.trim(),
+      company: raw.company.trim(),
+      email: raw.email.trim(),
+      role: raw.role.trim(),
+      specialty: raw.specialty.trim(),
+      status: raw.status || 'NEW',
+      message: raw.message.trim() || undefined,
+    };
+    const id = this.editingId();
+    this.persist(
+      id ? this.adminService.updateLead(id, input) : this.adminService.createLead(input),
+      () => this.loadLeads(),
+    );
+  }
+
+  saveCandidate(): void {
+    if (this.candidateForm.invalid) {
+      this.candidateForm.markAllAsTouched();
+      return;
+    }
+    const raw = this.candidateForm.getRawValue();
+    const input: AdminCandidateInput = {
+      fullName: raw.fullName.trim(),
+      email: raw.email.trim(),
+      location: raw.location.trim(),
+      englishLevel: raw.englishLevel.trim(),
+      phone: raw.phone.trim() ? `${raw.phoneCode} ${raw.phone.trim()}` : undefined,
+      linkedinUrl: raw.linkedinUrl.trim() || undefined,
+      mainRole: raw.mainRole.trim() || undefined,
+      mainStack: raw.mainStack.trim() || undefined,
+      yearsExperience: raw.yearsExperience.trim() || undefined,
+      desiredSalary: this.num(raw.desiredSalary),
+      minSalary: this.num(raw.minSalary),
+      availability: raw.availability.trim() || undefined,
+      status: raw.status || 'NEW',
+      message: raw.message.trim() || undefined,
+    };
+    const id = this.editingId();
+    this.persist(
+      id ? this.adminService.updateCandidate(id, input) : this.adminService.createCandidate(input),
+      () => this.loadCandidates(),
+    );
+  }
+
+  saveContact(): void {
+    if (this.contactForm.invalid) {
+      this.contactForm.markAllAsTouched();
+      return;
+    }
+    const raw = this.contactForm.getRawValue();
+    const input: AdminContactInput = {
+      name: raw.name.trim(),
+      email: raw.email.trim(),
+      message: raw.message.trim(),
+      status: raw.status || 'NEW',
+    };
+    const id = this.editingId();
+    this.persist(
+      id ? this.adminService.updateContact(id, input) : this.adminService.createContact(input),
+      () => this.loadContacts(),
+    );
+  }
+
+  deleteLead(id: string): void {
+    if (!this.confirmDelete()) return;
+    this.adminService.deleteLead(id).subscribe({
+      next: () => this.loadLeads(),
+      error: (err) => this.handleError(err),
+    });
+  }
+
+  deleteCandidate(id: string): void {
+    if (!this.confirmDelete()) return;
+    this.adminService.deleteCandidate(id).subscribe({
+      next: () => this.loadCandidates(),
+      error: (err) => this.handleError(err),
+    });
+  }
+
+  deleteContact(id: string): void {
+    if (!this.confirmDelete()) return;
+    this.adminService.deleteContact(id).subscribe({
+      next: () => this.loadContacts(),
+      error: (err) => this.handleError(err),
+    });
+  }
+
+  private confirmDelete(): boolean {
+    return window.confirm(this.t()?.deleteConfirm ?? '¿Eliminar este registro?');
+  }
+
+  private persist(obs: Observable<unknown>, reload: () => void): void {
+    this.modalSubmitting.set(true);
+    this.modalError.set(false);
+    obs.subscribe({
+      next: () => {
+        this.modalSubmitting.set(false);
+        this.closeModal();
+        reload();
+      },
+      error: () => {
+        this.modalSubmitting.set(false);
+        this.modalError.set(true);
+      },
+    });
+  }
+
+  private num(value: string): number | undefined {
+    const v = `${value ?? ''}`.trim();
+    if (!v) return undefined;
+    const n = Number(v);
+    return Number.isFinite(n) ? n : undefined;
+  }
+
+  private splitPhone(phone: string | null | undefined): { code: string; number: string } {
+    if (!phone) return { code: '+52', number: '' };
+    const match = phone.match(/^(\+\d+)\s*(.*)$/);
+    if (match && this.phoneCodes.some((p) => p.code === match[1])) {
+      return { code: match[1], number: match[2] };
+    }
+    return { code: '+52', number: phone };
   }
 
   onSearch(event: Event): void {

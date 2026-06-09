@@ -27,14 +27,14 @@ export class CandidateApplicationType {
   @Field()
   location!: string;
 
-  @Field()
-  linkedinUrl!: string;
+  @Field({ nullable: true })
+  linkedinUrl?: string;
 
   @Field({ nullable: true })
   cvUrl?: string;
 
-  @Field()
-  mainRole!: string;
+  @Field({ nullable: true })
+  mainRole?: string;
 
   @Field({ nullable: true })
   otherRoles?: string;
@@ -42,8 +42,8 @@ export class CandidateApplicationType {
   @Field({ nullable: true })
   mainStack?: string;
 
-  @Field()
-  yearsExperience!: string;
+  @Field({ nullable: true })
+  yearsExperience?: string;
 
   @Field()
   englishLevel!: string;
@@ -84,8 +84,8 @@ export class FeaturedCandidateType {
   @Field(() => ID)
   id!: string;
 
-  @Field()
-  mainRole!: string;
+  @Field({ nullable: true })
+  mainRole?: string;
 
   @Field()
   location!: string;
@@ -96,8 +96,107 @@ export class FeaturedCandidateType {
   @Field({ nullable: true })
   mainStack?: string;
 
+  @Field({ nullable: true })
+  yearsExperience?: string;
+}
+
+@InputType()
+export class AdminCandidateInput {
   @Field()
-  yearsExperience!: string;
+  @IsNotEmpty()
+  @MaxLength(120)
+  fullName!: string;
+
+  @Field()
+  @IsEmail()
+  email!: string;
+
+  @Field()
+  @IsNotEmpty()
+  @MaxLength(160)
+  location!: string;
+
+  @Field()
+  @IsNotEmpty()
+  @MaxLength(40)
+  englishLevel!: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @MaxLength(40)
+  phone?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @MaxLength(300)
+  linkedinUrl?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @MaxLength(500)
+  cvUrl?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @MaxLength(120)
+  mainRole?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @MaxLength(500)
+  otherRoles?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @MaxLength(300)
+  mainStack?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @MaxLength(20)
+  yearsExperience?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsBoolean()
+  workedInternational?: boolean;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsBoolean()
+  willingContractor?: boolean;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @MaxLength(80)
+  jobSearchStatus?: string;
+
+  @Field(() => Int, { nullable: true })
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  desiredSalary?: number;
+
+  @Field(() => Int, { nullable: true })
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  minSalary?: number;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @MaxLength(60)
+  availability?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @MaxLength(2000)
+  message?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @MaxLength(40)
+  status?: string;
 }
 
 @InputType()

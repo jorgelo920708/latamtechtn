@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { CreateTalentLeadInput } from './talent-lead.dto';
+import { AdminLeadInput, CreateTalentLeadInput } from './talent-lead.dto';
 
 @Injectable()
 export class TalentLeadRepository {
@@ -8,6 +8,18 @@ export class TalentLeadRepository {
 
   create(data: CreateTalentLeadInput) {
     return this.prisma.talentLead.create({ data });
+  }
+
+  adminCreate(data: AdminLeadInput) {
+    return this.prisma.talentLead.create({ data });
+  }
+
+  update(id: string, data: AdminLeadInput) {
+    return this.prisma.talentLead.update({ where: { id }, data });
+  }
+
+  remove(id: string) {
+    return this.prisma.talentLead.delete({ where: { id } });
   }
 
   findAll() {

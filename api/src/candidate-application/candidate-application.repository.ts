@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { CreateCandidateApplicationInput } from './candidate-application.dto';
+import {
+  AdminCandidateInput,
+  CreateCandidateApplicationInput,
+} from './candidate-application.dto';
 
 @Injectable()
 export class CandidateApplicationRepository {
@@ -8,6 +11,18 @@ export class CandidateApplicationRepository {
 
   create(data: CreateCandidateApplicationInput) {
     return this.prisma.candidateApplication.create({ data });
+  }
+
+  adminCreate(data: AdminCandidateInput) {
+    return this.prisma.candidateApplication.create({ data });
+  }
+
+  update(id: string, data: AdminCandidateInput) {
+    return this.prisma.candidateApplication.update({ where: { id }, data });
+  }
+
+  remove(id: string) {
+    return this.prisma.candidateApplication.delete({ where: { id } });
   }
 
   findAll() {

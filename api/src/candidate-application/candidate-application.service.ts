@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CandidateApplicationRepository } from './candidate-application.repository';
-import { CreateCandidateApplicationInput } from './candidate-application.dto';
+import {
+  AdminCandidateInput,
+  CreateCandidateApplicationInput,
+} from './candidate-application.dto';
 import { MailService } from '../mail/mail.service';
 
 @Injectable()
@@ -28,5 +31,17 @@ export class CandidateApplicationService {
 
   findById(id: string) {
     return this.candidateApplicationRepository.findById(id);
+  }
+
+  adminCreate(data: AdminCandidateInput) {
+    return this.candidateApplicationRepository.adminCreate(data);
+  }
+
+  update(id: string, data: AdminCandidateInput) {
+    return this.candidateApplicationRepository.update(id, data);
+  }
+
+  remove(id: string) {
+    return this.candidateApplicationRepository.remove(id);
   }
 }

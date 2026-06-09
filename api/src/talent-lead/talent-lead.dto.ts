@@ -35,6 +35,43 @@ export class TalentLeadType {
 }
 
 @InputType()
+export class AdminLeadInput {
+  @Field()
+  @IsNotEmpty()
+  @MaxLength(120)
+  name!: string;
+
+  @Field()
+  @IsNotEmpty()
+  @MaxLength(160)
+  company!: string;
+
+  @Field()
+  @IsEmail()
+  email!: string;
+
+  @Field()
+  @IsNotEmpty()
+  @MaxLength(160)
+  role!: string;
+
+  @Field()
+  @IsNotEmpty()
+  @MaxLength(80)
+  specialty!: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @MaxLength(2000)
+  message?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @MaxLength(40)
+  status?: string;
+}
+
+@InputType()
 export class CreateTalentLeadInput {
   @Field()
   @IsNotEmpty()

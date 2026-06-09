@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { ContactRequestService } from './contact-request.service';
-import { CreateContactRequestInput } from './contact-request.dto';
+import {
+  AdminContactInput,
+  CreateContactRequestInput,
+} from './contact-request.dto';
 
 @Injectable()
 export class ContactRequestFacade {
@@ -16,5 +19,17 @@ export class ContactRequestFacade {
 
   findById(id: string) {
     return this.contactRequestService.findById(id);
+  }
+
+  adminCreate(data: AdminContactInput) {
+    return this.contactRequestService.adminCreate(data);
+  }
+
+  update(id: string, data: AdminContactInput) {
+    return this.contactRequestService.update(id, data);
+  }
+
+  remove(id: string) {
+    return this.contactRequestService.remove(id);
   }
 }

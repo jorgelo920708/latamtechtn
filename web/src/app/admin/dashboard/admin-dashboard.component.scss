@@ -650,6 +650,8 @@
   color: var(--body);
   font-weight: 600;
   font-size: 0.8rem;
+  font-family: inherit;
+  cursor: pointer;
 }
 
 .record-action app-icon {
@@ -680,6 +682,53 @@
   border-color: #25d366;
   background: rgba(37, 211, 102, 0.06);
   color: #128c7e;
+}
+
+.record-action.danger {
+  color: var(--danger);
+  border-color: rgba(220, 38, 38, 0.25);
+}
+
+.record-action.danger app-icon {
+  color: var(--danger);
+}
+
+.record-action.danger:hover {
+  border-color: var(--danger);
+  background: rgba(220, 38, 38, 0.06);
+  color: var(--danger);
+}
+
+.section-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.btn-sm {
+  padding: 9px 16px;
+  font-size: 0.86rem;
+}
+
+.btn-sm app-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.phone-row {
+  display: flex;
+  gap: 8px;
+}
+
+.phone-row .phone-code {
+  width: auto;
+  flex: 0 0 auto;
+  min-width: 100px;
+}
+
+.phone-row input {
+  flex: 1;
+  min-width: 0;
 }
 
 .account-card {

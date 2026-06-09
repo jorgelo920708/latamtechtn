@@ -50,6 +50,40 @@ export interface ContactRequest {
   createdAt: string;
 }
 
+export interface AdminLeadInput {
+  name: string;
+  company: string;
+  email: string;
+  role: string;
+  specialty: string;
+  message?: string;
+  status?: string;
+}
+
+export interface AdminCandidateInput {
+  fullName: string;
+  email: string;
+  location: string;
+  englishLevel: string;
+  phone?: string;
+  linkedinUrl?: string;
+  mainRole?: string;
+  mainStack?: string;
+  yearsExperience?: string;
+  desiredSalary?: number;
+  minSalary?: number;
+  availability?: string;
+  message?: string;
+  status?: string;
+}
+
+export interface AdminContactInput {
+  name: string;
+  email: string;
+  message: string;
+  status?: string;
+}
+
 const ADMIN_LOGIN = gql`
   mutation AdminLogin($input: LoginInput!) {
     adminLogin(input: $input) {
@@ -138,6 +172,52 @@ const CONTACT_REQUESTS = gql`
       status
       createdAt
     }
+  }
+`;
+
+const ADMIN_CREATE_LEAD = gql`
+  mutation AdminCreateLead($input: AdminLeadInput!) {
+    adminCreateTalentLead(input: $input) { id }
+  }
+`;
+const ADMIN_UPDATE_LEAD = gql`
+  mutation AdminUpdateLead($id: ID!, $input: AdminLeadInput!) {
+    adminUpdateTalentLead(id: $id, input: $input) { id }
+  }
+`;
+const ADMIN_DELETE_LEAD = gql`
+  mutation AdminDeleteLead($id: ID!) {
+    adminDeleteTalentLead(id: $id) { id }
+  }
+`;
+const ADMIN_CREATE_CANDIDATE = gql`
+  mutation AdminCreateCandidate($input: AdminCandidateInput!) {
+    adminCreateCandidate(input: $input) { id }
+  }
+`;
+const ADMIN_UPDATE_CANDIDATE = gql`
+  mutation AdminUpdateCandidate($id: ID!, $input: AdminCandidateInput!) {
+    adminUpdateCandidate(id: $id, input: $input) { id }
+  }
+`;
+const ADMIN_DELETE_CANDIDATE = gql`
+  mutation AdminDeleteCandidate($id: ID!) {
+    adminDeleteCandidate(id: $id) { id }
+  }
+`;
+const ADMIN_CREATE_CONTACT = gql`
+  mutation AdminCreateContact($input: AdminContactInput!) {
+    adminCreateContact(input: $input) { id }
+  }
+`;
+const ADMIN_UPDATE_CONTACT = gql`
+  mutation AdminUpdateContact($id: ID!, $input: AdminContactInput!) {
+    adminUpdateContact(id: $id, input: $input) { id }
+  }
+`;
+const ADMIN_DELETE_CONTACT = gql`
+  mutation AdminDeleteContact($id: ID!) {
+    adminDeleteContact(id: $id) { id }
   }
 `;
 
@@ -230,5 +310,41 @@ export class AdminService {
         fetchPolicy: 'network-only',
       })
       .pipe(map((r) => r.data!.contactRequests));
+  }
+
+  private run(mutation: typeof ADMIN_CREATE_LEAD, variables: Record<string, unknown>) {
+    return this.apollo
+      .mutate({ mutation, variables, fetchPolicy: 'no-cache' })
+      .pipe(map((r) => r.data));
+  }
+
+  createLead(input: AdminLeadInput) {
+    return this.run(ADMIN_CREATE_LEAD, { input });
+  }
+  updateLead(id: string, input: AdminLeadInput) {
+    return this.run(ADMIN_UPDATE_LEAD, { id, input });
+  }
+  deleteLead(id: string) {
+    return this.run(ADMIN_DELETE_LEAD, { id });
+  }
+
+  createCandidate(input: AdminCandidateInput) {
+    return this.run(ADMIN_CREATE_CANDIDATE, { input });
+  }
+  updateCandidate(id: string, input: AdminCandidateInput) {
+    return this.run(ADMIN_UPDATE_CANDIDATE, { id, input });
+  }
+  deleteCandidate(id: string) {
+    return this.run(ADMIN_DELETE_CANDIDATE, { id });
+  }
+
+  createContact(input: AdminContactInput) {
+    return this.run(ADMIN_CREATE_CONTACT, { input });
+  }
+  updateContact(id: string, input: AdminContactInput) {
+    return this.run(ADMIN_UPDATE_CONTACT, { id, input });
+  }
+  deleteContact(id: string) {
+    return this.run(ADMIN_DELETE_CONTACT, { id });
   }
 }

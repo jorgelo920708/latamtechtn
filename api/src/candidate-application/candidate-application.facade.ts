@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CandidateApplicationService } from './candidate-application.service';
-import { CreateCandidateApplicationInput } from './candidate-application.dto';
+import {
+  AdminCandidateInput,
+  CreateCandidateApplicationInput,
+} from './candidate-application.dto';
 
 @Injectable()
 export class CandidateApplicationFacade {
@@ -22,5 +25,17 @@ export class CandidateApplicationFacade {
 
   findById(id: string) {
     return this.candidateApplicationService.findById(id);
+  }
+
+  adminCreate(data: AdminCandidateInput) {
+    return this.candidateApplicationService.adminCreate(data);
+  }
+
+  update(id: string, data: AdminCandidateInput) {
+    return this.candidateApplicationService.update(id, data);
+  }
+
+  remove(id: string) {
+    return this.candidateApplicationService.remove(id);
   }
 }

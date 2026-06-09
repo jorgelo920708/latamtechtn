@@ -106,6 +106,15 @@ export interface AdminDashboardCopy {
   errorGeneric: string;
   yes: string;
   no: string;
+  newItem: string;
+  editItem: string;
+  deleteItem: string;
+  deleteConfirm: string;
+  cancel: string;
+  fieldName: string;
+  fieldCompany: string;
+  fieldStatus: string;
+  formError: string;
   records: AdminRecordsCopy;
 }
 

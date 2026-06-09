@@ -147,6 +147,11 @@
       }
 
       @if (activeTab() === 'leads' && loaded().leads && !loadError()) {
+        <div class="section-toolbar">
+          <button type="button" class="btn btn-primary btn-sm" (click)="openCreate('lead')">
+            <app-icon name="plus" /> {{ t()?.newItem }}
+          </button>
+        </div>
         @if (leads().length === 0) {
           <p class="admin-state">{{ t()?.emptyLeads }}</p>
         } @else {
@@ -182,6 +187,12 @@
                     <a class="record-action" [href]="'mailto:' + lead.email">
                       <app-icon name="mail" /> Email
                     </a>
+                    <button type="button" class="record-action" (click)="editLead(lead)">
+                      <app-icon name="edit" /> {{ t()?.editItem }}
+                    </button>
+                    <button type="button" class="record-action danger" (click)="deleteLead(lead.id)">
+                      <app-icon name="trash" /> {{ t()?.deleteItem }}
+                    </button>
                   </div>
                 </article>
               }
@@ -191,6 +202,11 @@
       }
 
       @if (activeTab() === 'candidates' && loaded().candidates && !loadError()) {
+        <div class="section-toolbar">
+          <button type="button" class="btn btn-primary btn-sm" (click)="openCreate('candidate')">
+            <app-icon name="plus" /> {{ t()?.newItem }}
+          </button>
+        </div>
         @if (candidates().length === 0) {
           <p class="admin-state">{{ t()?.emptyCandidates }}</p>
         } @else {
@@ -269,6 +285,12 @@
                         <app-icon name="whatsapp" /> WhatsApp
                       </a>
                     }
+                    <button type="button" class="record-action" (click)="editCandidate(c)">
+                      <app-icon name="edit" /> {{ t()?.editItem }}
+                    </button>
+                    <button type="button" class="record-action danger" (click)="deleteCandidate(c.id)">
+                      <app-icon name="trash" /> {{ t()?.deleteItem }}
+                    </button>
                   </div>
                 </article>
               }
@@ -278,6 +300,11 @@
       }
 
       @if (activeTab() === 'contacts' && loaded().contacts && !loadError()) {
+        <div class="section-toolbar">
+          <button type="button" class="btn btn-primary btn-sm" (click)="openCreate('contact')">
+            <app-icon name="plus" /> {{ t()?.newItem }}
+          </button>
+        </div>
         @if (contacts().length === 0) {
           <p class="admin-state">{{ t()?.emptyContacts }}</p>
         } @else {
@@ -306,6 +333,12 @@
                     <a class="record-action" [href]="'mailto:' + ct.email">
                       <app-icon name="mail" /> Email
                     </a>
+                    <button type="button" class="record-action" (click)="editContact(ct)">
+                      <app-icon name="edit" /> {{ t()?.editItem }}
+                    </button>
+                    <button type="button" class="record-action danger" (click)="deleteContact(ct.id)">
+                      <app-icon name="trash" /> {{ t()?.deleteItem }}
+                    </button>
                   </div>
                 </article>
               }
@@ -383,4 +416,198 @@
       <span>{{ t()?.navAccount }}</span>
     </button>
   </nav>
+
+  @if (modalEntity() === 'lead') {
+    <app-modal-shell [title]="modalTitle()" [closeLabel]="t()?.cancel ?? ''" (dismiss)="closeModal()">
+      <form [formGroup]="leadForm" (ngSubmit)="saveLead()" novalidate>
+        <div class="form-grid cols-2">
+          <div class="field">
+            <label>{{ t()?.fieldName }}</label>
+            <input type="text" formControlName="name" />
+            @if (ctrlInvalid(leadForm, 'name')) {
+              <span class="field-error">{{ lang() === 'es' ? 'Obligatorio' : 'Required' }}</span>
+            }
+          </div>
+          <div class="field">
+            <label>{{ t()?.fieldCompany }}</label>
+            <input type="text" formControlName="company" />
+            @if (ctrlInvalid(leadForm, 'company')) {
+              <span class="field-error">{{ lang() === 'es' ? 'Obligatorio' : 'Required' }}</span>
+            }
+          </div>
+          <div class="field">
+            <label>{{ r()?.email }}</label>
+            <input type="email" formControlName="email" />
+            @if (ctrlInvalid(leadForm, 'email')) {
+              <span class="field-error">{{ lang() === 'es' ? 'Obligatorio' : 'Required' }}</span>
+            }
+          </div>
+          <div class="field">
+            <label>{{ r()?.role }}</label>
+            <input type="text" formControlName="role" />
+            @if (ctrlInvalid(leadForm, 'role')) {
+              <span class="field-error">{{ lang() === 'es' ? 'Obligatorio' : 'Required' }}</span>
+            }
+          </div>
+          <div class="field">
+            <label>{{ r()?.specialty }}</label>
+            <input type="text" formControlName="specialty" />
+            @if (ctrlInvalid(leadForm, 'specialty')) {
+              <span class="field-error">{{ lang() === 'es' ? 'Obligatorio' : 'Required' }}</span>
+            }
+          </div>
+          <div class="field">
+            <label>{{ t()?.fieldStatus }}</label>
+            <input type="text" formControlName="status" />
+          </div>
+          <div class="field span-2">
+            <label>{{ r()?.message }}</label>
+            <textarea formControlName="message"></textarea>
+          </div>
+        </div>
+        @if (modalError()) {
+          <p class="form-error">{{ t()?.formError }}</p>
+        }
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="modalSubmitting()">
+            {{ modalSubmitting() ? t()?.saving : t()?.save }}
+          </button>
+        </div>
+      </form>
+    </app-modal-shell>
+  }
+
+  @if (modalEntity() === 'contact') {
+    <app-modal-shell [title]="modalTitle()" [closeLabel]="t()?.cancel ?? ''" (dismiss)="closeModal()">
+      <form [formGroup]="contactForm" (ngSubmit)="saveContact()" novalidate>
+        <div class="form-grid cols-2">
+          <div class="field">
+            <label>{{ t()?.fieldName }}</label>
+            <input type="text" formControlName="name" />
+            @if (ctrlInvalid(contactForm, 'name')) {
+              <span class="field-error">{{ lang() === 'es' ? 'Obligatorio' : 'Required' }}</span>
+            }
+          </div>
+          <div class="field">
+            <label>{{ r()?.email }}</label>
+            <input type="email" formControlName="email" />
+            @if (ctrlInvalid(contactForm, 'email')) {
+              <span class="field-error">{{ lang() === 'es' ? 'Obligatorio' : 'Required' }}</span>
+            }
+          </div>
+          <div class="field span-2">
+            <label>{{ r()?.message }}</label>
+            <textarea formControlName="message"></textarea>
+            @if (ctrlInvalid(contactForm, 'message')) {
+              <span class="field-error">{{ lang() === 'es' ? 'Obligatorio' : 'Required' }}</span>
+            }
+          </div>
+          <div class="field">
+            <label>{{ t()?.fieldStatus }}</label>
+            <input type="text" formControlName="status" />
+          </div>
+        </div>
+        @if (modalError()) {
+          <p class="form-error">{{ t()?.formError }}</p>
+        }
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="modalSubmitting()">
+            {{ modalSubmitting() ? t()?.saving : t()?.save }}
+          </button>
+        </div>
+      </form>
+    </app-modal-shell>
+  }
+
+  @if (modalEntity() === 'candidate') {
+    <app-modal-shell [title]="modalTitle()" [closeLabel]="t()?.cancel ?? ''" (dismiss)="closeModal()">
+      <form [formGroup]="candidateForm" (ngSubmit)="saveCandidate()" novalidate>
+        <div class="form-grid cols-2">
+          <div class="field">
+            <label>{{ t()?.fieldName }}</label>
+            <input type="text" formControlName="fullName" />
+            @if (ctrlInvalid(candidateForm, 'fullName')) {
+              <span class="field-error">{{ lang() === 'es' ? 'Obligatorio' : 'Required' }}</span>
+            }
+          </div>
+          <div class="field">
+            <label>{{ r()?.email }}</label>
+            <input type="email" formControlName="email" />
+            @if (ctrlInvalid(candidateForm, 'email')) {
+              <span class="field-error">{{ lang() === 'es' ? 'Obligatorio' : 'Required' }}</span>
+            }
+          </div>
+          <div class="field">
+            <label>{{ lang() === 'es' ? 'Ubicación' : 'Location' }}</label>
+            <input type="text" formControlName="location" />
+            @if (ctrlInvalid(candidateForm, 'location')) {
+              <span class="field-error">{{ lang() === 'es' ? 'Obligatorio' : 'Required' }}</span>
+            }
+          </div>
+          <div class="field">
+            <label>{{ r()?.english }}</label>
+            <input type="text" formControlName="englishLevel" />
+            @if (ctrlInvalid(candidateForm, 'englishLevel')) {
+              <span class="field-error">{{ lang() === 'es' ? 'Obligatorio' : 'Required' }}</span>
+            }
+          </div>
+          <div class="field span-2">
+            <label>{{ r()?.phone }}</label>
+            <div class="phone-row">
+              <select class="phone-code" formControlName="phoneCode">
+                @for (pc of phoneCodes; track pc.code) {
+                  <option [value]="pc.code">{{ pc.label }}</option>
+                }
+              </select>
+              <input type="tel" formControlName="phone" />
+            </div>
+          </div>
+          <div class="field">
+            <label>{{ r()?.mainRole }}</label>
+            <input type="text" formControlName="mainRole" />
+          </div>
+          <div class="field">
+            <label>{{ r()?.stack }}</label>
+            <input type="text" formControlName="mainStack" />
+          </div>
+          <div class="field">
+            <label>{{ r()?.experience }}</label>
+            <input type="text" formControlName="yearsExperience" />
+          </div>
+          <div class="field">
+            <label>{{ r()?.availability }}</label>
+            <input type="text" formControlName="availability" />
+          </div>
+          <div class="field">
+            <label>{{ r()?.desiredSalary }}</label>
+            <input type="number" min="0" formControlName="desiredSalary" />
+          </div>
+          <div class="field">
+            <label>{{ r()?.minSalary }}</label>
+            <input type="number" min="0" formControlName="minSalary" />
+          </div>
+          <div class="field span-2">
+            <label>{{ r()?.linkedin }}</label>
+            <input type="url" formControlName="linkedinUrl" />
+          </div>
+          <div class="field">
+            <label>{{ t()?.fieldStatus }}</label>
+            <input type="text" formControlName="status" />
+          </div>
+          <div class="field span-2">
+            <label>{{ r()?.message }}</label>
+            <textarea formControlName="message"></textarea>
+          </div>
+        </div>
+        @if (modalError()) {
+          <p class="form-error">{{ t()?.formError }}</p>
+        }
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="modalSubmitting()">
+            {{ modalSubmitting() ? t()?.saving : t()?.save }}
+          </button>
+        </div>
+      </form>
+    </app-modal-shell>
+  }
 </div>
