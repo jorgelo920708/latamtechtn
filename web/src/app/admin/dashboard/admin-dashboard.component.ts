@@ -313,6 +313,16 @@ export class AdminDashboardComponent implements OnInit {
     this.detail.set(null);
   }
 
+  detailSubtitle(): string {
+    const d = this.detail();
+    if (!d) return '';
+    const x = d.data as { mainRole?: string; company?: string; email?: string; website?: string };
+    if (d.type === 'candidate') return x.mainRole ?? '';
+    if (d.type === 'lead') return x.company ?? '';
+    if (d.type === 'contact') return x.email ?? '';
+    return x.website ?? '';
+  }
+
   toggleLang(): void {
     void this.copy.toggle();
   }

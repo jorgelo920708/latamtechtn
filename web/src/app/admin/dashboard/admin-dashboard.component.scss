@@ -637,26 +637,45 @@
   text-align: center;
 }
 
-.record-rows-modal {
-  margin-top: 0;
-  gap: 7px;
+.record-rows.record-rows-modal {
+  margin-top: 4px;
+  gap: 0;
 }
-.record-rows-modal > div {
-  grid-template-columns: 132px 1fr;
+.record-rows.record-rows-modal > div {
+  grid-template-columns: 156px 1fr;
+  gap: 16px;
+  align-items: baseline;
+  padding: 11px 2px;
+  border-bottom: 1px solid var(--line-soft);
 }
-.record-rows-modal dt {
-  font-size: 0.86rem;
+.record-rows.record-rows-modal > div:last-child {
+  border-bottom: none;
 }
-.record-rows-modal dd {
-  font-size: 0.96rem;
+.record-rows.record-rows-modal dt {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  line-height: 1.35;
+}
+.record-rows.record-rows-modal dd {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+.record-rows.record-rows-modal dd a {
+  font-weight: 600;
 }
 .record-rows-modal + .record-actions {
-  margin-top: 14px;
-  padding-top: 14px;
+  margin-top: 18px;
+  padding-top: 16px;
 }
-@media (max-width: 480px) {
-  .record-rows-modal > div {
-    grid-template-columns: 104px 1fr;
+@media (max-width: 520px) {
+  .record-rows.record-rows-modal > div {
+    grid-template-columns: 1fr;
+    gap: 3px;
+    padding: 10px 2px;
   }
 }
 

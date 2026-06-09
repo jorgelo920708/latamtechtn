@@ -39,6 +39,11 @@
           />
         </div>
 
+        <label class="auth-remember">
+          <input type="checkbox" formControlName="remember" />
+          <span>{{ lang() === 'es' ? 'Recordar mi correo' : 'Remember my email' }}</span>
+        </label>
+
         @if (error()) {
           <p class="form-error">{{ t.error }}</p>
         }

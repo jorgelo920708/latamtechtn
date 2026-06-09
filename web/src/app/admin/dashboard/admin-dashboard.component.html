@@ -749,6 +749,7 @@
   @if (detail(); as d) {
     <app-modal-shell
       [title]="$any(d.data).fullName || $any(d.data).name || ''"
+      [subtitle]="detailSubtitle()"
       [closeLabel]="t()?.cancel ?? ''"
       (dismiss)="closeDetail()"
     >
@@ -756,7 +757,7 @@
         @case ('candidate') {
           @let c = $any(d.data);
           <dl class="record-rows record-rows-modal">
-            <div><dt>{{ lang() === 'es' ? 'Estado' : 'Status' }}</dt><dd>{{ c.status }}</dd></div>
+            <div><dt>{{ lang() === 'es' ? 'Estado' : 'Status' }}</dt><dd><span class="badge">{{ c.status }}</span></dd></div>
             <div><dt>{{ lang() === 'es' ? 'Ubicación' : 'Location' }}</dt><dd>{{ c.location }}</dd></div>
             <div><dt>{{ r()?.email }}</dt><dd><a [href]="'mailto:' + c.email">{{ c.email }}</a></dd></div>
             @if (c.phone) { <div><dt>{{ r()?.phone }}</dt><dd>{{ c.phone }}</dd></div> }
@@ -787,7 +788,7 @@
         @case ('lead') {
           @let l = $any(d.data);
           <dl class="record-rows record-rows-modal">
-            <div><dt>{{ lang() === 'es' ? 'Estado' : 'Status' }}</dt><dd>{{ l.status }}</dd></div>
+            <div><dt>{{ lang() === 'es' ? 'Estado' : 'Status' }}</dt><dd><span class="badge">{{ l.status }}</span></dd></div>
             <div><dt>{{ t()?.fieldCompany }}</dt><dd>{{ l.company }}</dd></div>
             <div><dt>{{ r()?.email }}</dt><dd><a [href]="'mailto:' + l.email">{{ l.email }}</a></dd></div>
             <div><dt>{{ r()?.role }}</dt><dd>{{ l.role }}</dd></div>
@@ -803,7 +804,7 @@
         @case ('contact') {
           @let ct = $any(d.data);
           <dl class="record-rows record-rows-modal">
-            <div><dt>{{ lang() === 'es' ? 'Estado' : 'Status' }}</dt><dd>{{ ct.status }}</dd></div>
+            <div><dt>{{ lang() === 'es' ? 'Estado' : 'Status' }}</dt><dd><span class="badge">{{ ct.status }}</span></dd></div>
             <div><dt>{{ r()?.email }}</dt><dd><a [href]="'mailto:' + ct.email">{{ ct.email }}</a></dd></div>
             <div><dt>{{ r()?.message }}</dt><dd>{{ ct.message }}</dd></div>
           </dl>

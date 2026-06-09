@@ -8,6 +8,15 @@ import { LatamCopyService } from '../../shared/services/latam-copy.service';
 import { LATAM_COPY_ID, LatamCopyModel } from '../../shared/models/copy/latam-copy.model';
 import { IconComponent } from '../../shared/components/icon/icon.component';
 
+const REMEMBER_EMAIL_KEY = 'admin_remember_email';
+function readSavedEmail(): string {
+  try {
+    return localStorage.getItem(REMEMBER_EMAIL_KEY) ?? '';
+  } catch {
+    return '';
+  }
+}
+
 @Component({
   selector: 'app-admin-login',
   standalone: true,
@@ -30,9 +39,12 @@ export class AdminLoginComponent {
   submitting = signal(false);
   error = signal(false);
 
+  private savedEmail = readSavedEmail();
+
   form = this.fb.nonNullable.group({
-    email: ['', [Validators.required, Validators.email]],
+    email: [this.savedEmail, [Validators.required, Validators.email]],
     password: ['', Validators.required],
+    remember: [!!this.savedEmail],
   });
 
   toggleLang(): void {
@@ -46,10 +58,16 @@ export class AdminLoginComponent {
     }
     this.submitting.set(true);
     this.error.set(false);
-    const { email, password } = this.form.getRawValue();
+    const { email, password, remember } = this.form.getRawValue();
     this.adminService.login(email, password).subscribe({
       next: () => {
         this.submitting.set(false);
+        try {
+          if (remember) localStorage.setItem(REMEMBER_EMAIL_KEY, email);
+          else localStorage.removeItem(REMEMBER_EMAIL_KEY);
+        } catch {
+          /* localStorage unavailable */
+        }
         void this.router.navigateByUrl('/admin');
       },
       error: () => {

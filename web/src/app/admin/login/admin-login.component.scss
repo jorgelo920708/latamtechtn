@@ -1,1 +1,18 @@
 @use '../../shared/styles/auth';
+
+.auth-remember {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 2px 0 6px;
+  font-size: 0.88rem;
+  color: var(--muted);
+  cursor: pointer;
+  user-select: none;
+}
+.auth-remember input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--brand-blue);
+  cursor: pointer;
+}
