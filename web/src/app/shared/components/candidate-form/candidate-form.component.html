@@ -61,8 +61,25 @@
           </div>
 
           <div class="field">
+            <label for="ca-state">{{ lang() === 'es' ? 'Estado / Provincia' : 'State / Province' }}</label>
+            <select id="ca-state" formControlName="state">
+              <option value="">
+                {{ states().length ? (lang() === 'es' ? '— Selecciona —' : '— Select —') : (lang() === 'es' ? 'Elige país primero' : 'Pick country first') }}
+              </option>
+              @for (st of states(); track st) {
+                <option [value]="st">{{ st }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="field">
             <label for="ca-city">{{ forms.candidate.city.label }}</label>
-            <input id="ca-city" type="text" formControlName="city" [placeholder]="forms.candidate.city.placeholder" />
+            <input id="ca-city" type="text" formControlName="city" list="ca-city-list" autocomplete="off" [placeholder]="forms.candidate.city.placeholder" />
+            <datalist id="ca-city-list">
+              @for (ci of cities(); track ci) {
+                <option [value]="ci"></option>
+              }
+            </datalist>
           </div>
 
           <div class="field span-2">

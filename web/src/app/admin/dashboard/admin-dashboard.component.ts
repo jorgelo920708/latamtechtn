@@ -15,6 +15,7 @@ import {
   TalentLead,
 } from '../admin.service';
 import { LatamCopyService } from '../../shared/services/latam-copy.service';
+import { GeoService } from '../../shared/services/geo.service';
 import { LATAM_COPY_ID, LatamCopyModel } from '../../shared/models/copy/latam-copy.model';
 import { PHONE_CODES } from '../../shared/constants/phone-codes';
 import { IconComponent } from '../../shared/components/icon/icon.component';
@@ -47,6 +48,10 @@ export class AdminDashboardComponent implements OnInit {
   private router = inject(Router);
   private fb = inject(FormBuilder);
   private copy = inject(LatamCopyService);
+  private geo = inject(GeoService);
+
+  candidateStates = signal<string[]>([]);
+  candidateCities = signal<string[]>([]);
 
   readonly email = this.adminService.email;
   readonly adminName = 'Elba Caseres';
@@ -192,6 +197,7 @@ export class AdminDashboardComponent implements OnInit {
     fullName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     country: ['', Validators.required],
+    state: [''],
     city: [''],
     englishLevel: ['', Validators.required],
     phoneCode: ['+52'],
@@ -223,6 +229,18 @@ export class AdminDashboardComponent implements OnInit {
     this.loadCandidates();
     this.loadContacts();
     this.loadCompanies();
+
+    this.candidateForm.get('country')!.valueChanges.subscribe(async (country) => {
+      await this.geo.ensureLoaded();
+      this.candidateStates.set(this.geo.states(country || ''));
+      this.candidateCities.set([]);
+      this.candidateForm.patchValue({ state: '', city: '' }, { emitEvent: false });
+    });
+    this.candidateForm.get('state')!.valueChanges.subscribe(async (state) => {
+      await this.geo.ensureLoaded();
+      const country = this.candidateForm.get('country')!.value;
+      this.candidateCities.set(this.geo.cities(country || '', state || ''));
+    });
   }
 
   setTab(tab: Tab): void {
@@ -273,8 +291,11 @@ export class AdminDashboardComponent implements OnInit {
     this.editingId.set(null);
     this.modalError.set(false);
     if (entity === 'lead') this.leadForm.reset();
-    else if (entity === 'candidate') this.candidateForm.reset({ phoneCode: '+52' });
-    else if (entity === 'contact') this.contactForm.reset();
+    else if (entity === 'candidate') {
+      this.candidateForm.reset({ phoneCode: '+52' });
+      this.candidateStates.set([]);
+      this.candidateCities.set([]);
+    } else if (entity === 'contact') this.contactForm.reset();
     else this.companyForm.reset();
     this.modalEntity.set(entity);
   }
@@ -298,22 +319,30 @@ export class AdminDashboardComponent implements OnInit {
     this.modalError.set(false);
     const phone = this.splitPhone(c.phone);
     const loc = this.splitLocation(c.location);
-    this.candidateForm.setValue({
-      fullName: c.fullName,
-      email: c.email,
-      country: loc.country,
-      city: c.city ?? loc.city,
-      englishLevel: c.englishLevel,
-      phoneCode: phone.code,
-      phone: phone.number,
-      linkedinUrl: c.linkedinUrl ?? '',
-      mainRole: c.mainRole ?? '',
-      mainStack: c.mainStack ?? '',
-      yearsExperience: c.yearsExperience ?? '',
-      desiredSalary: c.desiredSalary != null ? String(c.desiredSalary) : '',
-      minSalary: c.minSalary != null ? String(c.minSalary) : '',
-      availability: c.availability ?? '',
-      message: c.message ?? '',
+    this.candidateForm.setValue(
+      {
+        fullName: c.fullName,
+        email: c.email,
+        country: loc.country,
+        state: '',
+        city: c.city ?? loc.city,
+        englishLevel: c.englishLevel,
+        phoneCode: phone.code,
+        phone: phone.number,
+        linkedinUrl: c.linkedinUrl ?? '',
+        mainRole: c.mainRole ?? '',
+        mainStack: c.mainStack ?? '',
+        yearsExperience: c.yearsExperience ?? '',
+        desiredSalary: c.desiredSalary != null ? String(c.desiredSalary) : '',
+        minSalary: c.minSalary != null ? String(c.minSalary) : '',
+        availability: c.availability ?? '',
+        message: c.message ?? '',
+      },
+      { emitEvent: false },
+    );
+    void this.geo.ensureLoaded().then(() => {
+      this.candidateStates.set(this.geo.states(loc.country));
+      this.candidateCities.set([]);
     });
     this.modalEntity.set('candidate');
   }
@@ -375,10 +404,12 @@ export class AdminDashboardComponent implements OnInit {
       return;
     }
     const raw = this.candidateForm.getRawValue();
+    const location =
+      [raw.city.trim(), raw.state.trim(), raw.country].filter(Boolean).join(', ') || raw.country;
     const input: AdminCandidateInput = {
       fullName: raw.fullName.trim(),
       email: raw.email.trim(),
-      location: raw.city.trim() ? `${raw.city.trim()}, ${raw.country}` : raw.country,
+      location,
       city: raw.city.trim() || undefined,
       englishLevel: raw.englishLevel.trim(),
       phone: raw.phone.trim() ? `${raw.phoneCode} ${raw.phone.trim()}` : undefined,

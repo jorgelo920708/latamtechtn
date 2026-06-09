@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LatamCopyService } from '../../services/latam-copy.service';
+import { GeoService } from '../../services/geo.service';
 import { LATAM_COPY_ID, LatamCopyModel } from '../../models/copy/latam-copy.model';
 import { FormsCopy } from '../../models/copy/landing.model';
 import { CandidateApplicationInput, TalentService } from '../../services/talent.service';
@@ -27,6 +28,11 @@ export class CandidateFormComponent {
   private fb = inject(FormBuilder);
   private talentService = inject(TalentService);
   private copyService = inject(LatamCopyService);
+  private geo = inject(GeoService);
+
+  readonly lang = this.copyService.currentLang;
+  states = signal<string[]>([]);
+  cities = signal<string[]>([]);
 
   forms$: Observable<FormsCopy> = this.copyService
     .getObservableSlice<LatamCopyModel>(LATAM_COPY_ID)
@@ -51,6 +57,7 @@ export class CandidateFormComponent {
     phoneCode: ['+52'],
     phone: [''],
     country: ['', Validators.required],
+    state: [''],
     city: [''],
     linkedinUrl: ['', Validators.required],
     cvUrl: ['', Validators.required],
@@ -65,6 +72,19 @@ export class CandidateFormComponent {
     availability: [''],
     message: [''],
   });
+
+  constructor() {
+    this.form.get('country')!.valueChanges.subscribe(async (country) => {
+      await this.geo.ensureLoaded();
+      this.states.set(this.geo.states(country || ''));
+      this.cities.set([]);
+      this.form.patchValue({ state: '', city: '' }, { emitEvent: false });
+    });
+    this.form.get('state')!.valueChanges.subscribe(async (state) => {
+      await this.geo.ensureLoaded();
+      this.cities.set(this.geo.cities(this.form.get('country')!.value || '', state || ''));
+    });
+  }
 
   invalid(field: string): boolean {
     const control = this.form.get(field);
@@ -131,11 +151,13 @@ export class CandidateFormComponent {
     this.submitting.set(true);
     this.errored.set(false);
     const raw = this.form.getRawValue();
+    const location =
+      [raw.city.trim(), raw.state.trim(), raw.country].filter(Boolean).join(', ') || raw.country;
     const input: CandidateApplicationInput = {
       fullName: raw.fullName.trim(),
       email: raw.email.trim(),
       phone: raw.phone.trim() ? `${raw.phoneCode} ${raw.phone.trim()}` : undefined,
-      location: raw.city.trim() ? `${raw.city.trim()}, ${raw.country}` : raw.country,
+      location,
       city: raw.city.trim() || undefined,
       linkedinUrl: raw.linkedinUrl.trim(),
       cvUrl: raw.cvUrl,

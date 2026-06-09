@@ -652,8 +652,24 @@
             }
           </div>
           <div class="field">
+            <label>{{ lang() === 'es' ? 'Estado / Provincia' : 'State / Province' }}</label>
+            <select formControlName="state">
+              <option value="">
+                {{ candidateStates().length ? (lang() === 'es' ? '— Selecciona —' : '— Select —') : (lang() === 'es' ? 'Elige país primero' : 'Pick country first') }}
+              </option>
+              @for (st of candidateStates(); track st) {
+                <option [value]="st">{{ st }}</option>
+              }
+            </select>
+          </div>
+          <div class="field">
             <label>{{ formsCopy()?.city?.label }}</label>
-            <input type="text" formControlName="city" />
+            <input type="text" formControlName="city" list="admin-city-list" autocomplete="off" />
+            <datalist id="admin-city-list">
+              @for (ci of candidateCities(); track ci) {
+                <option [value]="ci"></option>
+              }
+            </datalist>
           </div>
           <div class="field">
             <label>{{ r()?.english }}</label>
