@@ -550,7 +550,7 @@
   border: 1px solid var(--line-soft);
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
-  padding: 14px;
+  padding: 11px 12px;
 }
 
 .record-head {
@@ -558,17 +558,18 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  padding-bottom: 8px;
+  padding-bottom: 6px;
   border-bottom: 1px solid var(--line-soft);
 }
 
 .record-head h3 {
-  font-size: 0.92rem;
+  font-size: 0.86rem;
   font-weight: 700;
+  line-height: 1.2;
 }
 
 .record-sub {
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   color: var(--muted);
 }
 
@@ -581,44 +582,45 @@
 }
 
 .badge {
-  font-size: 0.68rem;
+  font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--brand-blue);
   background: var(--brand-blue-soft);
-  padding: 3px 9px;
+  padding: 2px 7px;
   border-radius: var(--radius-pill);
 }
 
 .record-date {
-  font-size: 0.76rem;
+  font-size: 0.68rem;
   color: var(--faint);
   white-space: nowrap;
 }
 
 .record-rows {
-  margin-top: 8px;
+  margin-top: 6px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .record-rows > div {
   display: grid;
-  grid-template-columns: 96px 1fr;
-  gap: 8px;
-  align-items: start;
+  grid-template-columns: 78px 1fr;
+  gap: 7px;
+  align-items: baseline;
 }
 
 .record-rows dt {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 600;
   color: var(--muted);
 }
 
 .record-rows dd {
-  font-size: 0.81rem;
+  font-size: 0.78rem;
+  line-height: 1.3;
   color: var(--ink);
   word-break: break-word;
 }
@@ -634,9 +636,9 @@
 .record-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 10px;
-  padding-top: 10px;
+  gap: 5px;
+  margin-top: 8px;
+  padding-top: 8px;
   border-top: 1px solid var(--line-soft);
 }
 
@@ -644,20 +646,20 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 5px 11px;
+  padding: 4px 9px;
   border: 1px solid var(--line);
   border-radius: var(--radius-pill);
   background: #fff;
   color: var(--body);
   font-weight: 600;
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   font-family: inherit;
   cursor: pointer;
 }
 
 .record-action app-icon {
-  width: 13px;
-  height: 13px;
+  width: 12px;
+  height: 12px;
   color: var(--muted);
 }
 

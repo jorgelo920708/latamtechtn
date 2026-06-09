@@ -8,7 +8,7 @@ import { GeoService } from '../../services/geo.service';
 import { LATAM_COPY_ID, LatamCopyModel } from '../../models/copy/latam-copy.model';
 import { FormsCopy } from '../../models/copy/landing.model';
 import { CandidateApplicationInput, TalentService } from '../../services/talent.service';
-import { PHONE_CODES } from '../../constants/phone-codes';
+import { PHONE_CODES, formatPhoneNumber } from '../../constants/phone-codes';
 import { ModalShellComponent } from '../modal-shell/modal-shell.component';
 import { IconComponent } from '../icon/icon.component';
 
@@ -83,6 +83,11 @@ export class CandidateFormComponent {
     this.form.get('state')!.valueChanges.subscribe(async (state) => {
       await this.geo.ensureLoaded();
       this.cities.set(this.geo.cities(this.form.get('country')!.value || '', state || ''));
+    });
+    const phoneCtrl = this.form.get('phone')!;
+    phoneCtrl.valueChanges.subscribe((v) => {
+      const f = formatPhoneNumber(v);
+      if (f !== v) phoneCtrl.setValue(f, { emitEvent: false });
     });
   }
 

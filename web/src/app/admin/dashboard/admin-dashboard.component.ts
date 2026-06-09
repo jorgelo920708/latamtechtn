@@ -17,7 +17,7 @@ import {
 import { LatamCopyService } from '../../shared/services/latam-copy.service';
 import { GeoService } from '../../shared/services/geo.service';
 import { LATAM_COPY_ID, LatamCopyModel } from '../../shared/models/copy/latam-copy.model';
-import { PHONE_CODES } from '../../shared/constants/phone-codes';
+import { PHONE_CODES, formatPhoneNumber } from '../../shared/constants/phone-codes';
 import { IconComponent } from '../../shared/components/icon/icon.component';
 import { ModalShellComponent } from '../../shared/components/modal-shell/modal-shell.component';
 import { parseCandidatesCsv } from './candidate-csv';
@@ -240,6 +240,11 @@ export class AdminDashboardComponent implements OnInit {
       await this.geo.ensureLoaded();
       const country = this.candidateForm.get('country')!.value;
       this.candidateCities.set(this.geo.cities(country || '', state || ''));
+    });
+    const phoneCtrl = this.candidateForm.get('phone')!;
+    phoneCtrl.valueChanges.subscribe((v) => {
+      const f = formatPhoneNumber(v);
+      if (f !== v) phoneCtrl.setValue(f, { emitEvent: false });
     });
   }
 
@@ -583,9 +588,9 @@ export class AdminDashboardComponent implements OnInit {
     if (!phone) return { code: '+52', number: '' };
     const match = phone.match(/^(\+\d+)\s*(.*)$/);
     if (match && this.phoneCodes.some((p) => p.code === match[1])) {
-      return { code: match[1], number: match[2] };
+      return { code: match[1], number: formatPhoneNumber(match[2]) };
     }
-    return { code: '+52', number: phone };
+    return { code: '+52', number: formatPhoneNumber(phone) };
   }
 
   private splitLocation(loc: string | null | undefined): { country: string; city: string } {

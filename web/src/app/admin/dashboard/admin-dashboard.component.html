@@ -287,7 +287,7 @@
                     @if (c.linkedinUrl) {
                       <div>
                         <dt>{{ r()?.linkedin }}</dt>
-                        <dd><a [href]="c.linkedinUrl" target="_blank" rel="noopener">{{ c.linkedinUrl }}</a></dd>
+                        <dd><a [href]="c.linkedinUrl" target="_blank" rel="noopener">{{ lang() === 'es' ? 'Ver perfil' : 'View profile' }}</a></dd>
                       </div>
                     }
                     @if (c.cvUrl) {

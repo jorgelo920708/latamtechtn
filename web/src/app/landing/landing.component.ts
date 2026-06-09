@@ -76,12 +76,13 @@ export class LandingComponent implements OnInit {
   modal = signal<ModalKind>(null);
   mobileNavOpen = signal(false);
   stats = signal<PublicStats | null>(null);
+  statsError = signal(false);
   featured = signal<FeaturedCandidate[]>([]);
 
   ngOnInit(): void {
     this.statsService.getPublicStats().subscribe({
       next: (stats) => this.stats.set(stats),
-      error: () => undefined,
+      error: () => this.statsError.set(true),
     });
     this.talentService.getFeaturedCandidates().subscribe({
       next: (list) => this.featured.set(list),
@@ -119,12 +120,16 @@ export class LandingComponent implements OnInit {
   }
 
   metricValue(metric: MetricCopy): string {
+    const isDynamic = metric.icon === 'users' || metric.icon === 'layers';
+    if (!isDynamic) return metric.value;
     const stats = this.stats();
-    if (stats) {
-      if (metric.icon === 'users') return `${stats.candidateCount}`;
-      if (metric.icon === 'layers') return `${stats.specialtyCount}`;
-    }
-    return metric.value;
+    // While stats load, show a neutral placeholder instead of flashing the
+    // static "500+" fallback and then snapping to the real number. Only fall
+    // back to the copy value if the request actually failed.
+    if (!stats) return this.statsError() ? metric.value : '…';
+    const plus = metric.value.trim().endsWith('+') ? '+' : '';
+    const count = metric.icon === 'users' ? stats.candidateCount : stats.specialtyCount;
+    return `${count}${plus}`;
   }
 
   setFilter(key: string): void {

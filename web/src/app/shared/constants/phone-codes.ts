@@ -24,3 +24,12 @@ export const PHONE_CODES: PhoneCode[] = [
   { code: '+1', label: '🇺🇸 +1' },
   { code: '+34', label: '🇪🇸 +34' },
 ];
+
+/** Formats a local phone number's digits as 000-000-0000 (groups of 3-3-4). */
+export function formatPhoneNumber(value: string | null | undefined): string {
+  const d = (value ?? '').replace(/\D/g, '');
+  if (d.length <= 3) return d;
+  if (d.length <= 6) return `${d.slice(0, 3)}-${d.slice(3)}`;
+  if (d.length <= 10) return `${d.slice(0, 3)}-${d.slice(3, 6)}-${d.slice(6)}`;
+  return `${d.slice(0, 3)}-${d.slice(3, 6)}-${d.slice(6, 10)}-${d.slice(10)}`;
+}
