@@ -70,9 +70,11 @@ export class AdminDashboardComponent implements OnInit {
         c.fullName,
         c.email,
         c.location,
-        c.specialty,
+        c.mainRole,
+        c.otherRoles,
         c.englishLevel,
         c.mainStack,
+        c.availability,
         c.message,
       ]),
     );
@@ -108,7 +110,7 @@ export class AdminDashboardComponent implements OnInit {
         kind: 'Candidato',
         icon: 'users',
         title: candidate.fullName,
-        subtitle: `${candidate.specialty} · ${candidate.location}`,
+        subtitle: `${candidate.mainRole} · ${candidate.location}`,
         date: candidate.createdAt,
       });
     }

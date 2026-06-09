@@ -16,6 +16,10 @@ export class CandidateApplicationFacade {
     return this.candidateApplicationService.findAll();
   }
 
+  findFeatured() {
+    return this.candidateApplicationService.findFeatured();
+  }
+
   findById(id: string) {
     return this.candidateApplicationService.findById(id);
   }

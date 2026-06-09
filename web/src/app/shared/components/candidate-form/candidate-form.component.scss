@@ -4,3 +4,129 @@
   width: 18px;
   height: 18px;
 }
+
+.field-hint {
+  font-size: 0.76rem;
+  color: var(--faint);
+}
+
+.cv-upload {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  color: var(--body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.cv-upload:hover:not(:disabled) {
+  border-color: var(--brand-blue);
+}
+
+.cv-upload:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.cv-upload.has-file {
+  border-style: solid;
+  border-color: rgba(22, 163, 74, 0.4);
+  background: rgba(22, 163, 74, 0.06);
+}
+
+.cv-upload app-icon {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  color: var(--success);
+}
+
+.cv-upload-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cv-change {
+  flex: 0 0 auto;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--brand-blue);
+}
+
+.radio-row {
+  display: flex;
+  gap: 10px;
+}
+
+.radio {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--body);
+  cursor: pointer;
+}
+
+.radio:has(input:checked) {
+  border-color: var(--brand-blue);
+  background: var(--brand-blue-soft);
+  color: var(--brand-blue);
+}
+
+.radio input {
+  width: auto;
+  margin: 0;
+  accent-color: var(--brand-blue);
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--body);
+  cursor: pointer;
+}
+
+.checkbox.checked {
+  border-color: var(--brand-blue);
+  background: var(--brand-blue-soft);
+  color: var(--brand-blue);
+}
+
+.checkbox input {
+  width: auto;
+  margin: 0;
+  flex: 0 0 auto;
+  accent-color: var(--brand-blue);
+}

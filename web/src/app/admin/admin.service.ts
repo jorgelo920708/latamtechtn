@@ -21,11 +21,19 @@ export interface CandidateApplication {
   id: string;
   fullName: string;
   email: string;
+  phone?: string | null;
   location: string;
-  specialty: string;
   linkedinUrl?: string | null;
+  cvUrl?: string | null;
+  mainRole: string;
+  otherRoles?: string | null;
+  mainStack?: string | null;
+  yearsExperience: string;
   englishLevel: string;
-  mainStack: string;
+  workedInternational: boolean;
+  desiredSalary?: number | null;
+  minSalary?: number | null;
+  availability?: string | null;
   message?: string | null;
   status: string;
   createdAt: string;
@@ -80,11 +88,19 @@ const CANDIDATE_APPLICATIONS = gql`
       id
       fullName
       email
+      phone
       location
-      specialty
       linkedinUrl
-      englishLevel
+      cvUrl
+      mainRole
+      otherRoles
       mainStack
+      yearsExperience
+      englishLevel
+      workedInternational
+      desiredSalary
+      minSalary
+      availability
       message
       status
       createdAt

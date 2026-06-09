@@ -9,7 +9,8 @@
       "about": "About Me",
       "resources": "Resources",
       "contact": "Contact",
-      "cta": "Request Talent"
+      "cta": "Request Talent",
+      "ctaCandidate": "Apply"
     },
     "hero": {
       "badge": "LATAM Talent Network",
@@ -755,7 +756,7 @@
       },
       "candidate": {
         "title": "Join the Talent Network",
-        "subtitle": "Join our curated LATAM tech talent network.",
+        "subtitle": "Complete your profile and we’ll reach out when a matching opportunity comes up.",
         "fullName": {
           "label": "Full name",
           "placeholder": "Your full name"
@@ -764,138 +765,126 @@
           "label": "Email",
           "placeholder": "you@email.com"
         },
-        "location": {
-          "label": "Country / city",
-          "placeholder": "e.g. Buenos Aires, Argentina"
+        "phone": {
+          "label": "Phone number",
+          "placeholder": "+52 55 1234 5678"
         },
-        "specialty": {
-          "label": "Specialty",
-          "placeholder": "Select a specialty",
-          "groups": [
-            {
-              "label": "Software Engineering",
-              "items": [
-                "Full Stack",
-                "Frontend",
-                "Backend",
-                "Mobile"
-              ]
-            },
-            {
-              "label": "Data & AI",
-              "items": [
-                "Data Engineer",
-                "Data Analyst",
-                "Data Scientist",
-                "AI Engineer"
-              ]
-            },
-            {
-              "label": "Cloud / DevOps / Infra",
-              "items": [
-                "DevOps",
-                "Cloud",
-                "Infrastructure",
-                "Networking",
-                "Technical Support"
-              ]
-            },
-            {
-              "label": "Cybersecurity",
-              "items": [
-                "Cybersecurity"
-              ]
-            },
-            {
-              "label": "QA",
-              "items": [
-                "QA Manual",
-                "QA Automation"
-              ]
-            },
-            {
-              "label": "Product & PM",
-              "items": [
-                "Product Manager",
-                "Product Owner",
-                "Project Manager",
-                "Scrum Master",
-                "Business Analyst",
-                "Functional Analyst"
-              ]
-            },
-            {
-              "label": "Salesforce",
-              "items": [
-                "Salesforce Developer",
-                "Salesforce Admin",
-                "Salesforce Consultant"
-              ]
-            },
-            {
-              "label": "Marketing & SEO",
-              "items": [
-                "Digital Marketing",
-                "SEO",
-                "Local SEO",
-                "Link Building",
-                "Content"
-              ]
-            },
-            {
-              "label": "Sales & Account Management",
-              "items": [
-                "SDR",
-                "BDR",
-                "Account Manager",
-                "Sales Manager"
-              ]
-            },
-            {
-              "label": "Finance & Admin",
-              "items": [
-                "Finance",
-                "Accounting",
-                "CPA",
-                "Financial Analyst",
-                "Executive Assistant"
-              ]
-            },
-            {
-              "label": "HR & Recruiting",
-              "items": [
-                "Recruiter",
-                "IT Recruiter",
-                "Talent Acquisition",
-                "HRBP",
-                "People Partner"
-              ]
-            }
-          ]
+        "location": {
+          "label": "Country & city of residence",
+          "placeholder": "e.g. Guadalajara, Mexico"
         },
         "linkedin": {
-          "label": "Personal LinkedIn",
+          "label": "LinkedIn",
           "placeholder": "https://linkedin.com/in/your-profile"
+        },
+        "cv": {
+          "label": "Attach CV (PDF)",
+          "hint": "Max 10 MB · PDF only",
+          "choose": "Upload CV",
+          "change": "Change file",
+          "uploading": "Uploading…",
+          "error": "Couldn’t upload the file. Please try again."
+        },
+        "mainRole": {
+          "label": "Primary role",
+          "placeholder": "Select your role",
+          "options": [
+            "Backend Engineer",
+            "Frontend Engineer",
+            "Full Stack Engineer",
+            "DevOps Engineer",
+            "QA Manual",
+            "QA Automation",
+            "Data Engineer",
+            "Data Scientist",
+            "Machine Learning Engineer",
+            "Product Manager",
+            "Solutions Architect",
+            "Mobile Developer",
+            "Salesforce Developer",
+            "Data Architect",
+            "React Developer",
+            "Angular Developer",
+            "Node.js Developer",
+            "Python Developer",
+            ".NET Developer",
+            "Ruby on Rails Developer",
+            "Site Reliability Engineer (SRE)",
+            "Power BI Developer",
+            "Other"
+          ]
+        },
+        "otherRoles": {
+          "label": "What other roles would you consider?",
+          "options": [
+            "Full Stack Engineer",
+            "DevOps Engineer",
+            "Data Engineer",
+            "Product Manager",
+            "QA Automation",
+            "Backend Engineer"
+          ]
+        },
+        "mainStack": {
+          "label": "What’s your main stack?",
+          "options": [
+            "Python + AWS",
+            "React + Node",
+            ".NET + Azure",
+            "Salesforce",
+            "Power BI",
+            "Ruby on Rails"
+          ]
+        },
+        "yearsExperience": {
+          "label": "Years of experience",
+          "placeholder": "Select",
+          "options": [
+            "0-2",
+            "3-5",
+            "6-8",
+            "9-12",
+            "12+"
+          ]
         },
         "english": {
           "label": "English level",
           "placeholder": "Select your level",
           "options": [
-            "A1",
-            "A2",
-            "B1",
-            "B2",
-            "C1",
-            "C2"
+            "A1 – Beginner",
+            "A2 – Elementary",
+            "B1 – Intermediate",
+            "B2 – Upper Intermediate",
+            "C1 – Advanced",
+            "C2 – Bilingual / Fluent"
           ]
         },
-        "stack": {
-          "label": "Main stack",
-          "placeholder": "e.g. Python, AWS, React"
+        "workedInternational": {
+          "label": "Have you worked for international companies?",
+          "yes": "Yes",
+          "no": "No"
+        },
+        "desiredSalary": {
+          "label": "Desired monthly salary (USD)",
+          "placeholder": "e.g. 9000"
+        },
+        "minSalary": {
+          "label": "Minimum acceptable (USD)",
+          "placeholder": "e.g. 8000"
+        },
+        "availability": {
+          "label": "Availability to start",
+          "placeholder": "Select",
+          "options": [
+            "Immediate",
+            "15 days",
+            "30 days",
+            "More than 30 days"
+          ]
         },
         "message": {
-          "label": "Message",
-          "placeholder": "Tell us about your experience..."
+          "label": "Anything else you’d like to share?",
+          "placeholder": "Experience, availability, job search…"
         },
         "submit": "Send application"
       }

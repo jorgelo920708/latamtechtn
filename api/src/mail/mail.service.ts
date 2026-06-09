@@ -13,11 +13,19 @@ export interface TalentLeadEmailData {
 export interface CandidateEmailData {
   fullName: string;
   email: string;
+  phone?: string | null;
   location: string;
-  specialty: string;
-  englishLevel: string;
-  mainStack: string;
   linkedinUrl?: string | null;
+  cvUrl?: string | null;
+  mainRole?: string | null;
+  otherRoles?: string | null;
+  mainStack?: string | null;
+  yearsExperience?: string | null;
+  englishLevel: string;
+  workedInternational: boolean;
+  desiredSalary?: number | null;
+  minSalary?: number | null;
+  availability?: string | null;
   message?: string | null;
 }
 
@@ -64,11 +72,20 @@ export class MailService {
       ['Nombre', c.fullName],
       ['Email', c.email],
       ['Ubicación', c.location],
-      ['Especialidad', c.specialty],
+      ['Rol principal', c.mainRole ?? '—'],
       ['Inglés', c.englishLevel],
-      ['Stack', c.mainStack],
+      ['Experiencia', c.yearsExperience ?? '—'],
+      ['Internacional', c.workedInternational ? 'Sí' : 'No'],
     ];
+    if (c.mainStack) rows.push(['Stack', c.mainStack]);
+    if (c.otherRoles) rows.push(['Otros roles', c.otherRoles]);
+    if (c.desiredSalary != null)
+      rows.push(['Salario deseado', `$${c.desiredSalary} USD`]);
+    if (c.minSalary != null) rows.push(['Salario mínimo', `$${c.minSalary} USD`]);
+    if (c.availability) rows.push(['Disponibilidad', c.availability]);
+    if (c.phone) rows.push(['Teléfono', c.phone]);
     if (c.linkedinUrl) rows.push(['LinkedIn', c.linkedinUrl]);
+    if (c.cvUrl) rows.push(['CV', c.cvUrl]);
     if (c.message) rows.push(['Mensaje', c.message]);
 
     const content =

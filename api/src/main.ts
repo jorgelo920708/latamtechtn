@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { raw } from 'express';
 import { AppModule } from './app.module';
 
 const defaultCorsOrigins = [
@@ -26,6 +27,8 @@ function getCorsOrigins() {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.use('/cv', raw({ type: () => true, limit: '11mb' }));
 
   app.enableCors({
     origin: getCorsOrigins(),

@@ -6,6 +6,7 @@ export interface NavCopy {
   resources: string;
   contact: string;
   cta: string;
+  ctaCandidate: string;
 }
 
 export interface HeroCopy {
@@ -124,16 +125,44 @@ export interface CompanyFormCopy {
   submit: string;
 }
 
+export interface OptionListCopy {
+  label: string;
+  options: string[];
+}
+
+export interface CvFieldCopy {
+  label: string;
+  hint: string;
+  choose: string;
+  change: string;
+  uploading: string;
+  error: string;
+}
+
+export interface YesNoFieldCopy {
+  label: string;
+  yes: string;
+  no: string;
+}
+
 export interface CandidateFormCopy {
   title: string;
   subtitle: string;
   fullName: FormFieldCopy;
   email: FormFieldCopy;
+  phone: FormFieldCopy;
   location: FormFieldCopy;
-  specialty: SpecialtySelectCopy;
   linkedin: FormFieldCopy;
+  cv: CvFieldCopy;
+  mainRole: SelectFieldCopy;
+  otherRoles: OptionListCopy;
+  mainStack: OptionListCopy;
+  yearsExperience: SelectFieldCopy;
   english: SelectFieldCopy;
-  stack: FormFieldCopy;
+  workedInternational: YesNoFieldCopy;
+  desiredSalary: FormFieldCopy;
+  minSalary: FormFieldCopy;
+  availability: SelectFieldCopy;
   message: FormFieldCopy;
   submit: string;
 }

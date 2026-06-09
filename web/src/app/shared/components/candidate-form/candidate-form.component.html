@@ -19,12 +19,7 @@
         <div class="form-grid cols-2">
           <div class="field">
             <label for="ca-name">{{ forms.candidate.fullName.label }}</label>
-            <input
-              id="ca-name"
-              type="text"
-              formControlName="fullName"
-              [placeholder]="forms.candidate.fullName.placeholder"
-            />
+            <input id="ca-name" type="text" formControlName="fullName" [placeholder]="forms.candidate.fullName.placeholder" />
             @if (invalid('fullName')) {
               <span class="field-error">{{ forms.common.requiredError }}</span>
             }
@@ -32,12 +27,7 @@
 
           <div class="field">
             <label for="ca-email">{{ forms.candidate.email.label }}</label>
-            <input
-              id="ca-email"
-              type="email"
-              formControlName="email"
-              [placeholder]="forms.candidate.email.placeholder"
-            />
+            <input id="ca-email" type="email" formControlName="email" [placeholder]="forms.candidate.email.placeholder" />
             @if (invalid('email')) {
               <span class="field-error">
                 {{ hasEmailError('email') ? forms.common.emailError : forms.common.requiredError }}
@@ -46,31 +36,76 @@
           </div>
 
           <div class="field">
+            <label for="ca-phone">{{ forms.candidate.phone.label }}</label>
+            <input id="ca-phone" type="tel" formControlName="phone" [placeholder]="forms.candidate.phone.placeholder" />
+          </div>
+
+          <div class="field">
             <label for="ca-location">{{ forms.candidate.location.label }}</label>
-            <input
-              id="ca-location"
-              type="text"
-              formControlName="location"
-              [placeholder]="forms.candidate.location.placeholder"
-            />
+            <input id="ca-location" type="text" formControlName="location" [placeholder]="forms.candidate.location.placeholder" />
             @if (invalid('location')) {
               <span class="field-error">{{ forms.common.requiredError }}</span>
             }
           </div>
 
-          <div class="field">
-            <label for="ca-specialty">{{ forms.candidate.specialty.label }}</label>
-            <select id="ca-specialty" formControlName="specialty">
-              <option value="" disabled>{{ forms.candidate.specialty.placeholder }}</option>
-              @for (group of forms.candidate.specialty.groups; track group.label) {
-                <optgroup [label]="group.label">
-                  @for (item of group.items; track item) {
-                    <option [value]="item">{{ item }}</option>
-                  }
-                </optgroup>
+          <div class="field span-2">
+            <label for="ca-linkedin">{{ forms.candidate.linkedin.label }}</label>
+            <input id="ca-linkedin" type="url" formControlName="linkedinUrl" [placeholder]="forms.candidate.linkedin.placeholder" />
+            @if (invalid('linkedinUrl')) {
+              <span class="field-error">{{ forms.common.requiredError }}</span>
+            }
+          </div>
+
+          <div class="field span-2">
+            <label>{{ forms.candidate.cv.label }}</label>
+            <button
+              type="button"
+              class="cv-upload"
+              [class.has-file]="cvFileName()"
+              [disabled]="cvUploading()"
+              (click)="fileInput.click()"
+            >
+              @if (cvFileName() && !cvUploading()) {
+                <app-icon name="check" />
+              }
+              <span class="cv-upload-text">
+                {{ cvUploading() ? forms.candidate.cv.uploading : (cvFileName() || forms.candidate.cv.choose) }}
+              </span>
+              @if (cvFileName() && !cvUploading()) {
+                <span class="cv-change">{{ forms.candidate.cv.change }}</span>
+              }
+            </button>
+            <input #fileInput type="file" accept="application/pdf" hidden (change)="onCvSelected($event)" />
+            <span class="field-hint">{{ forms.candidate.cv.hint }}</span>
+            @if (cvError()) {
+              <span class="field-error">{{ forms.candidate.cv.error }}</span>
+            } @else if (invalid('cvUrl')) {
+              <span class="field-error">{{ forms.common.requiredError }}</span>
+            }
+          </div>
+
+          <div class="field span-2">
+            <label for="ca-role">{{ forms.candidate.mainRole.label }}</label>
+            <select id="ca-role" formControlName="mainRole">
+              <option value="" disabled>{{ forms.candidate.mainRole.placeholder }}</option>
+              @for (option of forms.candidate.mainRole.options; track option) {
+                <option [value]="option">{{ option }}</option>
               }
             </select>
-            @if (invalid('specialty')) {
+            @if (invalid('mainRole')) {
+              <span class="field-error">{{ forms.common.requiredError }}</span>
+            }
+          </div>
+
+          <div class="field">
+            <label for="ca-years">{{ forms.candidate.yearsExperience.label }}</label>
+            <select id="ca-years" formControlName="yearsExperience">
+              <option value="" disabled>{{ forms.candidate.yearsExperience.placeholder }}</option>
+              @for (option of forms.candidate.yearsExperience.options; track option) {
+                <option [value]="option">{{ option }}</option>
+              }
+            </select>
+            @if (invalid('yearsExperience')) {
               <span class="field-error">{{ forms.common.requiredError }}</span>
             }
           </div>
@@ -89,35 +124,72 @@
           </div>
 
           <div class="field">
-            <label for="ca-stack">{{ forms.candidate.stack.label }}</label>
-            <input
-              id="ca-stack"
-              type="text"
-              formControlName="mainStack"
-              [placeholder]="forms.candidate.stack.placeholder"
-            />
-            @if (invalid('mainStack')) {
+            <label for="ca-desired">{{ forms.candidate.desiredSalary.label }}</label>
+            <input id="ca-desired" type="number" min="0" formControlName="desiredSalary" [placeholder]="forms.candidate.desiredSalary.placeholder" />
+            @if (invalid('desiredSalary')) {
+              <span class="field-error">{{ forms.common.requiredError }}</span>
+            }
+          </div>
+
+          <div class="field">
+            <label for="ca-min">{{ forms.candidate.minSalary.label }}</label>
+            <input id="ca-min" type="number" min="0" formControlName="minSalary" [placeholder]="forms.candidate.minSalary.placeholder" />
+          </div>
+
+          <div class="field">
+            <label for="ca-availability">{{ forms.candidate.availability.label }}</label>
+            <select id="ca-availability" formControlName="availability">
+              <option value="">{{ forms.candidate.availability.placeholder }}</option>
+              @for (option of forms.candidate.availability.options; track option) {
+                <option [value]="option">{{ option }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="field">
+            <label>{{ forms.candidate.workedInternational.label }}</label>
+            <div class="radio-row">
+              <label class="radio">
+                <input type="radio" formControlName="workedInternational" value="true" />
+                {{ forms.candidate.workedInternational.yes }}
+              </label>
+              <label class="radio">
+                <input type="radio" formControlName="workedInternational" value="false" />
+                {{ forms.candidate.workedInternational.no }}
+              </label>
+            </div>
+            @if (invalid('workedInternational')) {
               <span class="field-error">{{ forms.common.requiredError }}</span>
             }
           </div>
 
           <div class="field span-2">
-            <label for="ca-linkedin">{{ forms.candidate.linkedin.label }}</label>
-            <input
-              id="ca-linkedin"
-              type="url"
-              formControlName="linkedinUrl"
-              [placeholder]="forms.candidate.linkedin.placeholder"
-            />
+            <label>{{ forms.candidate.otherRoles.label }}</label>
+            <div class="checkbox-grid">
+              @for (role of forms.candidate.otherRoles.options; track role) {
+                <label class="checkbox" [class.checked]="isOtherRole(role)">
+                  <input type="checkbox" [checked]="isOtherRole(role)" (change)="toggleOtherRole(role)" />
+                  {{ role }}
+                </label>
+              }
+            </div>
+          </div>
+
+          <div class="field span-2">
+            <label>{{ forms.candidate.mainStack.label }}</label>
+            <div class="checkbox-grid">
+              @for (stack of forms.candidate.mainStack.options; track stack) {
+                <label class="checkbox" [class.checked]="isStack(stack)">
+                  <input type="checkbox" [checked]="isStack(stack)" (change)="toggleStack(stack)" />
+                  {{ stack }}
+                </label>
+              }
+            </div>
           </div>
 
           <div class="field span-2">
             <label for="ca-message">{{ forms.candidate.message.label }}</label>
-            <textarea
-              id="ca-message"
-              formControlName="message"
-              [placeholder]="forms.candidate.message.placeholder"
-            ></textarea>
+            <textarea id="ca-message" formControlName="message" [placeholder]="forms.candidate.message.placeholder"></textarea>
           </div>
         </div>
 

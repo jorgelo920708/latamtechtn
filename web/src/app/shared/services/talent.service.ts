@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { map } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 export interface TalentLeadInput {
   name: string;
@@ -14,12 +15,29 @@ export interface TalentLeadInput {
 export interface CandidateApplicationInput {
   fullName: string;
   email: string;
+  phone?: string;
   location: string;
-  specialty: string;
-  linkedinUrl?: string;
+  linkedinUrl: string;
+  cvUrl: string;
+  mainRole: string;
+  otherRoles?: string;
+  mainStack?: string;
+  yearsExperience: string;
   englishLevel: string;
-  mainStack: string;
+  workedInternational: boolean;
+  desiredSalary: number;
+  minSalary?: number;
+  availability?: string;
   message?: string;
+}
+
+export interface FeaturedCandidate {
+  id: string;
+  mainRole: string;
+  location: string;
+  englishLevel: string;
+  mainStack?: string | null;
+  yearsExperience: string;
 }
 
 const CREATE_TALENT_LEAD = gql`
@@ -38,9 +56,26 @@ const CREATE_CANDIDATE_APPLICATION = gql`
   }
 `;
 
+const FEATURED_CANDIDATES = gql`
+  query FeaturedCandidates {
+    featuredCandidates {
+      id
+      mainRole
+      location
+      englishLevel
+      mainStack
+      yearsExperience
+    }
+  }
+`;
+
 @Injectable({ providedIn: 'root' })
 export class TalentService {
   private apollo = inject(Apollo);
+
+  private get apiBase(): string {
+    return environment.apiUrl.replace(/\/graphql\/?$/, '');
+  }
 
   createTalentLead(input: TalentLeadInput) {
     return this.apollo
@@ -58,5 +93,30 @@ export class TalentService {
         variables: { input },
       })
       .pipe(map((r) => r.data!.createCandidateApplication));
+  }
+
+  getFeaturedCandidates() {
+    return this.apollo
+      .query<{ featuredCandidates: FeaturedCandidate[] }>({
+        query: FEATURED_CANDIDATES,
+        fetchPolicy: 'network-only',
+      })
+      .pipe(map((r) => r.data!.featuredCandidates));
+  }
+
+  async uploadCv(file: File): Promise<string> {
+    const response = await fetch(`${this.apiBase}/cv`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/pdf',
+        'X-Filename': encodeURIComponent(file.name),
+      },
+      body: file,
+    });
+    if (!response.ok) {
+      throw new Error('upload-failed');
+    }
+    const data = (await response.json()) as { url: string };
+    return `${this.apiBase}${data.url}`;
   }
 }

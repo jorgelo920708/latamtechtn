@@ -17,6 +17,9 @@
         <a href="#specialties" (click)="mobileNavOpen.set(false)">{{ copy.nav.specialties }}</a>
         <a href="#about" (click)="mobileNavOpen.set(false)">{{ copy.nav.about }}</a>
         <a href="#contact" (click)="mobileNavOpen.set(false)">{{ copy.nav.contact }}</a>
+        <button type="button" class="btn btn-ghost nav-cta nav-cta-talent" (click)="openCandidate()">
+          {{ copy.nav.ctaCandidate }}
+        </button>
         <button type="button" class="btn btn-primary nav-cta" (click)="openCompany()">
           {{ copy.nav.cta }}
         </button>
@@ -132,7 +135,7 @@
           }
         </div>
         <div class="talent-grid">
-          @for (card of copy.talent.categories[activeFilter()]; track card.code) {
+          @for (card of talentCards(copy, activeFilter()); track card.code) {
             <article class="talent-card">
               <div class="talent-card-top">
                 <div class="talent-avatar">

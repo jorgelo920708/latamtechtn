@@ -217,13 +217,38 @@
                   </div>
                   <dl class="record-rows">
                     <div><dt>Email</dt><dd><a [href]="'mailto:' + c.email">{{ c.email }}</a></dd></div>
-                    <div><dt>Especialidad</dt><dd>{{ c.specialty }}</dd></div>
+                    @if (c.phone) {
+                      <div><dt>Teléfono</dt><dd>{{ c.phone }}</dd></div>
+                    }
+                    <div><dt>Rol principal</dt><dd>{{ c.mainRole }}</dd></div>
+                    @if (c.otherRoles) {
+                      <div><dt>Otros roles</dt><dd>{{ c.otherRoles }}</dd></div>
+                    }
+                    <div><dt>Experiencia</dt><dd>{{ c.yearsExperience }}</dd></div>
                     <div><dt>Inglés</dt><dd>{{ c.englishLevel }}</dd></div>
-                    <div><dt>Stack</dt><dd>{{ c.mainStack }}</dd></div>
+                    @if (c.mainStack) {
+                      <div><dt>Stack</dt><dd>{{ c.mainStack }}</dd></div>
+                    }
+                    <div><dt>Internacional</dt><dd>{{ c.workedInternational ? 'Sí' : 'No' }}</dd></div>
+                    @if (c.desiredSalary != null) {
+                      <div><dt>Salario deseado</dt><dd>${{ c.desiredSalary }} USD</dd></div>
+                    }
+                    @if (c.minSalary != null) {
+                      <div><dt>Salario mínimo</dt><dd>${{ c.minSalary }} USD</dd></div>
+                    }
+                    @if (c.availability) {
+                      <div><dt>Disponibilidad</dt><dd>{{ c.availability }}</dd></div>
+                    }
                     @if (c.linkedinUrl) {
                       <div>
                         <dt>LinkedIn</dt>
                         <dd><a [href]="c.linkedinUrl" target="_blank" rel="noopener">{{ c.linkedinUrl }}</a></dd>
+                      </div>
+                    }
+                    @if (c.cvUrl) {
+                      <div>
+                        <dt>CV</dt>
+                        <dd><a [href]="c.cvUrl" target="_blank" rel="noopener">Ver CV (PDF)</a></dd>
                       </div>
                     }
                     @if (c.message) {

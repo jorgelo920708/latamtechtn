@@ -13,18 +13,26 @@ type AuthPayloadType {
 }
 
 type CandidateApplicationType {
+  availability: String
   createdAt: DateTime!
+  cvUrl: String
+  desiredSalary: Int
   email: String!
   englishLevel: String!
   fullName: String!
   id: ID!
-  linkedinUrl: String
+  linkedinUrl: String!
   location: String!
-  mainStack: String!
+  mainRole: String!
+  mainStack: String
   message: String
-  specialty: String!
+  minSalary: Int
+  otherRoles: String
+  phone: String
   status: String!
   updatedAt: DateTime!
+  workedInternational: Boolean!
+  yearsExperience: String!
 }
 
 input ChangePasswordInput {
@@ -43,14 +51,22 @@ type ContactRequestType {
 }
 
 input CreateCandidateApplicationInput {
+  availability: String
+  cvUrl: String!
+  desiredSalary: Int!
   email: String!
   englishLevel: String!
   fullName: String!
-  linkedinUrl: String
+  linkedinUrl: String!
   location: String!
-  mainStack: String!
+  mainRole: String!
+  mainStack: String
   message: String
-  specialty: String!
+  minSalary: Int
+  otherRoles: String
+  phone: String
+  workedInternational: Boolean!
+  yearsExperience: String!
 }
 
 input CreateContactRequestInput {
@@ -72,6 +88,15 @@ input CreateTalentLeadInput {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type FeaturedCandidateType {
+  englishLevel: String!
+  id: ID!
+  location: String!
+  mainRole: String!
+  mainStack: String
+  yearsExperience: String!
+}
 
 input LoginInput {
   email: String!
@@ -96,6 +121,7 @@ type PublicStatsType {
 type Query {
   candidateApplications: [CandidateApplicationType!]!
   contactRequests: [ContactRequestType!]!
+  featuredCandidates: [FeaturedCandidateType!]!
   health: String!
   me: AdminType!
   publicStats: PublicStatsType!

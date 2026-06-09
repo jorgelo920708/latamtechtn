@@ -44,21 +44,39 @@ model TalentLead {
 }
 
 model CandidateApplication {
-  id           String   @id @default(uuid())
-  fullName     String
-  email        String
-  location     String
-  specialty    String
-  linkedinUrl  String?
-  englishLevel String
-  mainStack    String
-  message      String?
-  status       String   @default("NEW")
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id                  String   @id @default(uuid())
+  fullName            String
+  email               String
+  phone               String?
+  location            String
+  specialty           String?
+  linkedinUrl         String?
+  cvUrl               String?
+  mainRole            String?
+  otherRoles          String?
+  mainStack           String?
+  yearsExperience     String?
+  englishLevel        String
+  workedInternational Boolean  @default(false)
+  desiredSalary       Int?
+  minSalary           Int?
+  availability        String?
+  message             String?
+  status              String   @default("NEW")
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 
   @@index([email])
   @@index([createdAt])
+}
+
+model CvFile {
+  id        String   @id @default(uuid())
+  filename  String
+  mimeType  String
+  size      Int
+  data      Bytes
+  createdAt DateTime @default(now())
 }
 
 model ContactRequest {

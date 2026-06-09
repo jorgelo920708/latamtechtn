@@ -22,6 +22,10 @@ export class CandidateApplicationService {
     return this.candidateApplicationRepository.findAll();
   }
 
+  findFeatured() {
+    return this.candidateApplicationRepository.findFeatured();
+  }
+
   findById(id: string) {
     return this.candidateApplicationRepository.findById(id);
   }

@@ -5,8 +5,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LatamCopyService } from '../shared/services/latam-copy.service';
 import { LATAM_COPY_ID, LatamCopyModel } from '../shared/models/copy/latam-copy.model';
-import { LandingCopy, MetricCopy } from '../shared/models/copy/landing.model';
+import { LandingCopy, MetricCopy, TalentCardCopy } from '../shared/models/copy/landing.model';
 import { PublicStats, StatsService } from '../shared/services/stats.service';
+import { FeaturedCandidate, TalentService } from '../shared/services/talent.service';
 import { AssetUrl, TALENT_AVATARS } from '../shared/enums/asset-url.enum';
 import { CONTACT, isPlaceholderLink } from '../shared/constants/contact.constants';
 import { IconComponent } from '../shared/components/icon/icon.component';
@@ -14,6 +15,31 @@ import { TalentRequestFormComponent } from '../shared/components/talent-request-
 import { CandidateFormComponent } from '../shared/components/candidate-form/candidate-form.component';
 
 type ModalKind = 'company' | 'candidate' | null;
+
+const ROLE_TO_CATEGORY: Record<string, string> = {
+  'Backend Engineer': 'software',
+  'Frontend Engineer': 'software',
+  'Full Stack Engineer': 'software',
+  'Mobile Developer': 'software',
+  'Solutions Architect': 'software',
+  'React Developer': 'software',
+  'Angular Developer': 'software',
+  'Node.js Developer': 'software',
+  'Python Developer': 'software',
+  '.NET Developer': 'software',
+  'Ruby on Rails Developer': 'software',
+  'DevOps Engineer': 'cloud',
+  'Site Reliability Engineer (SRE)': 'cloud',
+  'QA Manual': 'qa',
+  'QA Automation': 'qa',
+  'Data Engineer': 'data',
+  'Data Scientist': 'data',
+  'Machine Learning Engineer': 'data',
+  'Data Architect': 'data',
+  'Power BI Developer': 'data',
+  'Product Manager': 'product',
+  'Salesforce Developer': 'salesforce',
+};
 
 @Component({
   selector: 'app-landing',
@@ -32,6 +58,7 @@ type ModalKind = 'company' | 'candidate' | null;
 export class LandingComponent implements OnInit {
   private copyService = inject(LatamCopyService);
   private statsService = inject(StatsService);
+  private talentService = inject(TalentService);
 
   readonly CONTACT = CONTACT;
   readonly AssetUrl = AssetUrl;
@@ -44,12 +71,46 @@ export class LandingComponent implements OnInit {
   modal = signal<ModalKind>(null);
   mobileNavOpen = signal(false);
   stats = signal<PublicStats | null>(null);
+  featured = signal<FeaturedCandidate[]>([]);
 
   ngOnInit(): void {
     this.statsService.getPublicStats().subscribe({
       next: (stats) => this.stats.set(stats),
       error: () => undefined,
     });
+    this.talentService.getFeaturedCandidates().subscribe({
+      next: (list) => this.featured.set(list),
+      error: () => undefined,
+    });
+  }
+
+  talentCards(copy: LandingCopy, key: string): TalentCardCopy[] {
+    const real = this.featured().filter((c) => ROLE_TO_CATEGORY[c.mainRole] === key);
+    if (real.length === 0) {
+      return copy.talent.categories[key] ?? [];
+    }
+    const action = copy.talent.categories[key]?.[0]?.action ?? '';
+    return real.map((candidate, index) => ({
+      code: `Candidato #${String(index + 1).padStart(2, '0')}`,
+      topRank: false,
+      topRankLabel: '',
+      role: candidate.mainRole,
+      location: candidate.location,
+      english: candidate.englishLevel,
+      stack: this.splitStack(candidate.mainStack),
+      action,
+    }));
+  }
+
+  private splitStack(stack?: string | null): string[] {
+    if (!stack) {
+      return [];
+    }
+    return stack
+      .split(',')
+      .map((item) => item.trim())
+      .filter(Boolean)
+      .slice(0, 5);
   }
 
   metricValue(metric: MetricCopy): string {

@@ -3,6 +3,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { AppController } from './app.controller';
+import { CvController } from './cv.controller';
 import { AppResolver } from './app.resolver';
 import { PrismaService } from './prisma.service';
 import { TalentLeadModule } from './talent-lead/talent-lead.module';
@@ -28,7 +29,7 @@ import { StatsModule } from './stats/stats.module';
     MailModule,
     StatsModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, CvController],
   providers: [AppResolver, PrismaService],
   exports: [PrismaService],
 })

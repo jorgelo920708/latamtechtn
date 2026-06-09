@@ -16,6 +16,20 @@ export class CandidateApplicationRepository {
     });
   }
 
+  findFeatured() {
+    return this.prisma.candidateApplication.findMany({
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        mainRole: true,
+        location: true,
+        englishLevel: true,
+        mainStack: true,
+        yearsExperience: true,
+      },
+    });
+  }
+
   findById(id: string) {
     return this.prisma.candidateApplication.findUnique({ where: { id } });
   }
