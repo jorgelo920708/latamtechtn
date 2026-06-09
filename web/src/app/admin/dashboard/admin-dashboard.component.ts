@@ -16,6 +16,7 @@ import {
 } from '../admin.service';
 import { LatamCopyService } from '../../shared/services/latam-copy.service';
 import { GeoService } from '../../shared/services/geo.service';
+import { CountUpDirective } from '../../shared/directives/count-up.directive';
 import { LATAM_COPY_ID, LatamCopyModel } from '../../shared/models/copy/latam-copy.model';
 import { PHONE_CODES, formatPhoneNumber } from '../../shared/constants/phone-codes';
 import { IconComponent } from '../../shared/components/icon/icon.component';
@@ -58,7 +59,7 @@ interface ActivityItem {
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [ReactiveFormsModule, IconComponent, ModalShellComponent],
+  imports: [ReactiveFormsModule, IconComponent, ModalShellComponent, CountUpDirective],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

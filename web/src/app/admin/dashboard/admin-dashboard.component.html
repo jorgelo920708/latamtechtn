@@ -101,28 +101,28 @@
             <button type="button" class="stat-card" (click)="setTab('leads')">
               <span class="stat-icon blue"><app-icon name="briefcase" /></span>
               <span class="stat-text">
-                <strong>{{ leads().length }}</strong>
+                <strong [appCountUp]="leads().length"></strong>
                 <span>{{ t()?.statLeads }}</span>
               </span>
             </button>
             <button type="button" class="stat-card" (click)="setTab('candidates')">
               <span class="stat-icon green"><app-icon name="users" /></span>
               <span class="stat-text">
-                <strong>{{ candidates().length }}</strong>
+                <strong [appCountUp]="candidates().length"></strong>
                 <span>{{ t()?.statCandidates }}</span>
               </span>
             </button>
             <button type="button" class="stat-card" (click)="setTab('contacts')">
               <span class="stat-icon purple"><app-icon name="chat" /></span>
               <span class="stat-text">
-                <strong>{{ contacts().length }}</strong>
+                <strong [appCountUp]="contacts().length"></strong>
                 <span>{{ t()?.statContacts }}</span>
               </span>
             </button>
             <div class="stat-card is-static">
               <span class="stat-icon navy"><app-icon name="layers" /></span>
               <span class="stat-text">
-                <strong>{{ totalRecords() }}</strong>
+                <strong [appCountUp]="totalRecords()"></strong>
                 <span>{{ t()?.statTotal }}</span>
               </span>
             </div>

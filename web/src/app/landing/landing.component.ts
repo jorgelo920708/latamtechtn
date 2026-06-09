@@ -13,6 +13,7 @@ import { CONTACT, isPlaceholderLink } from '../shared/constants/contact.constant
 import { IconComponent } from '../shared/components/icon/icon.component';
 import { TalentRequestFormComponent } from '../shared/components/talent-request-form/talent-request-form.component';
 import { CandidateFormComponent } from '../shared/components/candidate-form/candidate-form.component';
+import { CountUpDirective } from '../shared/directives/count-up.directive';
 
 type ModalKind = 'company' | 'candidate' | null;
 
@@ -50,6 +51,7 @@ const ROLE_TO_CATEGORY: Record<string, string> = {
     IconComponent,
     TalentRequestFormComponent,
     CandidateFormComponent,
+    CountUpDirective,
   ],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss',
@@ -130,6 +132,20 @@ export class LandingComponent implements OnInit {
     const plus = metric.value.trim().endsWith('+') ? '+' : '';
     const count = metric.icon === 'users' ? stats.candidateCount : stats.specialtyCount;
     return `${count}${plus}`;
+  }
+
+  isDynamicMetric(metric: MetricCopy): boolean {
+    return metric.icon === 'users' || metric.icon === 'layers';
+  }
+
+  metricCount(metric: MetricCopy): number {
+    const stats = this.stats();
+    if (!stats) return 0;
+    return metric.icon === 'users' ? stats.candidateCount : stats.specialtyCount;
+  }
+
+  metricPlus(metric: MetricCopy): string {
+    return metric.value.trim().endsWith('+') ? '+' : '';
   }
 
   setFilter(key: string): void {
