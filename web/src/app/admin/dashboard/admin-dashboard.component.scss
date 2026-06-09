@@ -540,8 +540,9 @@
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 12px;
+  align-items: start;
 }
 
 .record {
@@ -549,7 +550,7 @@
   border: 1px solid var(--line-soft);
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
-  padding: 18px;
+  padding: 14px;
 }
 
 .record-head {
@@ -557,17 +558,17 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  padding-bottom: 12px;
+  padding-bottom: 8px;
   border-bottom: 1px solid var(--line-soft);
 }
 
 .record-head h3 {
-  font-size: 1.05rem;
+  font-size: 0.92rem;
   font-weight: 700;
 }
 
 .record-sub {
-  font-size: 0.88rem;
+  font-size: 0.78rem;
   color: var(--muted);
 }
 
@@ -597,27 +598,27 @@
 }
 
 .record-rows {
-  margin-top: 12px;
+  margin-top: 8px;
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 4px;
 }
 
 .record-rows > div {
   display: grid;
-  grid-template-columns: 110px 1fr;
-  gap: 10px;
+  grid-template-columns: 96px 1fr;
+  gap: 8px;
   align-items: start;
 }
 
 .record-rows dt {
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   font-weight: 600;
   color: var(--muted);
 }
 
 .record-rows dd {
-  font-size: 0.9rem;
+  font-size: 0.81rem;
   color: var(--ink);
   word-break: break-word;
 }
@@ -633,30 +634,30 @@
 .record-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 14px;
-  padding-top: 14px;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 10px;
   border-top: 1px solid var(--line-soft);
 }
 
 .record-action {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 7px 13px;
+  gap: 5px;
+  padding: 5px 11px;
   border: 1px solid var(--line);
   border-radius: var(--radius-pill);
   background: #fff;
   color: var(--body);
   font-weight: 600;
-  font-size: 0.8rem;
+  font-size: 0.74rem;
   font-family: inherit;
   cursor: pointer;
 }
 
 .record-action app-icon {
-  width: 15px;
-  height: 15px;
+  width: 13px;
+  height: 13px;
   color: var(--muted);
 }
 

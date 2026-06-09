@@ -7,6 +7,7 @@ export interface CandidateCsvInput {
   fullName: string;
   email: string;
   location: string;
+  city?: string;
   englishLevel: string;
   phone?: string;
   linkedinUrl?: string;
@@ -165,9 +166,13 @@ function cleanLinkedin(v: string | undefined): string | undefined {
   return s.slice(0, 300);
 }
 
-// Tidy a free-form "País de residencia" + optional Ciudad into "City, Country".
-// "Argentina - Tucumán" -> "Tucumán, Argentina"; detected country moves last.
-function normalizeLocation(country: string | undefined, city: string | undefined): string {
+// Tidy a free-form "País de residencia" + optional Ciudad into a display
+// "City, Country" string plus the separated city (sub-national part).
+// "Argentina - Tucumán" -> { location: "Tucumán, Argentina", city: "Tucumán" }.
+function normalizeLocation(
+  country: string | undefined,
+  city: string | undefined,
+): { location: string; city: string | undefined } {
   const raw = (country || '').replace(/ - /g, ', ').replace(/\//g, ', ');
   const tokens = raw
     .split(',')
@@ -183,11 +188,12 @@ function normalizeLocation(country: string | undefined, city: string | undefined
   if (city && city.trim() && !others.some((o) => norm(o) === norm(city))) {
     others.unshift(city.trim());
   }
-  let loc: string;
-  if (detected) loc = others.length ? [...others, detected].join(', ') : detected;
-  else if (tokens.length) loc = tokens.join(', ');
-  else loc = city ? city.trim() : '';
-  return loc.slice(0, 160);
+  let location: string;
+  if (detected) location = others.length ? [...others, detected].join(', ') : detected;
+  else if (tokens.length) location = tokens.join(', ');
+  else location = city ? city.trim() : '';
+  const cityOut = others.join(', ').trim();
+  return { location: location.slice(0, 160), city: cityOut ? cityOut.slice(0, 120) : undefined };
 }
 
 function yearsExperience(v: string | undefined): string | undefined {
@@ -301,11 +307,12 @@ export function parseCandidatesCsv(text: string): CandidateCsvInput[] {
     const key = email.toLowerCase();
     if (seen.has(key)) continue;
     seen.add(key);
-    const location = v['location'] || normalizeLocation(v['country'], v['city']) || '—';
+    const resolved = normalizeLocation(v['country'] || v['location'], v['city']);
     out.push({
       fullName: fullName.slice(0, 120),
       email,
-      location,
+      location: resolved.location || '—',
+      city: resolved.city,
       englishLevel: englishLevel(v['englishLevel']) || '—',
       phone: cleanPhone(v['phone']),
       linkedinUrl: cleanLinkedin(v['linkedinUrl']),

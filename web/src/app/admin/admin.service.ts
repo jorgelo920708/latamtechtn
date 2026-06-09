@@ -23,6 +23,7 @@ export interface CandidateApplication {
   email: string;
   phone?: string | null;
   location: string;
+  city?: string | null;
   linkedinUrl?: string | null;
   cvUrl?: string | null;
   mainRole: string;
@@ -64,6 +65,7 @@ export interface AdminCandidateInput {
   fullName: string;
   email: string;
   location: string;
+  city?: string;
   englishLevel: string;
   phone?: string;
   linkedinUrl?: string;
@@ -145,6 +147,7 @@ const CANDIDATE_APPLICATIONS = gql`
       email
       phone
       location
+      city
       linkedinUrl
       cvUrl
       mainRole

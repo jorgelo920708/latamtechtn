@@ -92,10 +92,10 @@ export class LandingComponent implements OnInit {
   talentCards(copy: LandingCopy, key: string): TalentCardCopy[] {
     const real = this.featured().filter((c) => ROLE_TO_CATEGORY[c.mainRole] === key);
     if (real.length === 0) {
-      return copy.talent.categories[key] ?? [];
+      return (copy.talent.categories[key] ?? []).slice(0, 5);
     }
     const action = copy.talent.categories[key]?.[0]?.action ?? '';
-    return real.map((candidate, index) => ({
+    return real.slice(0, 5).map((candidate, index) => ({
       code: `Candidato #${String(index + 1).padStart(2, '0')}`,
       topRank: false,
       topRankLabel: '',

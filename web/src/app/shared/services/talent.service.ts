@@ -17,6 +17,7 @@ export interface CandidateApplicationInput {
   email: string;
   phone?: string;
   location: string;
+  city?: string;
   linkedinUrl: string;
   cvUrl: string;
   mainRole: string;

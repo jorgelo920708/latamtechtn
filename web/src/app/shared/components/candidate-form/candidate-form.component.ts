@@ -136,6 +136,7 @@ export class CandidateFormComponent {
       email: raw.email.trim(),
       phone: raw.phone.trim() ? `${raw.phoneCode} ${raw.phone.trim()}` : undefined,
       location: raw.city.trim() ? `${raw.city.trim()}, ${raw.country}` : raw.country,
+      city: raw.city.trim() || undefined,
       linkedinUrl: raw.linkedinUrl.trim(),
       cvUrl: raw.cvUrl,
       mainRole: raw.mainRole,
