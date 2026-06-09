@@ -135,7 +135,13 @@
             } @else {
               <ul class="activity-list">
                 @for (item of recentActivity(); track $index) {
-                  <li class="activity-item">
+                  <li
+                    class="activity-item activity-clickable"
+                    role="button"
+                    tabindex="0"
+                    (click)="openDetail(item.kind, item.data)"
+                    (keydown.enter)="openDetail(item.kind, item.data)"
+                  >
                     <span class="activity-icon"><app-icon [name]="item.icon" /></span>
                     <div class="activity-body">
                       <span class="activity-title">{{ item.title }}</span>

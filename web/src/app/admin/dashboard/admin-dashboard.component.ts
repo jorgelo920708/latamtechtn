@@ -47,11 +47,12 @@ function readInitialTab(): Tab {
 }
 
 interface ActivityItem {
-  kind: string;
+  kind: ModalEntity;
   icon: string;
   title: string;
   subtitle: string;
   date: string;
+  data: CandidateApplication | TalentLead | ContactRequest;
 }
 
 @Component({
@@ -162,6 +163,7 @@ export class AdminDashboardComponent implements OnInit {
         title: lead.name,
         subtitle: `${lead.company} · ${lead.role}`,
         date: lead.createdAt,
+        data: lead,
       });
     }
     for (const candidate of this.candidates()) {
@@ -171,6 +173,7 @@ export class AdminDashboardComponent implements OnInit {
         title: candidate.fullName,
         subtitle: `${candidate.mainRole} · ${candidate.location}`,
         date: candidate.createdAt,
+        data: candidate,
       });
     }
     for (const contact of this.contacts()) {
@@ -180,6 +183,7 @@ export class AdminDashboardComponent implements OnInit {
         title: contact.name,
         subtitle: contact.email,
         date: contact.createdAt,
+        data: contact,
       });
     }
     return items
