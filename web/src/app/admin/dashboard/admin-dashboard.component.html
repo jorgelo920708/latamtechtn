@@ -16,29 +16,29 @@
       <button type="button" class="nav-item" [class.active]="activeTab() === 'leads'" (click)="setTab('leads')">
         <app-icon name="briefcase" />
         <span class="nav-label">{{ t()?.navLeads }}</span>
-        @if (loaded().leads && leads().length > 0) {
-          <span class="nav-count">{{ leads().length }}</span>
+        @if (loaded().leads && liveLeads() > 0) {
+          <span class="nav-count">{{ liveLeads() }}</span>
         }
       </button>
       <button type="button" class="nav-item" [class.active]="activeTab() === 'candidates'" (click)="setTab('candidates')">
         <app-icon name="users" />
         <span class="nav-label">{{ t()?.navCandidates }}</span>
-        @if (loaded().candidates && candidates().length > 0) {
-          <span class="nav-count">{{ candidates().length }}</span>
+        @if (loaded().candidates && liveCandidates() > 0) {
+          <span class="nav-count">{{ liveCandidates() }}</span>
         }
       </button>
       <button type="button" class="nav-item" [class.active]="activeTab() === 'contacts'" (click)="setTab('contacts')">
         <app-icon name="chat" />
         <span class="nav-label">{{ t()?.navContacts }}</span>
-        @if (loaded().contacts && contacts().length > 0) {
-          <span class="nav-count">{{ contacts().length }}</span>
+        @if (loaded().contacts && liveContacts() > 0) {
+          <span class="nav-count">{{ liveContacts() }}</span>
         }
       </button>
       <button type="button" class="nav-item" [class.active]="activeTab() === 'companies'" (click)="setTab('companies')">
         <app-icon name="badge" />
         <span class="nav-label">{{ t()?.navCompanies }}</span>
-        @if (loaded().companies && companies().length > 0) {
-          <span class="nav-count">{{ companies().length }}</span>
+        @if (loaded().companies && liveCompanies() > 0) {
+          <span class="nav-count">{{ liveCompanies() }}</span>
         }
       </button>
 
@@ -448,28 +448,28 @@
     <button type="button" class="mobile-tab" [class.active]="activeTab() === 'leads'" (click)="setTab('leads')">
       <app-icon name="briefcase" />
       <span>{{ t()?.navLeads }}</span>
-      @if (loaded().leads && leads().length > 0) {
+      @if (loaded().leads && liveLeads() > 0) {
         <span class="mobile-dot"></span>
       }
     </button>
     <button type="button" class="mobile-tab" [class.active]="activeTab() === 'candidates'" (click)="setTab('candidates')">
       <app-icon name="users" />
       <span>{{ t()?.navCandidates }}</span>
-      @if (loaded().candidates && candidates().length > 0) {
+      @if (loaded().candidates && liveCandidates() > 0) {
         <span class="mobile-dot"></span>
       }
     </button>
     <button type="button" class="mobile-tab" [class.active]="activeTab() === 'contacts'" (click)="setTab('contacts')">
       <app-icon name="chat" />
       <span>{{ t()?.navContacts }}</span>
-      @if (loaded().contacts && contacts().length > 0) {
+      @if (loaded().contacts && liveContacts() > 0) {
         <span class="mobile-dot"></span>
       }
     </button>
     <button type="button" class="mobile-tab" [class.active]="activeTab() === 'companies'" (click)="setTab('companies')">
       <app-icon name="badge" />
       <span>{{ t()?.navCompanies }}</span>
-      @if (loaded().companies && companies().length > 0) {
+      @if (loaded().companies && liveCompanies() > 0) {
         <span class="mobile-dot"></span>
       }
     </button>

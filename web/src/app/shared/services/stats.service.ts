@@ -11,6 +11,7 @@ export interface StatsSnapshot {
   candidateCount: number;
   leadCount: number;
   contactCount: number;
+  companyCount: number;
   specialtyCount: number;
 }
 
@@ -29,6 +30,7 @@ const STATS_CHANGED = gql`
       candidateCount
       leadCount
       contactCount
+      companyCount
       specialtyCount
     }
   }

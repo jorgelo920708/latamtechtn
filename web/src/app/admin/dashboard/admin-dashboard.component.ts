@@ -294,6 +294,19 @@ export class AdminDashboardComponent implements OnInit {
     return s ? s.leadCount + s.candidateCount + s.contactCount : this.totalRecords();
   }
 
+  liveLeads(): number {
+    return this.liveStats()?.leadCount ?? this.leads().length;
+  }
+  liveCandidates(): number {
+    return this.liveStats()?.candidateCount ?? this.candidates().length;
+  }
+  liveContacts(): number {
+    return this.liveStats()?.contactCount ?? this.contacts().length;
+  }
+  liveCompanies(): number {
+    return this.liveStats()?.companyCount ?? this.companies().length;
+  }
+
   setTab(tab: Tab): void {
     this.activeTab.set(tab);
     this.search.set('');
