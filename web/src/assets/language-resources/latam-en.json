@@ -767,7 +767,7 @@
         },
         "phone": {
           "label": "Phone number",
-          "placeholder": "+52 55 1234 5678"
+          "placeholder": "55 1234 5678"
         },
         "location": {
           "label": "Country & city of residence",

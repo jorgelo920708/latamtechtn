@@ -180,6 +180,11 @@ export class AdminDashboardComponent implements OnInit {
     return kind === 'lead' ? t.kindLead : kind === 'candidate' ? t.kindCandidate : t.kindContact;
   }
 
+  waLink(phone: string | null | undefined): string {
+    const digits = (phone ?? '').replace(/\D/g, '');
+    return `https://wa.me/${digits}`;
+  }
+
   onSearch(event: Event): void {
     this.search.set((event.target as HTMLInputElement).value);
   }
@@ -263,7 +268,7 @@ export class AdminDashboardComponent implements OnInit {
 
   logout(): void {
     this.adminService.logout();
-    void this.router.navigateByUrl('/admin/login');
+    void this.router.navigateByUrl('/');
   }
 
   initials(): string {

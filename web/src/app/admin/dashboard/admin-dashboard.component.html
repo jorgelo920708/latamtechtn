@@ -65,7 +65,7 @@
           <span>{{ lang() === 'es' ? 'ES' : 'EN' }}</span>
         </button>
         <button type="button" class="btn-out" (click)="logout()">
-          <app-icon name="arrow" />
+          <app-icon name="logout" />
           <span class="btn-out-label">{{ t()?.logout }}</span>
         </button>
       </div>
@@ -178,6 +178,11 @@
                       <div><dt>{{ r()?.message }}</dt><dd>{{ lead.message }}</dd></div>
                     }
                   </dl>
+                  <div class="record-actions">
+                    <a class="record-action" [href]="'mailto:' + lead.email">
+                      <app-icon name="mail" /> Email
+                    </a>
+                  </div>
                 </article>
               }
             </div>
@@ -255,6 +260,16 @@
                       <div><dt>{{ r()?.message }}</dt><dd>{{ c.message }}</dd></div>
                     }
                   </dl>
+                  <div class="record-actions">
+                    <a class="record-action" [href]="'mailto:' + c.email">
+                      <app-icon name="mail" /> Email
+                    </a>
+                    @if (c.phone) {
+                      <a class="record-action wa" [href]="waLink(c.phone)" target="_blank" rel="noopener">
+                        <app-icon name="whatsapp" /> WhatsApp
+                      </a>
+                    }
+                  </div>
                 </article>
               }
             </div>
@@ -287,6 +302,11 @@
                     <div><dt>{{ r()?.email }}</dt><dd><a [href]="'mailto:' + ct.email">{{ ct.email }}</a></dd></div>
                     <div><dt>{{ r()?.message }}</dt><dd>{{ ct.message }}</dd></div>
                   </dl>
+                  <div class="record-actions">
+                    <a class="record-action" [href]="'mailto:' + ct.email">
+                      <app-icon name="mail" /> Email
+                    </a>
+                  </div>
                 </article>
               }
             </div>

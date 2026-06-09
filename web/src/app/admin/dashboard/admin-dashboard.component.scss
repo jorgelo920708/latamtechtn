@@ -292,7 +292,6 @@
 .btn-out app-icon {
   width: 15px;
   height: 15px;
-  transform: rotate(180deg);
   color: var(--faint);
   transition: color 0.15s ease;
 }
@@ -629,6 +628,58 @@
 
 .record-rows dd a:hover {
   text-decoration: underline;
+}
+
+.record-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.record-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  color: var(--body);
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.record-action app-icon {
+  width: 15px;
+  height: 15px;
+  color: var(--muted);
+}
+
+.record-action:hover {
+  border-color: var(--brand-blue);
+  color: var(--brand-blue);
+}
+
+.record-action:hover app-icon {
+  color: var(--brand-blue);
+}
+
+.record-action.wa {
+  color: #128c7e;
+  border-color: rgba(18, 140, 126, 0.3);
+}
+
+.record-action.wa app-icon {
+  color: #25d366;
+}
+
+.record-action.wa:hover {
+  border-color: #25d366;
+  background: rgba(37, 211, 102, 0.06);
+  color: #128c7e;
 }
 
 .account-card {

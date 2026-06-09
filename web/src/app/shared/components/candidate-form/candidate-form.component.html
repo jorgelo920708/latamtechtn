@@ -37,7 +37,14 @@
 
           <div class="field">
             <label for="ca-phone">{{ forms.candidate.phone.label }}</label>
-            <input id="ca-phone" type="tel" formControlName="phone" [placeholder]="forms.candidate.phone.placeholder" />
+            <div class="phone-row">
+              <select class="phone-code" formControlName="phoneCode" aria-label="Código de país">
+                @for (pc of phoneCodes; track pc.code) {
+                  <option [value]="pc.code">{{ pc.label }}</option>
+                }
+              </select>
+              <input id="ca-phone" type="tel" formControlName="phone" [placeholder]="forms.candidate.phone.placeholder" />
+            </div>
           </div>
 
           <div class="field">

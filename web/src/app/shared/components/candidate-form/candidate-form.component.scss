@@ -10,6 +10,23 @@
   color: var(--faint);
 }
 
+.phone-row {
+  display: flex;
+  gap: 8px;
+}
+
+.phone-row .phone-code {
+  width: auto;
+  flex: 0 0 auto;
+  min-width: 100px;
+  padding-right: 8px;
+}
+
+.phone-row input {
+  flex: 1;
+  min-width: 0;
+}
+
 .cv-upload {
   display: inline-flex;
   align-items: center;

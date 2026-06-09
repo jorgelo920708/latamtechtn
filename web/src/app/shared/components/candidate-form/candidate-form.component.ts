@@ -7,6 +7,7 @@ import { LatamCopyService } from '../../services/latam-copy.service';
 import { LATAM_COPY_ID, LatamCopyModel } from '../../models/copy/latam-copy.model';
 import { FormsCopy } from '../../models/copy/landing.model';
 import { CandidateApplicationInput, TalentService } from '../../services/talent.service';
+import { PHONE_CODES } from '../../constants/phone-codes';
 import { ModalShellComponent } from '../modal-shell/modal-shell.component';
 import { IconComponent } from '../icon/icon.component';
 
@@ -42,9 +43,12 @@ export class CandidateFormComponent {
   cvUploading = signal(false);
   cvError = signal(false);
 
+  readonly phoneCodes = PHONE_CODES;
+
   form = this.fb.nonNullable.group({
     fullName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
+    phoneCode: ['+52'],
     phone: [''],
     location: ['', Validators.required],
     linkedinUrl: ['', Validators.required],
@@ -129,7 +133,7 @@ export class CandidateFormComponent {
     const input: CandidateApplicationInput = {
       fullName: raw.fullName.trim(),
       email: raw.email.trim(),
-      phone: raw.phone.trim() || undefined,
+      phone: raw.phone.trim() ? `${raw.phoneCode} ${raw.phone.trim()}` : undefined,
       location: raw.location.trim(),
       linkedinUrl: raw.linkedinUrl.trim(),
       cvUrl: raw.cvUrl,

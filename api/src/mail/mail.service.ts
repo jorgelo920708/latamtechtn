@@ -31,6 +31,12 @@ export interface CandidateEmailData {
   message?: string | null;
 }
 
+export interface ContactEmailData {
+  name: string;
+  email: string;
+  message: string;
+}
+
 @Injectable()
 export class MailService {
   private readonly logger = new Logger(MailService.name);
@@ -104,6 +110,25 @@ export class MailService {
       this.adminEmail,
       `Nuevo candidato — ${c.fullName}`,
       this.wrap('Un candidato se inscribió en LATAM Tech Talent.', content),
+    );
+  }
+
+  async notifyNewContactRequest(c: ContactEmailData): Promise<void> {
+    const content =
+      this.eyebrow('Nuevo contacto') +
+      this.heading('Te escribieron desde el sitio') +
+      this.paragraph('Recibiste un nuevo mensaje de contacto.') +
+      this.infoCard([
+        ['Nombre', c.name],
+        ['Email', c.email],
+        ['Mensaje', c.message],
+      ]) +
+      this.button('Ver en el panel', this.adminUrl());
+
+    await this.send(
+      this.adminEmail,
+      `Nuevo contacto — ${c.name}`,
+      this.wrap('Te escribieron desde LATAM Tech Talent.', content),
     );
   }
 
