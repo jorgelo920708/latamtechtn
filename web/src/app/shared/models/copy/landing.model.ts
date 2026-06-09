@@ -32,9 +32,16 @@ export interface SpecialtyFilterCopy {
   icon: string;
 }
 
+export interface SpecialtyCategoryCopy {
+  icon: string;
+  title: string;
+  items: string[];
+}
+
 export interface SpecialtiesCopy {
   title: string;
-  filters: SpecialtyFilterCopy[];
+  subtitle: string;
+  categories: SpecialtyCategoryCopy[];
 }
 
 export interface TalentCardCopy {
@@ -50,6 +57,7 @@ export interface TalentCardCopy {
 
 export interface TalentCopy {
   title: string;
+  filters: SpecialtyFilterCopy[];
   englishLabel: string;
   stackLabel: string;
   categories: Record<string, TalentCardCopy[]>;

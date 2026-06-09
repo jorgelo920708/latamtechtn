@@ -12,7 +12,7 @@
       "cta": "Solicitar Talento"
     },
     "hero": {
-      "badge": "Talento tecnológico en LATAM",
+      "badge": "LATAM Talent Network",
       "titleStart": "Conectamos talento top de",
       "titleAccent": "LATAM",
       "titleEnd": "con oportunidades globales",
@@ -36,16 +36,30 @@
     ],
     "specialties": {
       "title": "Nuestras Especialidades",
+      "subtitle": "Cubrimos perfiles tech y de negocio en toda la región.",
+      "categories": [
+        { "icon": "code", "title": "Software Engineering", "items": ["Full Stack", "Frontend", "Backend", "Mobile"] },
+        { "icon": "database", "title": "Data & AI", "items": ["Data Engineer", "Data Analyst", "Data Scientist", "AI Engineer"] },
+        { "icon": "cloud", "title": "Cloud / DevOps / Infra", "items": ["DevOps", "Cloud", "Infrastructure", "Networking", "Technical Support"] },
+        { "icon": "shield", "title": "Cybersecurity", "items": ["Cybersecurity"] },
+        { "icon": "check", "title": "QA", "items": ["QA Manual", "QA Automation"] },
+        { "icon": "rocket", "title": "Product & PM", "items": ["Product Manager", "Product Owner", "Project Manager", "Scrum Master", "Business Analyst", "Functional Analyst"] },
+        { "icon": "layers", "title": "Salesforce", "items": ["Salesforce Developer", "Salesforce Admin", "Salesforce Consultant"] },
+        { "icon": "spark", "title": "Marketing & SEO", "items": ["Digital Marketing", "SEO", "Local SEO", "Link Building", "Content"] },
+        { "icon": "briefcase", "title": "Sales & Account Management", "items": ["SDR", "BDR", "Account Manager", "Sales Manager"] },
+        { "icon": "badge", "title": "Finance & Admin", "items": ["Finance", "Accounting", "CPA", "Financial Analyst", "Executive Assistant"] },
+        { "icon": "users", "title": "HR & Recruiting", "items": ["Recruiter", "IT Recruiter", "Talent Acquisition", "HRBP", "People Partner"] }
+      ]
+    },
+    "talent": {
+      "title": "Talento Destacado",
       "filters": [
         { "key": "cloud", "label": "Cloud & DevOps", "icon": "cloud" },
         { "key": "data", "label": "Data Engineering", "icon": "database" },
         { "key": "product", "label": "Product & Leadership", "icon": "rocket" },
         { "key": "software", "label": "Software Development", "icon": "code" },
         { "key": "qa", "label": "QA Automation", "icon": "search" }
-      ]
-    },
-    "talent": {
-      "title": "Talento Destacado",
+      ],
       "englishLabel": "Inglés",
       "stackLabel": "Stack",
       "categories": {
@@ -221,11 +235,17 @@
           "label": "Especialidad",
           "placeholder": "Selecciona una especialidad",
           "options": [
-            "Cloud & DevOps",
-            "Data Engineering",
-            "Product & Leadership",
-            "Software Development",
-            "QA Automation"
+            "Software Engineering",
+            "Data & AI",
+            "Cloud / DevOps / Infra",
+            "Cybersecurity",
+            "QA",
+            "Product & PM",
+            "Salesforce",
+            "Marketing & SEO",
+            "Sales & Account Management",
+            "Finance & Admin",
+            "HR & Recruiting"
           ]
         },
         "message": { "label": "Mensaje", "placeholder": "Cuéntanos más sobre la posición..." },
@@ -241,11 +261,17 @@
           "label": "Especialidad",
           "placeholder": "Selecciona una especialidad",
           "options": [
-            "Cloud & DevOps",
-            "Data Engineering",
-            "Product & Leadership",
-            "Software Development",
-            "QA Automation"
+            "Software Engineering",
+            "Data & AI",
+            "Cloud / DevOps / Infra",
+            "Cybersecurity",
+            "QA",
+            "Product & PM",
+            "Salesforce",
+            "Marketing & SEO",
+            "Sales & Account Management",
+            "Finance & Admin",
+            "HR & Recruiting"
           ]
         },
         "linkedin": {

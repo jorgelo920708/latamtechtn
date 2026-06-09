@@ -1,6 +1,7 @@
 export enum AssetUrl {
   ELBA_PHOTO = '/assets/images/elba-profile.jpg',
   ELBA_PHOTO_PLACEHOLDER = '/assets/images/elba-profile.svg',
+  LATAM_MAP = '/assets/images/latam-dots.svg',
   AVATAR_1 = '/assets/avatars/avatar-1.svg',
   AVATAR_2 = '/assets/avatars/avatar-2.svg',
   AVATAR_3 = '/assets/avatars/avatar-3.svg',

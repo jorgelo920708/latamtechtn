@@ -69,11 +69,7 @@
 
         <div class="hero-visual" aria-hidden="true">
           <div class="hero-map">
-            <div class="map-dots"></div>
-            <span class="map-node n1"><img [src]="AssetUrl.AVATAR_1" alt="" /></span>
-            <span class="map-node n2"><img [src]="AssetUrl.AVATAR_2" alt="" /></span>
-            <span class="map-node n3"><img [src]="AssetUrl.AVATAR_3" alt="" /></span>
-            <span class="map-node n4"><img [src]="AssetUrl.AVATAR_4" alt="" /></span>
+            <img class="map-art" [src]="AssetUrl.LATAM_MAP" alt="" />
             <div class="map-label">
               <span class="map-label-icon"><app-icon name="globe" /></span>
               {{ copy.hero.mapLabel }}
@@ -100,8 +96,30 @@
     <section id="specialties" class="specialties">
       <div class="container">
         <h2 class="section-title">{{ copy.specialties.title }}</h2>
+        <p class="section-sub">{{ copy.specialties.subtitle }}</p>
+        <div class="specialty-catalog">
+          @for (category of copy.specialties.categories; track category.title) {
+            <article class="specialty-card">
+              <div class="specialty-head">
+                <span class="specialty-icon"><app-icon [name]="category.icon" /></span>
+                <h3>{{ category.title }}</h3>
+              </div>
+              <div class="specialty-tags">
+                @for (item of category.items; track item) {
+                  <span class="tag">{{ item }}</span>
+                }
+              </div>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <section id="talent" class="talent">
+      <div class="container">
+        <h2 class="section-title">{{ copy.talent.title }}</h2>
         <div class="filters">
-          @for (filter of copy.specialties.filters; track filter.key) {
+          @for (filter of copy.talent.filters; track filter.key) {
             <button
               type="button"
               class="filter"
@@ -113,12 +131,6 @@
             </button>
           }
         </div>
-      </div>
-    </section>
-
-    <section id="talent" class="talent">
-      <div class="container">
-        <h2 class="section-title">{{ copy.talent.title }}</h2>
         <div class="talent-grid">
           @for (card of copy.talent.categories[activeFilter()]; track card.code) {
             <article class="talent-card">
