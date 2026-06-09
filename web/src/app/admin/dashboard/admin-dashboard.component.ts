@@ -280,10 +280,20 @@ export class AdminDashboardComponent implements OnInit {
       if (f !== v) phoneCtrl.setValue(f, { emitEvent: false });
     });
 
-    // Real-time: counters update live when the server pushes changes.
+    // Real-time: counters update live when the server pushes changes. The push
+    // only carries counts (no PII over the public socket), so when a specific
+    // count changes we reload just that list — which keeps the records, the
+    // cards and "Actividad reciente" in sync live (event-driven, not polling).
     this.statsService.statsChanged().subscribe({
       next: (snap) => {
-        if (snap) this.liveStats.set(snap);
+        if (!snap) return;
+        const prev = this.liveStats();
+        this.liveStats.set(snap);
+        if (!prev) return;
+        if (snap.leadCount !== prev.leadCount) this.loadLeads();
+        if (snap.candidateCount !== prev.candidateCount) this.loadCandidates();
+        if (snap.contactCount !== prev.contactCount) this.loadContacts();
+        if (snap.companyCount !== prev.companyCount) this.loadCompanies();
       },
       error: () => undefined,
     });
