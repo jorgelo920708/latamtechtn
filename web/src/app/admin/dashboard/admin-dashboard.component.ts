@@ -19,6 +19,7 @@ import { LATAM_COPY_ID, LatamCopyModel } from '../../shared/models/copy/latam-co
 import { PHONE_CODES } from '../../shared/constants/phone-codes';
 import { IconComponent } from '../../shared/components/icon/icon.component';
 import { ModalShellComponent } from '../../shared/components/modal-shell/modal-shell.component';
+import { parseCandidatesCsv } from './candidate-csv';
 import { firstValueFrom, Observable } from 'rxjs';
 
 type Tab = 'overview' | 'leads' | 'candidates' | 'contacts' | 'companies' | 'account';
@@ -514,7 +515,7 @@ export class AdminDashboardComponent implements OnInit {
     } catch {
       return;
     }
-    const inputs = this.parseCandidatesCsv(text);
+    const inputs = parseCandidatesCsv(text);
     if (inputs.length === 0) {
       this.importResult.set(
         this.lang() === 'es'
@@ -544,141 +545,6 @@ export class AdminDashboardComponent implements OnInit {
         ? `${ok} candidato(s) importado(s)${fail ? `, ${fail} con error` : ''}.`
         : `${ok} candidate(s) imported${fail ? `, ${fail} failed` : ''}.`,
     );
-  }
-
-  private parseCandidatesCsv(text: string): AdminCandidateInput[] {
-    const rows = this.parseCsv(text);
-    if (rows.length < 2) return [];
-    const headers = rows[0].map((h) => this.mapHeader(h));
-    const out: AdminCandidateInput[] = [];
-    for (let i = 1; i < rows.length; i++) {
-      const row = rows[i];
-      if (row.every((c) => !c.trim())) continue;
-      const v: Record<string, string> = {};
-      headers.forEach((key, idx) => {
-        if (key && !v[key]) v[key] = (row[idx] ?? '').trim();
-      });
-      const fullName = v['fullName'];
-      const email = v['email'];
-      if (!fullName || !email || !email.includes('@')) continue;
-      const location =
-        v['location'] || [v['city'], v['country']].filter(Boolean).join(', ') || '—';
-      out.push({
-        fullName,
-        email,
-        location,
-        englishLevel: v['englishLevel'] || '—',
-        phone: v['phone'] || undefined,
-        linkedinUrl: v['linkedinUrl'] || undefined,
-        cvUrl: v['cvUrl'] || undefined,
-        mainRole: v['mainRole'] || undefined,
-        otherRoles: v['otherRoles'] || undefined,
-        mainStack: v['mainStack'] || undefined,
-        yearsExperience: v['yearsExperience'] || undefined,
-        availability: v['availability'] || undefined,
-        message: v['message'] || undefined,
-        desiredSalary: this.num(v['desiredSalary'] ?? ''),
-        minSalary: this.num(v['minSalary'] ?? ''),
-        workedInternational: this.parseBool(v['workedInternational']),
-        willingContractor: this.parseBool(v['willingContractor']),
-        jobSearchStatus: v['jobSearchStatus'] || undefined,
-      });
-    }
-    return out;
-  }
-
-  private parseBool(value: string | undefined): boolean | undefined {
-    if (!value) return undefined;
-    const n = value.trim().toLowerCase();
-    if (['si', 'sí', 'yes', 'true', '1', 'x'].includes(n)) return true;
-    if (['no', 'false', '0'].includes(n)) return false;
-    return undefined;
-  }
-
-  private mapHeader(header: string): string | null {
-    const n = header
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[̀-ͯ]/g, '')
-      .trim();
-    if (!n) return null;
-    if (n.includes('nombre') || n.includes('full name')) return 'fullName';
-    if (n.includes('email') || n.includes('correo') || n === 'e-mail') return 'email';
-    if (n.includes('telefono') || n.includes('phone') || n.includes('celular')) return 'phone';
-    if ((n.includes('pais') || n.includes('residencia')) && n.includes('ciudad')) return 'location';
-    if (n.includes('ciudad') || n === 'city') return 'city';
-    if (n.includes('pais') || n.includes('residencia') || n.includes('country')) return 'country';
-    if (n.includes('linkedin')) return 'linkedinUrl';
-    if (n.includes('cv') || n.includes('curriculum') || n.includes('resume')) return 'cvUrl';
-    if (n.includes('rol principal') || n === 'rol' || n === 'role' || n.includes('primary role'))
-      return 'mainRole';
-    if (n.includes('otros roles') || n.includes('other roles')) return 'otherRoles';
-    if (n.includes('stack')) return 'mainStack';
-    if (n.includes('experiencia') || n.includes('experience') || n.includes('anos'))
-      return 'yearsExperience';
-    if (n.includes('ingles') || n.includes('english')) return 'englishLevel';
-    if (n.includes('contractor')) return 'willingContractor';
-    if (n.includes('internacional')) return 'workedInternational';
-    if (n.includes('buscando') || n.includes('activamente') || n.includes('searching'))
-      return 'jobSearchStatus';
-    if (n.includes('salario') && (n.includes('deseado') || n.includes('desired')))
-      return 'desiredSalary';
-    if (
-      n.includes('salario') &&
-      (n.includes('minimo') || n.includes('minimum') || n.includes('aceptable'))
-    )
-      return 'minSalary';
-    if (n.includes('disponibilidad') || n.includes('availability')) return 'availability';
-    if (
-      n.includes('algo mas') ||
-      n.includes('comentario') ||
-      n.includes('mensaje') ||
-      n.includes('message') ||
-      n.includes('anything else')
-    )
-      return 'message';
-    return null;
-  }
-
-  private parseCsv(text: string): string[][] {
-    const rows: string[][] = [];
-    let row: string[] = [];
-    let field = '';
-    let quoted = false;
-    for (let i = 0; i < text.length; i++) {
-      const c = text[i];
-      if (quoted) {
-        if (c === '"') {
-          if (text[i + 1] === '"') {
-            field += '"';
-            i++;
-          } else {
-            quoted = false;
-          }
-        } else {
-          field += c;
-        }
-      } else if (c === '"') {
-        quoted = true;
-      } else if (c === ',') {
-        row.push(field);
-        field = '';
-      } else if (c === '\r') {
-        continue;
-      } else if (c === '\n') {
-        row.push(field);
-        rows.push(row);
-        row = [];
-        field = '';
-      } else {
-        field += c;
-      }
-    }
-    if (field !== '' || row.length) {
-      row.push(field);
-      rows.push(row);
-    }
-    return rows;
   }
 
   private splitPhone(phone: string | null | undefined): { code: string; number: string } {
