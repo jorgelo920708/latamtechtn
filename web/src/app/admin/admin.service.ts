@@ -31,6 +31,8 @@ export interface CandidateApplication {
   yearsExperience: string;
   englishLevel: string;
   workedInternational: boolean;
+  willingContractor?: boolean | null;
+  jobSearchStatus?: string | null;
   desiredSalary?: number | null;
   minSalary?: number | null;
   availability?: string | null;
@@ -98,6 +100,8 @@ const CANDIDATE_APPLICATIONS = gql`
       yearsExperience
       englishLevel
       workedInternational
+      willingContractor
+      jobSearchStatus
       desiredSalary
       minSalary
       availability

@@ -58,6 +58,8 @@ model CandidateApplication {
   yearsExperience     String?
   englishLevel        String
   workedInternational Boolean  @default(false)
+  willingContractor   Boolean?
+  jobSearchStatus     String?
   desiredSalary       Int?
   minSalary           Int?
   availability        String?

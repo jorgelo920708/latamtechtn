@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs/operators';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
@@ -7,6 +9,8 @@ import {
   ContactRequest,
   TalentLead,
 } from '../admin.service';
+import { LatamCopyService } from '../../shared/services/latam-copy.service';
+import { LATAM_COPY_ID, LatamCopyModel } from '../../shared/models/copy/latam-copy.model';
 import { IconComponent } from '../../shared/components/icon/icon.component';
 
 type Tab = 'overview' | 'leads' | 'candidates' | 'contacts' | 'account';
@@ -32,17 +36,18 @@ export class AdminDashboardComponent implements OnInit {
   private adminService = inject(AdminService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
+  private copy = inject(LatamCopyService);
 
   readonly email = this.adminService.email;
   readonly adminName = 'Elba Caseres';
 
-  readonly titles: Record<Tab, string> = {
-    overview: 'Resumen',
-    leads: 'Solicitudes de talento',
-    candidates: 'Candidatos',
-    contacts: 'Contactos',
-    account: 'Mi cuenta',
-  };
+  readonly t = toSignal(
+    this.copy
+      .getObservableSlice<LatamCopyModel>(LATAM_COPY_ID)
+      .pipe(map((c) => c?.admin?.dashboard)),
+  );
+  readonly r = computed(() => this.t()?.records);
+  readonly lang = this.copy.currentLang;
 
   activeTab = signal<Tab>('overview');
   loadError = signal(false);
@@ -98,7 +103,7 @@ export class AdminDashboardComponent implements OnInit {
     const items: ActivityItem[] = [];
     for (const lead of this.leads()) {
       items.push({
-        kind: 'Solicitud',
+        kind: 'lead',
         icon: 'briefcase',
         title: lead.name,
         subtitle: `${lead.company} · ${lead.role}`,
@@ -107,7 +112,7 @@ export class AdminDashboardComponent implements OnInit {
     }
     for (const candidate of this.candidates()) {
       items.push({
-        kind: 'Candidato',
+        kind: 'candidate',
         icon: 'users',
         title: candidate.fullName,
         subtitle: `${candidate.mainRole} · ${candidate.location}`,
@@ -116,7 +121,7 @@ export class AdminDashboardComponent implements OnInit {
     }
     for (const contact of this.contacts()) {
       items.push({
-        kind: 'Contacto',
+        kind: 'contact',
         icon: 'chat',
         title: contact.name,
         subtitle: contact.email,
@@ -146,6 +151,33 @@ export class AdminDashboardComponent implements OnInit {
   setTab(tab: Tab): void {
     this.activeTab.set(tab);
     this.search.set('');
+  }
+
+  toggleLang(): void {
+    void this.copy.toggle();
+  }
+
+  title(): string {
+    const t = this.t();
+    if (!t) return '';
+    switch (this.activeTab()) {
+      case 'overview':
+        return t.titleOverview;
+      case 'leads':
+        return t.titleLeads;
+      case 'candidates':
+        return t.titleCandidates;
+      case 'contacts':
+        return t.titleContacts;
+      default:
+        return t.titleAccount;
+    }
+  }
+
+  kindLabel(kind: string): string {
+    const t = this.t();
+    if (!t) return '';
+    return kind === 'lead' ? t.kindLead : kind === 'candidate' ? t.kindCandidate : t.kindContact;
   }
 
   onSearch(event: Event): void {
@@ -219,10 +251,11 @@ export class AdminDashboardComponent implements OnInit {
       error: (err: unknown) => {
         this.pwSubmitting.set(false);
         const msg = String((err as { message?: string })?.message ?? '');
+        const copy = this.t();
         this.pwError.set(
           msg.includes('actual')
-            ? 'La contraseña actual es incorrecta.'
-            : 'No se pudo cambiar la contraseña.',
+            ? (copy?.errorCurrent ?? '')
+            : (copy?.errorGeneric ?? ''),
         );
       },
     });

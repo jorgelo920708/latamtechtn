@@ -62,6 +62,11 @@ export class LandingComponent implements OnInit {
 
   readonly CONTACT = CONTACT;
   readonly AssetUrl = AssetUrl;
+  readonly lang = this.copyService.currentLang;
+
+  toggleLang(): void {
+    void this.copyService.toggle();
+  }
 
   copy$: Observable<LandingCopy> = this.copyService
     .getObservableSlice<LatamCopyModel>(LATAM_COPY_ID)

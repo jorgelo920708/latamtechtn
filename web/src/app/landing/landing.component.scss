@@ -101,6 +101,38 @@ section[id] {
   height: 22px;
 }
 
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  padding: 8px 11px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  color: var(--body);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.lang-toggle app-icon {
+  width: 15px;
+  height: 15px;
+  color: var(--muted);
+}
+
+.lang-toggle:hover {
+  border-color: var(--brand-blue);
+  color: var(--brand-blue);
+}
+
+.lang-toggle:hover app-icon {
+  color: var(--brand-blue);
+}
+
 .nav.is-open .nav-links {
   display: flex;
   flex-direction: column;
@@ -904,6 +936,11 @@ section[id] {
     display: flex;
     align-items: center;
     gap: 26px;
+    margin-left: auto;
+  }
+
+  .lang-toggle {
+    margin-left: 14px;
   }
 
   .nav-links a {

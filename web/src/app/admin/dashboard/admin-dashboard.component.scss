@@ -245,6 +245,33 @@
   color: var(--muted);
 }
 
+.topbar-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 11px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-pill);
+  background: var(--bg-soft);
+  color: var(--body);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.topbar-lang app-icon {
+  width: 15px;
+  height: 15px;
+  color: var(--muted);
+}
+
+.topbar-lang:hover {
+  border-color: var(--brand-blue);
+  color: var(--brand-blue);
+}
+
 .btn-out {
   display: inline-flex;
   align-items: center;

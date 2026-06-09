@@ -21,6 +21,7 @@ type CandidateApplicationType {
   englishLevel: String!
   fullName: String!
   id: ID!
+  jobSearchStatus: String
   linkedinUrl: String!
   location: String!
   mainRole: String!
@@ -31,6 +32,7 @@ type CandidateApplicationType {
   phone: String
   status: String!
   updatedAt: DateTime!
+  willingContractor: Boolean
   workedInternational: Boolean!
   yearsExperience: String!
 }
@@ -57,6 +59,7 @@ input CreateCandidateApplicationInput {
   email: String!
   englishLevel: String!
   fullName: String!
+  jobSearchStatus: String
   linkedinUrl: String!
   location: String!
   mainRole: String!
@@ -65,6 +68,7 @@ input CreateCandidateApplicationInput {
   minSalary: Int
   otherRoles: String
   phone: String
+  willingContractor: Boolean
   workedInternational: Boolean!
   yearsExperience: String!
 }

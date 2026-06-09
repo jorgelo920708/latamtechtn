@@ -160,6 +160,8 @@ export interface CandidateFormCopy {
   yearsExperience: SelectFieldCopy;
   english: SelectFieldCopy;
   workedInternational: YesNoFieldCopy;
+  willingContractor: YesNoFieldCopy;
+  jobSearchStatus: SelectFieldCopy;
   desiredSalary: FormFieldCopy;
   minSalary: FormFieldCopy;
   availability: SelectFieldCopy;

@@ -25,6 +25,11 @@
         </button>
       </nav>
 
+      <button type="button" class="lang-toggle" (click)="toggleLang()" aria-label="Cambiar idioma">
+        <app-icon name="globe" />
+        <span>{{ lang() === 'es' ? 'ES' : 'EN' }}</span>
+      </button>
+
       <button
         type="button"
         class="nav-toggle"

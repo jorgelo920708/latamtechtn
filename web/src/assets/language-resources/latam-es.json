@@ -864,6 +864,20 @@
           "yes": "Sí",
           "no": "No"
         },
+        "willingContractor": {
+          "label": "¿Dispuesto a trabajar como contractor para empresas internacionales?",
+          "yes": "Sí",
+          "no": "No"
+        },
+        "jobSearchStatus": {
+          "label": "¿Estás buscando trabajo activamente?",
+          "placeholder": "Selecciona",
+          "options": [
+            "Sí, estoy buscando activamente",
+            "Escucho propuestas interesantes",
+            "No estoy buscando actualmente"
+          ]
+        },
         "desiredSalary": {
           "label": "Salario deseado mensual (USD)",
           "placeholder": "Ej: 9000"
@@ -887,6 +901,113 @@
           "placeholder": "Experiencia, disponibilidad, búsqueda laboral…"
         },
         "submit": "Enviar aplicación"
+      }
+    }
+  },
+  "admin": {
+    "login": {
+      "brandSub": "Panel de administración",
+      "title": "Iniciar sesión",
+      "email": "Email",
+      "password": "Contraseña",
+      "submit": "Ingresar",
+      "submitting": "Ingresando...",
+      "error": "Email o contraseña incorrectos.",
+      "forgot": "¿Olvidaste tu contraseña?",
+      "backToSite": "← Volver al sitio"
+    },
+    "forgot": {
+      "title": "Recuperar contraseña",
+      "lead": "Ingresa tu email y te enviamos un enlace para crear una contraseña nueva.",
+      "email": "Email",
+      "submit": "Enviar enlace",
+      "submitting": "Enviando…",
+      "sentTitle": "Revisa tu correo",
+      "sentBody": "Si el email está registrado, te enviamos un enlace para crear una contraseña nueva. El enlace vence en 1 hora.",
+      "backToLogin": "Volver al login"
+    },
+    "reset": {
+      "title": "Nueva contraseña",
+      "lead": "Elige una contraseña nueva para tu panel.",
+      "password": "Nueva contraseña",
+      "hint": "Mínimo 8 caracteres.",
+      "submit": "Guardar contraseña",
+      "submitting": "Guardando…",
+      "error": "El enlace es inválido o expiró. Pide uno nuevo.",
+      "doneTitle": "Contraseña actualizada",
+      "doneBody": "Ya puedes iniciar sesión con tu nueva contraseña.",
+      "doneCta": "Iniciar sesión",
+      "invalidTitle": "Enlace inválido",
+      "invalidBody": "El enlace no es válido. Pide uno nuevo desde \"Recuperar contraseña\".",
+      "invalidCta": "Pedir enlace nuevo",
+      "backToLogin": "← Volver al login"
+    },
+    "dashboard": {
+      "brandSub": "Panel admin",
+      "role": "Administradora",
+      "logout": "Salir",
+      "loading": "Cargando…",
+      "loadError": "No se pudieron cargar los datos.",
+      "retry": "Reintentar",
+      "noResults": "Sin resultados para",
+      "navOverview": "Resumen",
+      "navLeads": "Solicitudes",
+      "navCandidates": "Candidatos",
+      "navContacts": "Contactos",
+      "navAccount": "Cuenta",
+      "titleOverview": "Resumen",
+      "titleLeads": "Solicitudes de talento",
+      "titleCandidates": "Candidatos",
+      "titleContacts": "Contactos",
+      "titleAccount": "Mi cuenta",
+      "greeting": "Hola,",
+      "intro": "Este es el resumen de tu red de talento.",
+      "statLeads": "Solicitudes de talento",
+      "statCandidates": "Candidatos",
+      "statContacts": "Contactos",
+      "statTotal": "Registros totales",
+      "recentTitle": "Actividad reciente",
+      "noActivity": "Todavía no hay actividad.",
+      "kindLead": "Solicitud",
+      "kindCandidate": "Candidato",
+      "kindContact": "Contacto",
+      "searchLeads": "Buscar empresa, email, rol…",
+      "searchCandidates": "Buscar nombre, email, rol, stack…",
+      "searchContacts": "Buscar nombre, email, mensaje…",
+      "emptyLeads": "Todavía no hay solicitudes de talento.",
+      "emptyCandidates": "Todavía no hay aplicaciones de candidatos.",
+      "emptyContacts": "Todavía no hay contactos.",
+      "accountTitle": "Cambiar contraseña",
+      "currentPassword": "Contraseña actual",
+      "newPassword": "Nueva contraseña",
+      "passwordHint": "Mínimo 8 caracteres.",
+      "save": "Guardar",
+      "saving": "Guardando…",
+      "saved": "Contraseña actualizada.",
+      "errorCurrent": "La contraseña actual es incorrecta.",
+      "errorGeneric": "No se pudo cambiar la contraseña.",
+      "yes": "Sí",
+      "no": "No",
+      "records": {
+        "email": "Email",
+        "phone": "Teléfono",
+        "role": "Rol",
+        "mainRole": "Rol principal",
+        "otherRoles": "Otros roles",
+        "experience": "Experiencia",
+        "english": "Inglés",
+        "stack": "Stack",
+        "international": "Internacional",
+        "contractor": "Contractor intl.",
+        "jobSearch": "Búsqueda activa",
+        "desiredSalary": "Salario deseado",
+        "minSalary": "Salario mínimo",
+        "availability": "Disponibilidad",
+        "linkedin": "LinkedIn",
+        "cv": "CV",
+        "viewCv": "Ver CV (PDF)",
+        "message": "Mensaje",
+        "specialty": "Especialidad"
       }
     }
   }

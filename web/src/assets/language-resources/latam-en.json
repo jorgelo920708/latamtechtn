@@ -864,6 +864,20 @@
           "yes": "Yes",
           "no": "No"
         },
+        "willingContractor": {
+          "label": "Open to working as a contractor for international companies?",
+          "yes": "Yes",
+          "no": "No"
+        },
+        "jobSearchStatus": {
+          "label": "Are you actively job searching?",
+          "placeholder": "Select",
+          "options": [
+            "Yes, actively searching",
+            "Open to interesting offers",
+            "Not searching right now"
+          ]
+        },
         "desiredSalary": {
           "label": "Desired monthly salary (USD)",
           "placeholder": "e.g. 9000"
@@ -887,6 +901,113 @@
           "placeholder": "Experience, availability, job search…"
         },
         "submit": "Send application"
+      }
+    }
+  },
+  "admin": {
+    "login": {
+      "brandSub": "Admin panel",
+      "title": "Sign in",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "submitting": "Signing in...",
+      "error": "Wrong email or password.",
+      "forgot": "Forgot your password?",
+      "backToSite": "← Back to site"
+    },
+    "forgot": {
+      "title": "Reset password",
+      "lead": "Enter your email and we'll send a link to create a new password.",
+      "email": "Email",
+      "submit": "Send link",
+      "submitting": "Sending…",
+      "sentTitle": "Check your email",
+      "sentBody": "If the email is registered, we sent a link to create a new password. The link expires in 1 hour.",
+      "backToLogin": "Back to login"
+    },
+    "reset": {
+      "title": "New password",
+      "lead": "Choose a new password for your panel.",
+      "password": "New password",
+      "hint": "Minimum 8 characters.",
+      "submit": "Save password",
+      "submitting": "Saving…",
+      "error": "The link is invalid or expired. Request a new one.",
+      "doneTitle": "Password updated",
+      "doneBody": "You can now sign in with your new password.",
+      "doneCta": "Sign in",
+      "invalidTitle": "Invalid link",
+      "invalidBody": "This link isn’t valid. Request a new one from \"Reset password\".",
+      "invalidCta": "Request new link",
+      "backToLogin": "← Back to login"
+    },
+    "dashboard": {
+      "brandSub": "Admin panel",
+      "role": "Administrator",
+      "logout": "Log out",
+      "loading": "Loading…",
+      "loadError": "Couldn't load the data.",
+      "retry": "Retry",
+      "noResults": "No results for",
+      "navOverview": "Overview",
+      "navLeads": "Requests",
+      "navCandidates": "Candidates",
+      "navContacts": "Contacts",
+      "navAccount": "Account",
+      "titleOverview": "Overview",
+      "titleLeads": "Talent requests",
+      "titleCandidates": "Candidates",
+      "titleContacts": "Contacts",
+      "titleAccount": "My account",
+      "greeting": "Hi,",
+      "intro": "This is the summary of your talent network.",
+      "statLeads": "Talent requests",
+      "statCandidates": "Candidates",
+      "statContacts": "Contacts",
+      "statTotal": "Total records",
+      "recentTitle": "Recent activity",
+      "noActivity": "No activity yet.",
+      "kindLead": "Request",
+      "kindCandidate": "Candidate",
+      "kindContact": "Contact",
+      "searchLeads": "Search company, email, role…",
+      "searchCandidates": "Search name, email, role, stack…",
+      "searchContacts": "Search name, email, message…",
+      "emptyLeads": "No talent requests yet.",
+      "emptyCandidates": "No candidate applications yet.",
+      "emptyContacts": "No contacts yet.",
+      "accountTitle": "Change password",
+      "currentPassword": "Current password",
+      "newPassword": "New password",
+      "passwordHint": "Minimum 8 characters.",
+      "save": "Save",
+      "saving": "Saving…",
+      "saved": "Password updated.",
+      "errorCurrent": "The current password is incorrect.",
+      "errorGeneric": "Couldn't change the password.",
+      "yes": "Yes",
+      "no": "No",
+      "records": {
+        "email": "Email",
+        "phone": "Phone",
+        "role": "Role",
+        "mainRole": "Primary role",
+        "otherRoles": "Other roles",
+        "experience": "Experience",
+        "english": "English",
+        "stack": "Stack",
+        "international": "International",
+        "contractor": "Intl. contractor",
+        "jobSearch": "Job search",
+        "desiredSalary": "Desired salary",
+        "minSalary": "Minimum salary",
+        "availability": "Availability",
+        "linkedin": "LinkedIn",
+        "cv": "CV",
+        "viewCv": "View CV (PDF)",
+        "message": "Message",
+        "specialty": "Specialty"
       }
     }
   }

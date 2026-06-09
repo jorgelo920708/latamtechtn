@@ -164,6 +164,30 @@
           </div>
 
           <div class="field span-2">
+            <label>{{ forms.candidate.willingContractor.label }}</label>
+            <div class="radio-row">
+              <label class="radio">
+                <input type="radio" formControlName="willingContractor" value="true" />
+                {{ forms.candidate.willingContractor.yes }}
+              </label>
+              <label class="radio">
+                <input type="radio" formControlName="willingContractor" value="false" />
+                {{ forms.candidate.willingContractor.no }}
+              </label>
+            </div>
+          </div>
+
+          <div class="field span-2">
+            <label for="ca-jobsearch">{{ forms.candidate.jobSearchStatus.label }}</label>
+            <select id="ca-jobsearch" formControlName="jobSearchStatus">
+              <option value="">{{ forms.candidate.jobSearchStatus.placeholder }}</option>
+              @for (option of forms.candidate.jobSearchStatus.options; track option) {
+                <option [value]="option">{{ option }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="field span-2">
             <label>{{ forms.candidate.otherRoles.label }}</label>
             <div class="checkbox-grid">
               @for (role of forms.candidate.otherRoles.options; track role) {

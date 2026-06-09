@@ -4,32 +4,32 @@
       <span class="brand-mark"><app-icon name="logo" /></span>
       <div class="brand-text">
         <strong>LATAM</strong>
-        <small>Panel admin</small>
+        <small>{{ t()?.brandSub }}</small>
       </div>
     </div>
 
     <nav class="sidebar-nav">
       <button type="button" class="nav-item" [class.active]="activeTab() === 'overview'" (click)="setTab('overview')">
         <app-icon name="layers" />
-        <span class="nav-label">Resumen</span>
+        <span class="nav-label">{{ t()?.navOverview }}</span>
       </button>
       <button type="button" class="nav-item" [class.active]="activeTab() === 'leads'" (click)="setTab('leads')">
         <app-icon name="briefcase" />
-        <span class="nav-label">Solicitudes</span>
+        <span class="nav-label">{{ t()?.navLeads }}</span>
         @if (loaded().leads && leads().length > 0) {
           <span class="nav-count">{{ leads().length }}</span>
         }
       </button>
       <button type="button" class="nav-item" [class.active]="activeTab() === 'candidates'" (click)="setTab('candidates')">
         <app-icon name="users" />
-        <span class="nav-label">Candidatos</span>
+        <span class="nav-label">{{ t()?.navCandidates }}</span>
         @if (loaded().candidates && candidates().length > 0) {
           <span class="nav-count">{{ candidates().length }}</span>
         }
       </button>
       <button type="button" class="nav-item" [class.active]="activeTab() === 'contacts'" (click)="setTab('contacts')">
         <app-icon name="chat" />
-        <span class="nav-label">Contactos</span>
+        <span class="nav-label">{{ t()?.navContacts }}</span>
         @if (loaded().contacts && contacts().length > 0) {
           <span class="nav-count">{{ contacts().length }}</span>
         }
@@ -39,7 +39,7 @@
 
       <button type="button" class="nav-item" [class.active]="activeTab() === 'account'" (click)="setTab('account')">
         <app-icon name="shield" />
-        <span class="nav-label">Cuenta</span>
+        <span class="nav-label">{{ t()?.navAccount }}</span>
       </button>
     </nav>
 
@@ -47,7 +47,7 @@
       <span class="sidebar-avatar">{{ initials() }}</span>
       <div class="sidebar-user">
         <span class="sidebar-user-name">{{ adminName }}</span>
-        <span class="sidebar-user-label">Administradora</span>
+        <span class="sidebar-user-label">{{ t()?.role }}</span>
       </div>
     </div>
   </aside>
@@ -56,13 +56,17 @@
     <header class="admin-topbar">
       <div class="topbar-left">
         <span class="brand-mark topbar-logo"><app-icon name="logo" /></span>
-        <h1 class="topbar-title">{{ titles[activeTab()] }}</h1>
+        <h1 class="topbar-title">{{ title() }}</h1>
       </div>
       <div class="topbar-right">
         <span class="topbar-email">{{ adminName }}</span>
+        <button type="button" class="topbar-lang" (click)="toggleLang()" aria-label="Language">
+          <app-icon name="globe" />
+          <span>{{ lang() === 'es' ? 'ES' : 'EN' }}</span>
+        </button>
         <button type="button" class="btn-out" (click)="logout()">
           <app-icon name="arrow" />
-          <span class="btn-out-label">Salir</span>
+          <span class="btn-out-label">{{ t()?.logout }}</span>
         </button>
       </div>
     </header>
@@ -70,11 +74,11 @@
     <main class="admin-content">
       @if (activeTab() !== 'account') {
         @if (isTabLoading()) {
-          <p class="admin-state">Cargando…</p>
+          <p class="admin-state">{{ t()?.loading }}</p>
         } @else if (loadError()) {
           <div class="admin-state">
-            <p>No se pudieron cargar los datos.</p>
-            <button type="button" class="btn btn-ghost" (click)="reload()">Reintentar</button>
+            <p>{{ t()?.loadError }}</p>
+            <button type="button" class="btn btn-ghost" (click)="reload()">{{ t()?.retry }}</button>
           </div>
         }
       }
@@ -82,8 +86,8 @@
       @if (activeTab() === 'overview' && allLoaded() && !loadError()) {
         <div class="overview">
           <div class="overview-greet">
-            <h2>Hola, {{ adminName }} 👋</h2>
-            <p>Este es el resumen de tu red de talento.</p>
+            <h2>{{ t()?.greeting }} {{ adminName }} 👋</h2>
+            <p>{{ t()?.intro }}</p>
           </div>
 
           <div class="stat-cards">
@@ -91,36 +95,36 @@
               <span class="stat-icon blue"><app-icon name="briefcase" /></span>
               <span class="stat-text">
                 <strong>{{ leads().length }}</strong>
-                <span>Solicitudes de talento</span>
+                <span>{{ t()?.statLeads }}</span>
               </span>
             </button>
             <button type="button" class="stat-card" (click)="setTab('candidates')">
               <span class="stat-icon green"><app-icon name="users" /></span>
               <span class="stat-text">
                 <strong>{{ candidates().length }}</strong>
-                <span>Candidatos</span>
+                <span>{{ t()?.statCandidates }}</span>
               </span>
             </button>
             <button type="button" class="stat-card" (click)="setTab('contacts')">
               <span class="stat-icon purple"><app-icon name="chat" /></span>
               <span class="stat-text">
                 <strong>{{ contacts().length }}</strong>
-                <span>Contactos</span>
+                <span>{{ t()?.statContacts }}</span>
               </span>
             </button>
             <div class="stat-card is-static">
               <span class="stat-icon navy"><app-icon name="layers" /></span>
               <span class="stat-text">
                 <strong>{{ totalRecords() }}</strong>
-                <span>Registros totales</span>
+                <span>{{ t()?.statTotal }}</span>
               </span>
             </div>
           </div>
 
           <div class="overview-recent">
-            <h3>Actividad reciente</h3>
+            <h3>{{ t()?.recentTitle }}</h3>
             @if (recentActivity().length === 0) {
-              <p class="admin-state">Todavía no hay actividad.</p>
+              <p class="admin-state">{{ t()?.noActivity }}</p>
             } @else {
               <ul class="activity-list">
                 @for (item of recentActivity(); track $index) {
@@ -131,7 +135,7 @@
                       <span class="activity-sub">{{ item.subtitle }}</span>
                     </div>
                     <div class="activity-meta">
-                      <span class="activity-kind">{{ item.kind }}</span>
+                      <span class="activity-kind">{{ kindLabel(item.kind) }}</span>
                       <span class="activity-date">{{ formatDate(item.date) }}</span>
                     </div>
                   </li>
@@ -144,19 +148,14 @@
 
       @if (activeTab() === 'leads' && loaded().leads && !loadError()) {
         @if (leads().length === 0) {
-          <p class="admin-state">Todavía no hay solicitudes de talento.</p>
+          <p class="admin-state">{{ t()?.emptyLeads }}</p>
         } @else {
           <div class="search-bar">
             <app-icon name="search" />
-            <input
-              type="search"
-              [value]="search()"
-              (input)="onSearch($event)"
-              placeholder="Buscar empresa, email, rol…"
-            />
+            <input type="search" [value]="search()" (input)="onSearch($event)" [placeholder]="t()?.searchLeads" />
           </div>
           @if (filteredLeads().length === 0) {
-            <p class="admin-state">Sin resultados para "{{ search() }}".</p>
+            <p class="admin-state">{{ t()?.noResults }} "{{ search() }}".</p>
           } @else {
             <div class="cards">
               @for (lead of filteredLeads(); track lead.id) {
@@ -172,11 +171,11 @@
                     </div>
                   </div>
                   <dl class="record-rows">
-                    <div><dt>Email</dt><dd><a [href]="'mailto:' + lead.email">{{ lead.email }}</a></dd></div>
-                    <div><dt>Rol</dt><dd>{{ lead.role }}</dd></div>
-                    <div><dt>Especialidad</dt><dd>{{ lead.specialty }}</dd></div>
+                    <div><dt>{{ r()?.email }}</dt><dd><a [href]="'mailto:' + lead.email">{{ lead.email }}</a></dd></div>
+                    <div><dt>{{ r()?.role }}</dt><dd>{{ lead.role }}</dd></div>
+                    <div><dt>{{ r()?.specialty }}</dt><dd>{{ lead.specialty }}</dd></div>
                     @if (lead.message) {
-                      <div><dt>Mensaje</dt><dd>{{ lead.message }}</dd></div>
+                      <div><dt>{{ r()?.message }}</dt><dd>{{ lead.message }}</dd></div>
                     }
                   </dl>
                 </article>
@@ -188,19 +187,14 @@
 
       @if (activeTab() === 'candidates' && loaded().candidates && !loadError()) {
         @if (candidates().length === 0) {
-          <p class="admin-state">Todavía no hay aplicaciones de candidatos.</p>
+          <p class="admin-state">{{ t()?.emptyCandidates }}</p>
         } @else {
           <div class="search-bar">
             <app-icon name="search" />
-            <input
-              type="search"
-              [value]="search()"
-              (input)="onSearch($event)"
-              placeholder="Buscar nombre, email, stack…"
-            />
+            <input type="search" [value]="search()" (input)="onSearch($event)" [placeholder]="t()?.searchCandidates" />
           </div>
           @if (filteredCandidates().length === 0) {
-            <p class="admin-state">Sin resultados para "{{ search() }}".</p>
+            <p class="admin-state">{{ t()?.noResults }} "{{ search() }}".</p>
           } @else {
             <div class="cards">
               @for (c of filteredCandidates(); track c.id) {
@@ -216,43 +210,49 @@
                     </div>
                   </div>
                   <dl class="record-rows">
-                    <div><dt>Email</dt><dd><a [href]="'mailto:' + c.email">{{ c.email }}</a></dd></div>
+                    <div><dt>{{ r()?.email }}</dt><dd><a [href]="'mailto:' + c.email">{{ c.email }}</a></dd></div>
                     @if (c.phone) {
-                      <div><dt>Teléfono</dt><dd>{{ c.phone }}</dd></div>
+                      <div><dt>{{ r()?.phone }}</dt><dd>{{ c.phone }}</dd></div>
                     }
-                    <div><dt>Rol principal</dt><dd>{{ c.mainRole }}</dd></div>
+                    <div><dt>{{ r()?.mainRole }}</dt><dd>{{ c.mainRole }}</dd></div>
                     @if (c.otherRoles) {
-                      <div><dt>Otros roles</dt><dd>{{ c.otherRoles }}</dd></div>
+                      <div><dt>{{ r()?.otherRoles }}</dt><dd>{{ c.otherRoles }}</dd></div>
                     }
-                    <div><dt>Experiencia</dt><dd>{{ c.yearsExperience }}</dd></div>
-                    <div><dt>Inglés</dt><dd>{{ c.englishLevel }}</dd></div>
+                    <div><dt>{{ r()?.experience }}</dt><dd>{{ c.yearsExperience }}</dd></div>
+                    <div><dt>{{ r()?.english }}</dt><dd>{{ c.englishLevel }}</dd></div>
                     @if (c.mainStack) {
-                      <div><dt>Stack</dt><dd>{{ c.mainStack }}</dd></div>
+                      <div><dt>{{ r()?.stack }}</dt><dd>{{ c.mainStack }}</dd></div>
                     }
-                    <div><dt>Internacional</dt><dd>{{ c.workedInternational ? 'Sí' : 'No' }}</dd></div>
+                    <div><dt>{{ r()?.international }}</dt><dd>{{ c.workedInternational ? t()?.yes : t()?.no }}</dd></div>
+                    @if (c.willingContractor != null) {
+                      <div><dt>{{ r()?.contractor }}</dt><dd>{{ c.willingContractor ? t()?.yes : t()?.no }}</dd></div>
+                    }
+                    @if (c.jobSearchStatus) {
+                      <div><dt>{{ r()?.jobSearch }}</dt><dd>{{ c.jobSearchStatus }}</dd></div>
+                    }
                     @if (c.desiredSalary != null) {
-                      <div><dt>Salario deseado</dt><dd>${{ c.desiredSalary }} USD</dd></div>
+                      <div><dt>{{ r()?.desiredSalary }}</dt><dd>${{ c.desiredSalary }} USD</dd></div>
                     }
                     @if (c.minSalary != null) {
-                      <div><dt>Salario mínimo</dt><dd>${{ c.minSalary }} USD</dd></div>
+                      <div><dt>{{ r()?.minSalary }}</dt><dd>${{ c.minSalary }} USD</dd></div>
                     }
                     @if (c.availability) {
-                      <div><dt>Disponibilidad</dt><dd>{{ c.availability }}</dd></div>
+                      <div><dt>{{ r()?.availability }}</dt><dd>{{ c.availability }}</dd></div>
                     }
                     @if (c.linkedinUrl) {
                       <div>
-                        <dt>LinkedIn</dt>
+                        <dt>{{ r()?.linkedin }}</dt>
                         <dd><a [href]="c.linkedinUrl" target="_blank" rel="noopener">{{ c.linkedinUrl }}</a></dd>
                       </div>
                     }
                     @if (c.cvUrl) {
                       <div>
-                        <dt>CV</dt>
-                        <dd><a [href]="c.cvUrl" target="_blank" rel="noopener">Ver CV (PDF)</a></dd>
+                        <dt>{{ r()?.cv }}</dt>
+                        <dd><a [href]="c.cvUrl" target="_blank" rel="noopener">{{ r()?.viewCv }}</a></dd>
                       </div>
                     }
                     @if (c.message) {
-                      <div><dt>Mensaje</dt><dd>{{ c.message }}</dd></div>
+                      <div><dt>{{ r()?.message }}</dt><dd>{{ c.message }}</dd></div>
                     }
                   </dl>
                 </article>
@@ -264,19 +264,14 @@
 
       @if (activeTab() === 'contacts' && loaded().contacts && !loadError()) {
         @if (contacts().length === 0) {
-          <p class="admin-state">Todavía no hay contactos.</p>
+          <p class="admin-state">{{ t()?.emptyContacts }}</p>
         } @else {
           <div class="search-bar">
             <app-icon name="search" />
-            <input
-              type="search"
-              [value]="search()"
-              (input)="onSearch($event)"
-              placeholder="Buscar nombre, email, mensaje…"
-            />
+            <input type="search" [value]="search()" (input)="onSearch($event)" [placeholder]="t()?.searchContacts" />
           </div>
           @if (filteredContacts().length === 0) {
-            <p class="admin-state">Sin resultados para "{{ search() }}".</p>
+            <p class="admin-state">{{ t()?.noResults }} "{{ search() }}".</p>
           } @else {
             <div class="cards">
               @for (ct of filteredContacts(); track ct.id) {
@@ -289,8 +284,8 @@
                     </div>
                   </div>
                   <dl class="record-rows">
-                    <div><dt>Email</dt><dd><a [href]="'mailto:' + ct.email">{{ ct.email }}</a></dd></div>
-                    <div><dt>Mensaje</dt><dd>{{ ct.message }}</dd></div>
+                    <div><dt>{{ r()?.email }}</dt><dd><a [href]="'mailto:' + ct.email">{{ ct.email }}</a></dd></div>
+                    <div><dt>{{ r()?.message }}</dt><dd>{{ ct.message }}</dd></div>
                   </dl>
                 </article>
               }
@@ -301,10 +296,10 @@
 
       @if (activeTab() === 'account') {
         <div class="account-card">
-          <h2>Cambiar contraseña</h2>
+          <h2>{{ t()?.accountTitle }}</h2>
           <form [formGroup]="pwForm" (ngSubmit)="changePassword()" novalidate>
             <div class="field">
-              <label for="cp-current">Contraseña actual</label>
+              <label for="cp-current">{{ t()?.currentPassword }}</label>
               <input
                 id="cp-current"
                 type="password"
@@ -313,23 +308,23 @@
               />
             </div>
             <div class="field">
-              <label for="cp-new">Nueva contraseña</label>
+              <label for="cp-new">{{ t()?.newPassword }}</label>
               <input
                 id="cp-new"
                 type="password"
                 formControlName="newPassword"
                 autocomplete="new-password"
               />
-              <span class="field-hint">Mínimo 8 caracteres.</span>
+              <span class="field-hint">{{ t()?.passwordHint }}</span>
             </div>
             @if (pwError()) {
               <p class="form-error">{{ pwError() }}</p>
             }
             @if (pwSuccess()) {
-              <p class="form-ok">Contraseña actualizada.</p>
+              <p class="form-ok">{{ t()?.saved }}</p>
             }
             <button type="submit" class="btn btn-primary" [disabled]="pwSubmitting()">
-              {{ pwSubmitting() ? 'Guardando…' : 'Guardar' }}
+              {{ pwSubmitting() ? t()?.saving : t()?.save }}
             </button>
           </form>
         </div>
@@ -340,32 +335,32 @@
   <nav class="admin-mobile-nav" aria-label="Navegación">
     <button type="button" class="mobile-tab" [class.active]="activeTab() === 'overview'" (click)="setTab('overview')">
       <app-icon name="layers" />
-      <span>Resumen</span>
+      <span>{{ t()?.navOverview }}</span>
     </button>
     <button type="button" class="mobile-tab" [class.active]="activeTab() === 'leads'" (click)="setTab('leads')">
       <app-icon name="briefcase" />
-      <span>Solicitudes</span>
+      <span>{{ t()?.navLeads }}</span>
       @if (loaded().leads && leads().length > 0) {
         <span class="mobile-dot"></span>
       }
     </button>
     <button type="button" class="mobile-tab" [class.active]="activeTab() === 'candidates'" (click)="setTab('candidates')">
       <app-icon name="users" />
-      <span>Candidatos</span>
+      <span>{{ t()?.navCandidates }}</span>
       @if (loaded().candidates && candidates().length > 0) {
         <span class="mobile-dot"></span>
       }
     </button>
     <button type="button" class="mobile-tab" [class.active]="activeTab() === 'contacts'" (click)="setTab('contacts')">
       <app-icon name="chat" />
-      <span>Contactos</span>
+      <span>{{ t()?.navContacts }}</span>
       @if (loaded().contacts && contacts().length > 0) {
         <span class="mobile-dot"></span>
       }
     </button>
     <button type="button" class="mobile-tab" [class.active]="activeTab() === 'account'" (click)="setTab('account')">
       <app-icon name="shield" />
-      <span>Cuenta</span>
+      <span>{{ t()?.navAccount }}</span>
     </button>
   </nav>
 </div>

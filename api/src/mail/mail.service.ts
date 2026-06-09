@@ -23,6 +23,8 @@ export interface CandidateEmailData {
   yearsExperience?: string | null;
   englishLevel: string;
   workedInternational: boolean;
+  willingContractor?: boolean | null;
+  jobSearchStatus?: string | null;
   desiredSalary?: number | null;
   minSalary?: number | null;
   availability?: string | null;
@@ -83,6 +85,9 @@ export class MailService {
       rows.push(['Salario deseado', `$${c.desiredSalary} USD`]);
     if (c.minSalary != null) rows.push(['Salario mínimo', `$${c.minSalary} USD`]);
     if (c.availability) rows.push(['Disponibilidad', c.availability]);
+    if (c.willingContractor != null)
+      rows.push(['Contractor intl.', c.willingContractor ? 'Sí' : 'No']);
+    if (c.jobSearchStatus) rows.push(['Búsqueda', c.jobSearchStatus]);
     if (c.phone) rows.push(['Teléfono', c.phone]);
     if (c.linkedinUrl) rows.push(['LinkedIn', c.linkedinUrl]);
     if (c.cvUrl) rows.push(['CV', c.cvUrl]);

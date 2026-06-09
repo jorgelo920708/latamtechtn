@@ -25,6 +25,8 @@ export interface CandidateApplicationInput {
   yearsExperience: string;
   englishLevel: string;
   workedInternational: boolean;
+  willingContractor?: boolean;
+  jobSearchStatus?: string;
   desiredSalary: number;
   minSalary?: number;
   availability?: string;

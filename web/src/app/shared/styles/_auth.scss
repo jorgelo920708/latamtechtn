@@ -10,6 +10,7 @@
 }
 
 .auth-card {
+  position: relative;
   width: 100%;
   max-width: 420px;
   background: var(--bg);
@@ -17,6 +18,35 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
   padding: 30px 26px 24px;
+}
+
+.auth-lang {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  color: var(--body);
+  font-weight: 700;
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.auth-lang app-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--muted);
+}
+
+.auth-lang:hover {
+  border-color: var(--brand-blue);
+  color: var(--brand-blue);
 }
 
 .auth-brand {

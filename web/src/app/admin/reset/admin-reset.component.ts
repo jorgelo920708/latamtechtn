@@ -1,7 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs/operators';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AdminService } from '../admin.service';
+import { LatamCopyService } from '../../shared/services/latam-copy.service';
+import { LATAM_COPY_ID, LatamCopyModel } from '../../shared/models/copy/latam-copy.model';
 import { IconComponent } from '../../shared/components/icon/icon.component';
 
 @Component({
@@ -16,13 +20,23 @@ export class AdminResetComponent {
   private fb = inject(FormBuilder);
   private adminService = inject(AdminService);
   private route = inject(ActivatedRoute);
+  private copy = inject(LatamCopyService);
+
+  readonly t = toSignal(
+    this.copy.getObservableSlice<LatamCopyModel>(LATAM_COPY_ID).pipe(map((c) => c?.admin)),
+  );
+  readonly lang = this.copy.currentLang;
 
   private readonly token = this.route.snapshot.queryParamMap.get('token') ?? '';
   hasToken = signal(this.token.length > 0);
 
   submitting = signal(false);
   done = signal(false);
-  error = signal<string | null>(null);
+  error = signal(false);
+
+  toggleLang(): void {
+    void this.copy.toggle();
+  }
 
   form = this.fb.nonNullable.group({
     newPassword: ['', [Validators.required, Validators.minLength(8)]],
@@ -34,7 +48,7 @@ export class AdminResetComponent {
       return;
     }
     this.submitting.set(true);
-    this.error.set(null);
+    this.error.set(false);
     this.adminService.resetPassword(this.token, this.form.getRawValue().newPassword).subscribe({
       next: () => {
         this.submitting.set(false);
@@ -42,7 +56,7 @@ export class AdminResetComponent {
       },
       error: () => {
         this.submitting.set(false);
-        this.error.set('El enlace es inválido o expiró. Pedí uno nuevo.');
+        this.error.set(true);
       },
     });
   }

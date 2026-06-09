@@ -51,6 +51,12 @@ export class CandidateApplicationType {
   @Field()
   workedInternational!: boolean;
 
+  @Field({ nullable: true })
+  willingContractor?: boolean;
+
+  @Field({ nullable: true })
+  jobSearchStatus?: string;
+
   @Field(() => Int, { nullable: true })
   desiredSalary?: number;
 
@@ -153,6 +159,16 @@ export class CreateCandidateApplicationInput {
   @Field()
   @IsBoolean()
   workedInternational!: boolean;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsBoolean()
+  willingContractor?: boolean;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @MaxLength(80)
+  jobSearchStatus?: string;
 
   @Field(() => Int)
   @IsInt()

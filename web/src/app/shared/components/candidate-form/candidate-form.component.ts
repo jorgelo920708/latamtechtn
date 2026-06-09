@@ -53,6 +53,8 @@ export class CandidateFormComponent {
     yearsExperience: ['', Validators.required],
     englishLevel: ['', Validators.required],
     workedInternational: ['', Validators.required],
+    willingContractor: [''],
+    jobSearchStatus: [''],
     desiredSalary: ['', Validators.required],
     minSalary: [''],
     availability: [''],
@@ -137,6 +139,13 @@ export class CandidateFormComponent {
       yearsExperience: raw.yearsExperience,
       englishLevel: raw.englishLevel,
       workedInternational: raw.workedInternational === 'true',
+      willingContractor:
+        raw.willingContractor === 'true'
+          ? true
+          : raw.willingContractor === 'false'
+            ? false
+            : undefined,
+      jobSearchStatus: raw.jobSearchStatus || undefined,
       desiredSalary: Number(raw.desiredSalary) || 0,
       minSalary: `${raw.minSalary ?? ''}`.trim() ? Number(raw.minSalary) : undefined,
       availability: raw.availability || undefined,
