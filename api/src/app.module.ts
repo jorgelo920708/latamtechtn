@@ -13,14 +13,19 @@ import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
 import { StatsModule } from './stats/stats.module';
 import { CompanyModule } from './company/company.module';
+import { PubSubModule } from './realtime/pubsub.module';
 
 @Module({
   imports: [
+    PubSubModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
       playground: true,
+      subscriptions: {
+        'graphql-ws': true,
+      },
       context: ({ req }) => ({ req }),
     }),
     TalentLeadModule,

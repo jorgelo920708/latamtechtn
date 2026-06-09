@@ -4,8 +4,10 @@ import { ContactRequestService } from './contact-request.service';
 import { ContactRequestRepository } from './contact-request.repository';
 import { ContactRequestFacade } from './contact-request.facade';
 import { PrismaService } from '../prisma.service';
+import { StatsModule } from '../stats/stats.module';
 
 @Module({
+  imports: [StatsModule],
   providers: [
     ContactRequestResolver,
     ContactRequestService,

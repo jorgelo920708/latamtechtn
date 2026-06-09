@@ -5,17 +5,20 @@ import {
   CreateContactRequestInput,
 } from './contact-request.dto';
 import { MailService } from '../mail/mail.service';
+import { StatsService } from '../stats/stats.service';
 
 @Injectable()
 export class ContactRequestService {
   constructor(
     private readonly contactRequestRepository: ContactRequestRepository,
     private readonly mailService: MailService,
+    private readonly statsService: StatsService,
   ) {}
 
   async create(data: CreateContactRequestInput) {
     const contact = await this.contactRequestRepository.create(data);
     void this.mailService.notifyNewContactRequest(contact).catch(() => undefined);
+    void this.statsService.publishChange().catch(() => undefined);
     return contact;
   }
 
@@ -27,15 +30,19 @@ export class ContactRequestService {
     return this.contactRequestRepository.findById(id);
   }
 
-  adminCreate(data: AdminContactInput) {
-    return this.contactRequestRepository.adminCreate(data);
+  async adminCreate(data: AdminContactInput) {
+    const contact = await this.contactRequestRepository.adminCreate(data);
+    void this.statsService.publishChange().catch(() => undefined);
+    return contact;
   }
 
   update(id: string, data: AdminContactInput) {
     return this.contactRequestRepository.update(id, data);
   }
 
-  remove(id: string) {
-    return this.contactRequestRepository.remove(id);
+  async remove(id: string) {
+    const removed = await this.contactRequestRepository.remove(id);
+    void this.statsService.publishChange().catch(() => undefined);
+    return removed;
   }
 }

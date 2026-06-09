@@ -211,8 +211,19 @@ input ResetPasswordInput {
   token: String!
 }
 
+type StatsSnapshotType {
+  candidateCount: Int!
+  contactCount: Int!
+  leadCount: Int!
+  specialtyCount: Int!
+}
+
 type StatusType {
   success: Boolean!
+}
+
+type Subscription {
+  statsChanged: StatsSnapshotType!
 }
 
 type TalentLeadType {
