@@ -48,11 +48,21 @@
           </div>
 
           <div class="field">
-            <label for="ca-location">{{ forms.candidate.location.label }}</label>
-            <input id="ca-location" type="text" formControlName="location" [placeholder]="forms.candidate.location.placeholder" />
-            @if (invalid('location')) {
+            <label for="ca-country">{{ forms.candidate.country.label }}</label>
+            <select id="ca-country" formControlName="country">
+              <option value="" disabled>{{ forms.candidate.country.placeholder }}</option>
+              @for (option of forms.candidate.country.options; track option) {
+                <option [value]="option">{{ option }}</option>
+              }
+            </select>
+            @if (invalid('country')) {
               <span class="field-error">{{ forms.common.requiredError }}</span>
             }
+          </div>
+
+          <div class="field">
+            <label for="ca-city">{{ forms.candidate.city.label }}</label>
+            <input id="ca-city" type="text" formControlName="city" [placeholder]="forms.candidate.city.placeholder" />
           </div>
 
           <div class="field span-2">

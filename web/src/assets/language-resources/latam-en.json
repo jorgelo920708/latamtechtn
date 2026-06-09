@@ -769,9 +769,39 @@
           "label": "Phone number",
           "placeholder": "55 1234 5678"
         },
-        "location": {
-          "label": "Country & city of residence",
-          "placeholder": "e.g. Guadalajara, Mexico"
+        "country": {
+          "label": "Country of residence",
+          "placeholder": "Select your country",
+          "options": [
+            "Argentina",
+            "Bolivia",
+            "Brazil",
+            "Chile",
+            "Colombia",
+            "Costa Rica",
+            "Cuba",
+            "Ecuador",
+            "El Salvador",
+            "Spain",
+            "United States",
+            "Guatemala",
+            "Honduras",
+            "Mexico",
+            "Nicaragua",
+            "Panama",
+            "Paraguay",
+            "Peru",
+            "Puerto Rico",
+            "Dominican Republic",
+            "Uruguay",
+            "Venezuela",
+            "Canada",
+            "Other"
+          ]
+        },
+        "city": {
+          "label": "City",
+          "placeholder": "Your city"
         },
         "linkedin": {
           "label": "LinkedIn",

@@ -151,7 +151,8 @@ export interface CandidateFormCopy {
   fullName: FormFieldCopy;
   email: FormFieldCopy;
   phone: FormFieldCopy;
-  location: FormFieldCopy;
+  country: SelectFieldCopy;
+  city: FormFieldCopy;
   linkedin: FormFieldCopy;
   cv: CvFieldCopy;
   mainRole: SelectFieldCopy;

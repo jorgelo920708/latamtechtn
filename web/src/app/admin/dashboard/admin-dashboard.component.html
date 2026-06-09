@@ -474,10 +474,6 @@
               <span class="field-error">{{ lang() === 'es' ? 'Obligatorio' : 'Required' }}</span>
             }
           </div>
-          <div class="field">
-            <label>{{ t()?.fieldStatus }}</label>
-            <input type="text" formControlName="status" />
-          </div>
           <div class="field span-2">
             <label>{{ r()?.message }}</label>
             <textarea formControlName="message"></textarea>
@@ -520,10 +516,6 @@
               <span class="field-error">{{ lang() === 'es' ? 'Obligatorio' : 'Required' }}</span>
             }
           </div>
-          <div class="field">
-            <label>{{ t()?.fieldStatus }}</label>
-            <input type="text" formControlName="status" />
-          </div>
         </div>
         @if (modalError()) {
           <p class="form-error">{{ t()?.formError }}</p>
@@ -556,18 +548,41 @@
             }
           </div>
           <div class="field">
-            <label>{{ lang() === 'es' ? 'Ubicación' : 'Location' }}</label>
-            <input type="text" formControlName="location" />
-            @if (ctrlInvalid(candidateForm, 'location')) {
+            <label>{{ formsCopy()?.country?.label }}</label>
+            <select formControlName="country">
+              <option value="" disabled>{{ formsCopy()?.country?.placeholder }}</option>
+              @for (opt of formsCopy()?.country?.options; track opt) {
+                <option [value]="opt">{{ opt }}</option>
+              }
+            </select>
+            @if (ctrlInvalid(candidateForm, 'country')) {
               <span class="field-error">{{ lang() === 'es' ? 'Obligatorio' : 'Required' }}</span>
             }
           </div>
           <div class="field">
+            <label>{{ formsCopy()?.city?.label }}</label>
+            <input type="text" formControlName="city" />
+          </div>
+          <div class="field">
             <label>{{ r()?.english }}</label>
-            <input type="text" formControlName="englishLevel" />
+            <select formControlName="englishLevel">
+              <option value="" disabled>{{ formsCopy()?.english?.placeholder }}</option>
+              @for (opt of formsCopy()?.english?.options; track opt) {
+                <option [value]="opt">{{ opt }}</option>
+              }
+            </select>
             @if (ctrlInvalid(candidateForm, 'englishLevel')) {
               <span class="field-error">{{ lang() === 'es' ? 'Obligatorio' : 'Required' }}</span>
             }
+          </div>
+          <div class="field">
+            <label>{{ r()?.experience }}</label>
+            <select formControlName="yearsExperience">
+              <option value="">{{ formsCopy()?.yearsExperience?.placeholder }}</option>
+              @for (opt of formsCopy()?.yearsExperience?.options; track opt) {
+                <option [value]="opt">{{ opt }}</option>
+              }
+            </select>
           </div>
           <div class="field span-2">
             <label>{{ r()?.phone }}</label>
@@ -582,19 +597,25 @@
           </div>
           <div class="field">
             <label>{{ r()?.mainRole }}</label>
-            <input type="text" formControlName="mainRole" />
+            <select formControlName="mainRole">
+              <option value="">{{ formsCopy()?.mainRole?.placeholder }}</option>
+              @for (opt of formsCopy()?.mainRole?.options; track opt) {
+                <option [value]="opt">{{ opt }}</option>
+              }
+            </select>
+          </div>
+          <div class="field">
+            <label>{{ r()?.availability }}</label>
+            <select formControlName="availability">
+              <option value="">{{ formsCopy()?.availability?.placeholder }}</option>
+              @for (opt of formsCopy()?.availability?.options; track opt) {
+                <option [value]="opt">{{ opt }}</option>
+              }
+            </select>
           </div>
           <div class="field">
             <label>{{ r()?.stack }}</label>
             <input type="text" formControlName="mainStack" />
-          </div>
-          <div class="field">
-            <label>{{ r()?.experience }}</label>
-            <input type="text" formControlName="yearsExperience" />
-          </div>
-          <div class="field">
-            <label>{{ r()?.availability }}</label>
-            <input type="text" formControlName="availability" />
           </div>
           <div class="field">
             <label>{{ r()?.desiredSalary }}</label>
@@ -607,10 +628,6 @@
           <div class="field span-2">
             <label>{{ r()?.linkedin }}</label>
             <input type="url" formControlName="linkedinUrl" />
-          </div>
-          <div class="field">
-            <label>{{ t()?.fieldStatus }}</label>
-            <input type="text" formControlName="status" />
           </div>
           <div class="field span-2">
             <label>{{ r()?.message }}</label>

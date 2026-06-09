@@ -55,6 +55,11 @@ export class AdminDashboardComponent implements OnInit {
   );
   readonly r = computed(() => this.t()?.records);
   readonly lang = this.copy.currentLang;
+  readonly formsCopy = toSignal(
+    this.copy
+      .getObservableSlice<LatamCopyModel>(LATAM_COPY_ID)
+      .pipe(map((c) => c?.landing?.forms?.candidate)),
+  );
 
   activeTab = signal<Tab>('overview');
   loadError = signal(false);
@@ -163,14 +168,14 @@ export class AdminDashboardComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     role: ['', Validators.required],
     specialty: ['', Validators.required],
-    status: ['NEW'],
     message: [''],
   });
 
   candidateForm = this.fb.nonNullable.group({
     fullName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    location: ['', Validators.required],
+    country: ['', Validators.required],
+    city: [''],
     englishLevel: ['', Validators.required],
     phoneCode: ['+52'],
     phone: [''],
@@ -181,7 +186,6 @@ export class AdminDashboardComponent implements OnInit {
     desiredSalary: [''],
     minSalary: [''],
     availability: [''],
-    status: ['NEW'],
     message: [''],
   });
 
@@ -189,7 +193,6 @@ export class AdminDashboardComponent implements OnInit {
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     message: ['', Validators.required],
-    status: ['NEW'],
   });
 
   ngOnInit(): void {
@@ -243,9 +246,9 @@ export class AdminDashboardComponent implements OnInit {
   openCreate(entity: ModalEntity): void {
     this.editingId.set(null);
     this.modalError.set(false);
-    if (entity === 'lead') this.leadForm.reset({ status: 'NEW' });
-    else if (entity === 'candidate') this.candidateForm.reset({ phoneCode: '+52', status: 'NEW' });
-    else this.contactForm.reset({ status: 'NEW' });
+    if (entity === 'lead') this.leadForm.reset();
+    else if (entity === 'candidate') this.candidateForm.reset({ phoneCode: '+52' });
+    else this.contactForm.reset();
     this.modalEntity.set(entity);
   }
 
@@ -258,7 +261,6 @@ export class AdminDashboardComponent implements OnInit {
       email: lead.email,
       role: lead.role,
       specialty: lead.specialty,
-      status: lead.status,
       message: lead.message ?? '',
     });
     this.modalEntity.set('lead');
@@ -268,10 +270,12 @@ export class AdminDashboardComponent implements OnInit {
     this.editingId.set(c.id);
     this.modalError.set(false);
     const phone = this.splitPhone(c.phone);
+    const loc = this.splitLocation(c.location);
     this.candidateForm.setValue({
       fullName: c.fullName,
       email: c.email,
-      location: c.location,
+      country: loc.country,
+      city: loc.city,
       englishLevel: c.englishLevel,
       phoneCode: phone.code,
       phone: phone.number,
@@ -282,7 +286,6 @@ export class AdminDashboardComponent implements OnInit {
       desiredSalary: c.desiredSalary != null ? String(c.desiredSalary) : '',
       minSalary: c.minSalary != null ? String(c.minSalary) : '',
       availability: c.availability ?? '',
-      status: c.status,
       message: c.message ?? '',
     });
     this.modalEntity.set('candidate');
@@ -295,7 +298,6 @@ export class AdminDashboardComponent implements OnInit {
       name: ct.name,
       email: ct.email,
       message: ct.message,
-      status: ct.status,
     });
     this.modalEntity.set('contact');
   }
@@ -329,7 +331,6 @@ export class AdminDashboardComponent implements OnInit {
       email: raw.email.trim(),
       role: raw.role.trim(),
       specialty: raw.specialty.trim(),
-      status: raw.status || 'NEW',
       message: raw.message.trim() || undefined,
     };
     const id = this.editingId();
@@ -348,7 +349,7 @@ export class AdminDashboardComponent implements OnInit {
     const input: AdminCandidateInput = {
       fullName: raw.fullName.trim(),
       email: raw.email.trim(),
-      location: raw.location.trim(),
+      location: raw.city.trim() ? `${raw.city.trim()}, ${raw.country}` : raw.country,
       englishLevel: raw.englishLevel.trim(),
       phone: raw.phone.trim() ? `${raw.phoneCode} ${raw.phone.trim()}` : undefined,
       linkedinUrl: raw.linkedinUrl.trim() || undefined,
@@ -358,7 +359,6 @@ export class AdminDashboardComponent implements OnInit {
       desiredSalary: this.num(raw.desiredSalary),
       minSalary: this.num(raw.minSalary),
       availability: raw.availability.trim() || undefined,
-      status: raw.status || 'NEW',
       message: raw.message.trim() || undefined,
     };
     const id = this.editingId();
@@ -378,7 +378,6 @@ export class AdminDashboardComponent implements OnInit {
       name: raw.name.trim(),
       email: raw.email.trim(),
       message: raw.message.trim(),
-      status: raw.status || 'NEW',
     };
     const id = this.editingId();
     this.persist(
@@ -445,6 +444,16 @@ export class AdminDashboardComponent implements OnInit {
       return { code: match[1], number: match[2] };
     }
     return { code: '+52', number: phone };
+  }
+
+  private splitLocation(loc: string | null | undefined): { country: string; city: string } {
+    if (!loc) return { country: '', city: '' };
+    const countries = this.formsCopy()?.country?.options ?? [];
+    const idx = loc.lastIndexOf(', ');
+    if (idx > -1) {
+      return { city: loc.slice(0, idx).trim(), country: loc.slice(idx + 2).trim() };
+    }
+    return countries.includes(loc) ? { country: loc, city: '' } : { country: '', city: loc };
   }
 
   onSearch(event: Event): void {
