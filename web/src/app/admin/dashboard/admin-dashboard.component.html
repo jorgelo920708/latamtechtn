@@ -170,8 +170,14 @@
             <p class="admin-state">{{ t()?.noResults }} "{{ search() }}".</p>
           } @else {
             <div class="cards">
-              @for (lead of filteredLeads(); track lead.id) {
-                <article class="record">
+              @for (lead of pageItems(filteredLeads()); track lead.id) {
+                <article
+                  class="record record-clickable"
+                  role="button"
+                  tabindex="0"
+                  (click)="openDetail('lead', lead)"
+                  (keydown.enter)="openDetail('lead', lead)"
+                >
                   <div class="record-head">
                     <div>
                       <h3>{{ lead.name }}</h3>
@@ -182,28 +188,20 @@
                       <span class="record-date">{{ formatDate(lead.createdAt) }}</span>
                     </div>
                   </div>
-                  <dl class="record-rows">
-                    <div><dt>{{ r()?.email }}</dt><dd><a [href]="'mailto:' + lead.email">{{ lead.email }}</a></dd></div>
-                    <div><dt>{{ r()?.role }}</dt><dd>{{ lead.role }}</dd></div>
-                    <div><dt>{{ r()?.specialty }}</dt><dd>{{ lead.specialty }}</dd></div>
-                    @if (lead.message) {
-                      <div><dt>{{ r()?.message }}</dt><dd>{{ lead.message }}</dd></div>
-                    }
-                  </dl>
-                  <div class="record-actions">
-                    <a class="record-action" [href]="'mailto:' + lead.email">
-                      <app-icon name="mail" /> Email
-                    </a>
-                    <button type="button" class="record-action" (click)="editLead(lead)">
-                      <app-icon name="edit" /> {{ t()?.editItem }}
-                    </button>
-                    <button type="button" class="record-action danger" (click)="deleteLead(lead.id)">
-                      <app-icon name="trash" /> {{ t()?.deleteItem }}
-                    </button>
+                  <div class="record-peek">
+                    <span>{{ lead.role }}</span>
+                    <span class="record-open">{{ lang() === 'es' ? 'Ver detalle' : 'View detail' }} ›</span>
                   </div>
                 </article>
               }
             </div>
+            @if (pageCount(filteredLeads().length) > 1) {
+              <div class="pager">
+                <button type="button" class="pager-btn" [disabled]="page() === 0" (click)="goToPage(page() - 1, filteredLeads().length)" aria-label="Anterior">‹</button>
+                <span class="pager-info">{{ page() + 1 }} / {{ pageCount(filteredLeads().length) }}</span>
+                <button type="button" class="pager-btn" [disabled]="page() >= pageCount(filteredLeads().length) - 1" (click)="goToPage(page() + 1, filteredLeads().length)" aria-label="Siguiente">›</button>
+              </div>
+            }
           }
         }
       }
@@ -242,8 +240,14 @@
             <p class="admin-state">{{ t()?.noResults }} "{{ search() }}".</p>
           } @else {
             <div class="cards">
-              @for (c of filteredCandidates(); track c.id) {
-                <article class="record">
+              @for (c of pageItems(filteredCandidates()); track c.id) {
+                <article
+                  class="record record-clickable"
+                  role="button"
+                  tabindex="0"
+                  (click)="openDetail('candidate', c)"
+                  (keydown.enter)="openDetail('candidate', c)"
+                >
                   <div class="record-head">
                     <div>
                       <h3>{{ c.fullName }}</h3>
@@ -254,71 +258,23 @@
                       <span class="record-date">{{ formatDate(c.createdAt) }}</span>
                     </div>
                   </div>
-                  <dl class="record-rows">
-                    <div><dt>{{ r()?.email }}</dt><dd><a [href]="'mailto:' + c.email">{{ c.email }}</a></dd></div>
-                    @if (c.phone) {
-                      <div><dt>{{ r()?.phone }}</dt><dd>{{ c.phone }}</dd></div>
+                  <div class="record-peek">
+                    @if (c.mainRole) {
+                      <span>{{ c.mainRole }}</span>
                     }
-                    <div><dt>{{ r()?.mainRole }}</dt><dd>{{ c.mainRole }}</dd></div>
-                    @if (c.otherRoles) {
-                      <div><dt>{{ r()?.otherRoles }}</dt><dd>{{ c.otherRoles }}</dd></div>
-                    }
-                    <div><dt>{{ r()?.experience }}</dt><dd>{{ c.yearsExperience }}</dd></div>
-                    <div><dt>{{ r()?.english }}</dt><dd>{{ c.englishLevel }}</dd></div>
-                    @if (c.mainStack) {
-                      <div><dt>{{ r()?.stack }}</dt><dd>{{ c.mainStack }}</dd></div>
-                    }
-                    <div><dt>{{ r()?.international }}</dt><dd>{{ c.workedInternational ? t()?.yes : t()?.no }}</dd></div>
-                    @if (c.willingContractor != null) {
-                      <div><dt>{{ r()?.contractor }}</dt><dd>{{ c.willingContractor ? t()?.yes : t()?.no }}</dd></div>
-                    }
-                    @if (c.jobSearchStatus) {
-                      <div><dt>{{ r()?.jobSearch }}</dt><dd>{{ c.jobSearchStatus }}</dd></div>
-                    }
-                    @if (c.desiredSalary != null) {
-                      <div><dt>{{ r()?.desiredSalary }}</dt><dd>${{ c.desiredSalary }} USD</dd></div>
-                    }
-                    @if (c.minSalary != null) {
-                      <div><dt>{{ r()?.minSalary }}</dt><dd>${{ c.minSalary }} USD</dd></div>
-                    }
-                    @if (c.availability) {
-                      <div><dt>{{ r()?.availability }}</dt><dd>{{ c.availability }}</dd></div>
-                    }
-                    @if (c.linkedinUrl) {
-                      <div>
-                        <dt>{{ r()?.linkedin }}</dt>
-                        <dd><a [href]="c.linkedinUrl" target="_blank" rel="noopener">{{ lang() === 'es' ? 'Ver perfil' : 'View profile' }}</a></dd>
-                      </div>
-                    }
-                    @if (c.cvUrl) {
-                      <div>
-                        <dt>{{ r()?.cv }}</dt>
-                        <dd><a [href]="c.cvUrl" target="_blank" rel="noopener">{{ r()?.viewCv }}</a></dd>
-                      </div>
-                    }
-                    @if (c.message) {
-                      <div><dt>{{ r()?.message }}</dt><dd>{{ c.message }}</dd></div>
-                    }
-                  </dl>
-                  <div class="record-actions">
-                    <a class="record-action" [href]="'mailto:' + c.email">
-                      <app-icon name="mail" /> Email
-                    </a>
-                    @if (c.phone) {
-                      <a class="record-action wa" [href]="waLink(c.phone)" target="_blank" rel="noopener">
-                        <app-icon name="whatsapp" /> WhatsApp
-                      </a>
-                    }
-                    <button type="button" class="record-action" (click)="editCandidate(c)">
-                      <app-icon name="edit" /> {{ t()?.editItem }}
-                    </button>
-                    <button type="button" class="record-action danger" (click)="deleteCandidate(c.id)">
-                      <app-icon name="trash" /> {{ t()?.deleteItem }}
-                    </button>
+                    <span>{{ c.englishLevel }}</span>
+                    <span class="record-open">{{ lang() === 'es' ? 'Ver detalle' : 'View detail' }} ›</span>
                   </div>
                 </article>
               }
             </div>
+            @if (pageCount(filteredCandidates().length) > 1) {
+              <div class="pager">
+                <button type="button" class="pager-btn" [disabled]="page() === 0" (click)="goToPage(page() - 1, filteredCandidates().length)" aria-label="Anterior">‹</button>
+                <span class="pager-info">{{ page() + 1 }} / {{ pageCount(filteredCandidates().length) }}</span>
+                <button type="button" class="pager-btn" [disabled]="page() >= pageCount(filteredCandidates().length) - 1" (click)="goToPage(page() + 1, filteredCandidates().length)" aria-label="Siguiente">›</button>
+              </div>
+            }
           }
         }
       }
@@ -340,8 +296,14 @@
             <p class="admin-state">{{ t()?.noResults }} "{{ search() }}".</p>
           } @else {
             <div class="cards">
-              @for (ct of filteredContacts(); track ct.id) {
-                <article class="record">
+              @for (ct of pageItems(filteredContacts()); track ct.id) {
+                <article
+                  class="record record-clickable"
+                  role="button"
+                  tabindex="0"
+                  (click)="openDetail('contact', ct)"
+                  (keydown.enter)="openDetail('contact', ct)"
+                >
                   <div class="record-head">
                     <div><h3>{{ ct.name }}</h3></div>
                     <div class="record-meta">
@@ -349,24 +311,20 @@
                       <span class="record-date">{{ formatDate(ct.createdAt) }}</span>
                     </div>
                   </div>
-                  <dl class="record-rows">
-                    <div><dt>{{ r()?.email }}</dt><dd><a [href]="'mailto:' + ct.email">{{ ct.email }}</a></dd></div>
-                    <div><dt>{{ r()?.message }}</dt><dd>{{ ct.message }}</dd></div>
-                  </dl>
-                  <div class="record-actions">
-                    <a class="record-action" [href]="'mailto:' + ct.email">
-                      <app-icon name="mail" /> Email
-                    </a>
-                    <button type="button" class="record-action" (click)="editContact(ct)">
-                      <app-icon name="edit" /> {{ t()?.editItem }}
-                    </button>
-                    <button type="button" class="record-action danger" (click)="deleteContact(ct.id)">
-                      <app-icon name="trash" /> {{ t()?.deleteItem }}
-                    </button>
+                  <div class="record-peek">
+                    <span>{{ ct.email }}</span>
+                    <span class="record-open">{{ lang() === 'es' ? 'Ver detalle' : 'View detail' }} ›</span>
                   </div>
                 </article>
               }
             </div>
+            @if (pageCount(filteredContacts().length) > 1) {
+              <div class="pager">
+                <button type="button" class="pager-btn" [disabled]="page() === 0" (click)="goToPage(page() - 1, filteredContacts().length)" aria-label="Anterior">‹</button>
+                <span class="pager-info">{{ page() + 1 }} / {{ pageCount(filteredContacts().length) }}</span>
+                <button type="button" class="pager-btn" [disabled]="page() >= pageCount(filteredContacts().length) - 1" (click)="goToPage(page() + 1, filteredContacts().length)" aria-label="Siguiente">›</button>
+              </div>
+            }
           }
         }
       }
@@ -388,38 +346,34 @@
             <p class="admin-state">{{ t()?.noResults }} "{{ search() }}".</p>
           } @else {
             <div class="cards">
-              @for (co of filteredCompanies(); track co.id) {
-                <article class="record">
+              @for (co of pageItems(filteredCompanies()); track co.id) {
+                <article
+                  class="record record-clickable"
+                  role="button"
+                  tabindex="0"
+                  (click)="openDetail('company', co)"
+                  (keydown.enter)="openDetail('company', co)"
+                >
                   <div class="record-head">
                     <div><h3>{{ co.name }}</h3></div>
                     <div class="record-meta">
                       <span class="record-date">{{ formatDate(co.createdAt) }}</span>
                     </div>
                   </div>
-                  @if (co.website || co.notes) {
-                    <dl class="record-rows">
-                      @if (co.website) {
-                        <div>
-                          <dt>{{ t()?.fieldWebsite }}</dt>
-                          <dd><a [href]="co.website" target="_blank" rel="noopener">{{ co.website }}</a></dd>
-                        </div>
-                      }
-                      @if (co.notes) {
-                        <div><dt>{{ t()?.fieldNotes }}</dt><dd>{{ co.notes }}</dd></div>
-                      }
-                    </dl>
-                  }
-                  <div class="record-actions">
-                    <button type="button" class="record-action" (click)="editCompany(co)">
-                      <app-icon name="edit" /> {{ t()?.editItem }}
-                    </button>
-                    <button type="button" class="record-action danger" (click)="deleteCompany(co.id)">
-                      <app-icon name="trash" /> {{ t()?.deleteItem }}
-                    </button>
+                  <div class="record-peek">
+                    <span>{{ co.website || (lang() === 'es' ? 'Sin sitio web' : 'No website') }}</span>
+                    <span class="record-open">{{ lang() === 'es' ? 'Ver detalle' : 'View detail' }} ›</span>
                   </div>
                 </article>
               }
             </div>
+            @if (pageCount(filteredCompanies().length) > 1) {
+              <div class="pager">
+                <button type="button" class="pager-btn" [disabled]="page() === 0" (click)="goToPage(page() - 1, filteredCompanies().length)" aria-label="Anterior">‹</button>
+                <span class="pager-info">{{ page() + 1 }} / {{ pageCount(filteredCompanies().length) }}</span>
+                <button type="button" class="pager-btn" [disabled]="page() >= pageCount(filteredCompanies().length) - 1" (click)="goToPage(page() + 1, filteredCompanies().length)" aria-label="Siguiente">›</button>
+              </div>
+            }
           }
         }
       }
@@ -783,6 +737,89 @@
           </button>
         </div>
       </form>
+    </app-modal-shell>
+  }
+
+  @if (detail(); as d) {
+    <app-modal-shell
+      [title]="$any(d.data).fullName || $any(d.data).name || ''"
+      [closeLabel]="t()?.cancel ?? ''"
+      (dismiss)="closeDetail()"
+    >
+      @switch (d.type) {
+        @case ('candidate') {
+          @let c = $any(d.data);
+          <dl class="record-rows record-rows-modal">
+            <div><dt>{{ lang() === 'es' ? 'Estado' : 'Status' }}</dt><dd>{{ c.status }}</dd></div>
+            <div><dt>{{ lang() === 'es' ? 'Ubicación' : 'Location' }}</dt><dd>{{ c.location }}</dd></div>
+            <div><dt>{{ r()?.email }}</dt><dd><a [href]="'mailto:' + c.email">{{ c.email }}</a></dd></div>
+            @if (c.phone) { <div><dt>{{ r()?.phone }}</dt><dd>{{ c.phone }}</dd></div> }
+            <div><dt>{{ r()?.mainRole }}</dt><dd>{{ c.mainRole }}</dd></div>
+            @if (c.otherRoles) { <div><dt>{{ r()?.otherRoles }}</dt><dd>{{ c.otherRoles }}</dd></div> }
+            <div><dt>{{ r()?.experience }}</dt><dd>{{ c.yearsExperience }}</dd></div>
+            <div><dt>{{ r()?.english }}</dt><dd>{{ c.englishLevel }}</dd></div>
+            @if (c.mainStack) { <div><dt>{{ r()?.stack }}</dt><dd>{{ c.mainStack }}</dd></div> }
+            <div><dt>{{ r()?.international }}</dt><dd>{{ c.workedInternational ? t()?.yes : t()?.no }}</dd></div>
+            @if (c.willingContractor != null) { <div><dt>{{ r()?.contractor }}</dt><dd>{{ c.willingContractor ? t()?.yes : t()?.no }}</dd></div> }
+            @if (c.jobSearchStatus) { <div><dt>{{ r()?.jobSearch }}</dt><dd>{{ c.jobSearchStatus }}</dd></div> }
+            @if (c.desiredSalary != null) { <div><dt>{{ r()?.desiredSalary }}</dt><dd>${{ c.desiredSalary }} USD</dd></div> }
+            @if (c.minSalary != null) { <div><dt>{{ r()?.minSalary }}</dt><dd>${{ c.minSalary }} USD</dd></div> }
+            @if (c.availability) { <div><dt>{{ r()?.availability }}</dt><dd>{{ c.availability }}</dd></div> }
+            @if (c.linkedinUrl) { <div><dt>{{ r()?.linkedin }}</dt><dd><a [href]="c.linkedinUrl" target="_blank" rel="noopener">{{ lang() === 'es' ? 'Ver perfil' : 'View profile' }}</a></dd></div> }
+            @if (c.cvUrl) { <div><dt>{{ r()?.cv }}</dt><dd><a [href]="c.cvUrl" target="_blank" rel="noopener">{{ r()?.viewCv }}</a></dd></div> }
+            @if (c.message) { <div><dt>{{ r()?.message }}</dt><dd>{{ c.message }}</dd></div> }
+          </dl>
+          <div class="record-actions">
+            <a class="record-action" [href]="'mailto:' + c.email"><app-icon name="mail" /> Email</a>
+            @if (c.phone) {
+              <a class="record-action wa" [href]="waLink(c.phone)" target="_blank" rel="noopener"><app-icon name="whatsapp" /> WhatsApp</a>
+            }
+            <button type="button" class="record-action" (click)="closeDetail(); editCandidate(c)"><app-icon name="edit" /> {{ t()?.editItem }}</button>
+            <button type="button" class="record-action danger" (click)="deleteCandidate(c.id)"><app-icon name="trash" /> {{ t()?.deleteItem }}</button>
+          </div>
+        }
+        @case ('lead') {
+          @let l = $any(d.data);
+          <dl class="record-rows record-rows-modal">
+            <div><dt>{{ lang() === 'es' ? 'Estado' : 'Status' }}</dt><dd>{{ l.status }}</dd></div>
+            <div><dt>{{ t()?.fieldCompany }}</dt><dd>{{ l.company }}</dd></div>
+            <div><dt>{{ r()?.email }}</dt><dd><a [href]="'mailto:' + l.email">{{ l.email }}</a></dd></div>
+            <div><dt>{{ r()?.role }}</dt><dd>{{ l.role }}</dd></div>
+            <div><dt>{{ r()?.specialty }}</dt><dd>{{ l.specialty }}</dd></div>
+            @if (l.message) { <div><dt>{{ r()?.message }}</dt><dd>{{ l.message }}</dd></div> }
+          </dl>
+          <div class="record-actions">
+            <a class="record-action" [href]="'mailto:' + l.email"><app-icon name="mail" /> Email</a>
+            <button type="button" class="record-action" (click)="closeDetail(); editLead(l)"><app-icon name="edit" /> {{ t()?.editItem }}</button>
+            <button type="button" class="record-action danger" (click)="deleteLead(l.id)"><app-icon name="trash" /> {{ t()?.deleteItem }}</button>
+          </div>
+        }
+        @case ('contact') {
+          @let ct = $any(d.data);
+          <dl class="record-rows record-rows-modal">
+            <div><dt>{{ lang() === 'es' ? 'Estado' : 'Status' }}</dt><dd>{{ ct.status }}</dd></div>
+            <div><dt>{{ r()?.email }}</dt><dd><a [href]="'mailto:' + ct.email">{{ ct.email }}</a></dd></div>
+            <div><dt>{{ r()?.message }}</dt><dd>{{ ct.message }}</dd></div>
+          </dl>
+          <div class="record-actions">
+            <a class="record-action" [href]="'mailto:' + ct.email"><app-icon name="mail" /> Email</a>
+            <button type="button" class="record-action" (click)="closeDetail(); editContact(ct)"><app-icon name="edit" /> {{ t()?.editItem }}</button>
+            <button type="button" class="record-action danger" (click)="deleteContact(ct.id)"><app-icon name="trash" /> {{ t()?.deleteItem }}</button>
+          </div>
+        }
+        @case ('company') {
+          @let co = $any(d.data);
+          <dl class="record-rows record-rows-modal">
+            @if (co.website) { <div><dt>{{ t()?.fieldWebsite }}</dt><dd><a [href]="co.website" target="_blank" rel="noopener">{{ co.website }}</a></dd></div> }
+            @if (co.notes) { <div><dt>{{ t()?.fieldNotes }}</dt><dd>{{ co.notes }}</dd></div> }
+            @if (!co.website && !co.notes) { <div><dd>{{ lang() === 'es' ? 'Sin detalles adicionales.' : 'No extra details.' }}</dd></div> }
+          </dl>
+          <div class="record-actions">
+            <button type="button" class="record-action" (click)="closeDetail(); editCompany(co)"><app-icon name="edit" /> {{ t()?.editItem }}</button>
+            <button type="button" class="record-action danger" (click)="deleteCompany(co.id)"><app-icon name="trash" /> {{ t()?.deleteItem }}</button>
+          </div>
+        }
+      }
     </app-modal-shell>
   }
 </div>

@@ -545,6 +545,106 @@
   align-items: start;
 }
 
+.record-clickable {
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+.record-clickable:hover {
+  border-color: var(--brand-blue);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+.record-clickable:focus-visible {
+  outline: 2px solid var(--brand-blue);
+  outline-offset: 2px;
+}
+
+.record-peek {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 7px;
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+.record-peek > span:not(.record-open) {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.record-open {
+  margin-left: auto;
+  color: var(--brand-blue);
+  font-weight: 600;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 16px;
+}
+.pager-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--ink);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  font-family: inherit;
+}
+.pager-btn:hover:not(:disabled) {
+  border-color: var(--brand-blue);
+  color: var(--brand-blue);
+}
+.pager-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.pager-info {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+  min-width: 56px;
+  text-align: center;
+}
+
+.record-rows-modal {
+  margin-top: 0;
+  gap: 7px;
+}
+.record-rows-modal > div {
+  grid-template-columns: 132px 1fr;
+}
+.record-rows-modal dt {
+  font-size: 0.78rem;
+}
+.record-rows-modal dd {
+  font-size: 0.88rem;
+}
+.record-rows-modal + .record-actions {
+  margin-top: 14px;
+  padding-top: 14px;
+}
+@media (max-width: 480px) {
+  .record-rows-modal > div {
+    grid-template-columns: 104px 1fr;
+  }
+}
+
 .record {
   background: var(--card-bg);
   border: 1px solid var(--line-soft);

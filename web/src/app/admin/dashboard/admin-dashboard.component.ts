@@ -27,6 +27,25 @@ type Tab = 'overview' | 'leads' | 'candidates' | 'contacts' | 'companies' | 'acc
 type DataTab = 'leads' | 'candidates' | 'contacts' | 'companies';
 type ModalEntity = 'lead' | 'candidate' | 'contact' | 'company';
 
+const TAB_KEY = 'admin_tab';
+const VALID_TABS: readonly Tab[] = [
+  'overview',
+  'leads',
+  'candidates',
+  'contacts',
+  'companies',
+  'account',
+];
+function readInitialTab(): Tab {
+  try {
+    const saved = localStorage.getItem(TAB_KEY);
+    if (saved && (VALID_TABS as readonly string[]).includes(saved)) return saved as Tab;
+  } catch {
+    /* localStorage unavailable */
+  }
+  return 'overview';
+}
+
 interface ActivityItem {
   kind: string;
   icon: string;
@@ -69,7 +88,13 @@ export class AdminDashboardComponent implements OnInit {
       .pipe(map((c) => c?.landing?.forms?.candidate)),
   );
 
-  activeTab = signal<Tab>('overview');
+  activeTab = signal<Tab>(readInitialTab());
+  page = signal(0);
+  readonly pageSize = 5;
+  detail = signal<{
+    type: ModalEntity;
+    data: CandidateApplication | TalentLead | ContactRequest | Company;
+  } | null>(null);
   loadError = signal(false);
 
   leads = signal<TalentLead[]>([]);
@@ -251,6 +276,37 @@ export class AdminDashboardComponent implements OnInit {
   setTab(tab: Tab): void {
     this.activeTab.set(tab);
     this.search.set('');
+    this.page.set(0);
+    try {
+      localStorage.setItem(TAB_KEY, tab);
+    } catch {
+      /* localStorage unavailable */
+    }
+  }
+
+  pageItems<T>(list: T[]): T[] {
+    const start = this.page() * this.pageSize;
+    return list.slice(start, start + this.pageSize);
+  }
+
+  pageCount(total: number): number {
+    return Math.max(1, Math.ceil(total / this.pageSize));
+  }
+
+  goToPage(p: number, total: number): void {
+    const max = this.pageCount(total) - 1;
+    this.page.set(Math.min(Math.max(0, p), max));
+  }
+
+  openDetail(
+    type: ModalEntity,
+    data: CandidateApplication | TalentLead | ContactRequest | Company,
+  ): void {
+    this.detail.set({ type, data });
+  }
+
+  closeDetail(): void {
+    this.detail.set(null);
   }
 
   toggleLang(): void {
@@ -455,7 +511,10 @@ export class AdminDashboardComponent implements OnInit {
   deleteLead(id: string): void {
     if (!this.confirmDelete()) return;
     this.adminService.deleteLead(id).subscribe({
-      next: () => this.loadLeads(),
+      next: () => {
+        this.loadLeads();
+        this.closeDetail();
+      },
       error: (err) => this.handleError(err),
     });
   }
@@ -463,7 +522,10 @@ export class AdminDashboardComponent implements OnInit {
   deleteCandidate(id: string): void {
     if (!this.confirmDelete()) return;
     this.adminService.deleteCandidate(id).subscribe({
-      next: () => this.loadCandidates(),
+      next: () => {
+        this.loadCandidates();
+        this.closeDetail();
+      },
       error: (err) => this.handleError(err),
     });
   }
@@ -471,7 +533,10 @@ export class AdminDashboardComponent implements OnInit {
   deleteContact(id: string): void {
     if (!this.confirmDelete()) return;
     this.adminService.deleteContact(id).subscribe({
-      next: () => this.loadContacts(),
+      next: () => {
+        this.loadContacts();
+        this.closeDetail();
+      },
       error: (err) => this.handleError(err),
     });
   }
@@ -508,7 +573,10 @@ export class AdminDashboardComponent implements OnInit {
   deleteCompany(id: string): void {
     if (!this.confirmDelete()) return;
     this.adminService.deleteCompany(id).subscribe({
-      next: () => this.loadCompanies(),
+      next: () => {
+        this.loadCompanies();
+        this.closeDetail();
+      },
       error: (err) => this.handleError(err),
     });
   }
@@ -605,6 +673,7 @@ export class AdminDashboardComponent implements OnInit {
 
   onSearch(event: Event): void {
     this.search.set((event.target as HTMLInputElement).value);
+    this.page.set(0);
   }
 
   private match(query: string, fields: (string | null | undefined)[]): boolean {
@@ -714,6 +783,11 @@ export class AdminDashboardComponent implements OnInit {
 
   logout(): void {
     this.adminService.logout();
+    try {
+      localStorage.removeItem(TAB_KEY);
+    } catch {
+      /* localStorage unavailable */
+    }
     void this.router.navigateByUrl('/');
   }
 
