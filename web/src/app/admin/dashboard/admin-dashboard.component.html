@@ -242,8 +242,20 @@
             <app-icon name="search" />
             <input type="search" [value]="search()" (input)="onSearch($event)" [placeholder]="t()?.searchCandidates" />
           </div>
+          <div class="filter-chips">
+            @for (f of candidateQuickFilters; track f.key) {
+              <button
+                type="button"
+                class="filter-chip"
+                [class.active]="isCandidateFilterActive(f.key)"
+                (click)="toggleCandidateFilter(f.key)"
+              >
+                {{ lang() === 'es' ? f.es : f.en }}
+              </button>
+            }
+          </div>
           @if (filteredCandidates().length === 0) {
-            <p class="admin-state">{{ t()?.noResults }} "{{ search() }}".</p>
+            <p class="admin-state">{{ t()?.noResults }}{{ search() ? ' "' + search() + '"' : '' }}.</p>
           } @else {
             <div class="cards">
               @for (c of pageItems(filteredCandidates()); track c.id) {

@@ -112,6 +112,46 @@ export class AdminDashboardComponent implements OnInit {
 
   search = signal('');
 
+  readonly candidateQuickFilters: {
+    key: string;
+    es: string;
+    en: string;
+    test: (c: CandidateApplication) => boolean;
+  }[] = [
+    {
+      key: 'english',
+      es: 'Inglés C1+',
+      en: 'English C1+',
+      test: (c) => /^(c1|c2)/i.test((c.englishLevel ?? '').trim()),
+    },
+    {
+      key: 'senior',
+      es: 'Senior (6+ años)',
+      en: 'Senior (6+ yrs)',
+      test: (c) => ['6-8', '9-12', '12+'].includes((c.yearsExperience ?? '').trim()),
+    },
+    {
+      key: 'available',
+      es: 'Disponible ya',
+      en: 'Available now',
+      test: (c) => /inmediat/i.test(c.availability ?? ''),
+    },
+    {
+      key: 'searching',
+      es: 'Buscando activo',
+      en: 'Actively looking',
+      test: (c) => /buscando activ/i.test(c.jobSearchStatus ?? ''),
+    },
+    {
+      key: 'international',
+      es: 'Internacional',
+      en: 'International',
+      test: (c) => c.workedInternational === true,
+    },
+    { key: 'cv', es: 'Con CV', en: 'Has CV', test: (c) => !!c.cvUrl },
+  ];
+  candidateFilters = signal<Set<string>>(new Set<string>());
+
   filteredLeads = computed(() => {
     const q = this.search().trim().toLowerCase();
     if (!q) return this.leads();
@@ -122,20 +162,26 @@ export class AdminDashboardComponent implements OnInit {
 
   filteredCandidates = computed(() => {
     const q = this.search().trim().toLowerCase();
-    if (!q) return this.candidates();
-    return this.candidates().filter((c) =>
-      this.match(q, [
-        c.fullName,
-        c.email,
-        c.location,
-        c.mainRole,
-        c.otherRoles,
-        c.englishLevel,
-        c.mainStack,
-        c.availability,
-        c.message,
-      ]),
-    );
+    const active = this.candidateFilters();
+    const tests = this.candidateQuickFilters.filter((f) => active.has(f.key)).map((f) => f.test);
+    let list = this.candidates();
+    if (tests.length) list = list.filter((c) => tests.every((t) => t(c)));
+    if (q) {
+      list = list.filter((c) =>
+        this.match(q, [
+          c.fullName,
+          c.email,
+          c.location,
+          c.mainRole,
+          c.otherRoles,
+          c.englishLevel,
+          c.mainStack,
+          c.availability,
+          c.message,
+        ]),
+      );
+    }
+    return list;
   });
 
   filteredContacts = computed(() => {
@@ -321,11 +367,24 @@ export class AdminDashboardComponent implements OnInit {
     this.activeTab.set(tab);
     this.search.set('');
     this.page.set(0);
+    this.candidateFilters.set(new Set<string>());
     try {
       localStorage.setItem(TAB_KEY, tab);
     } catch {
       /* localStorage unavailable */
     }
+  }
+
+  toggleCandidateFilter(key: string): void {
+    const next = new Set(this.candidateFilters());
+    if (next.has(key)) next.delete(key);
+    else next.add(key);
+    this.candidateFilters.set(next);
+    this.page.set(0);
+  }
+
+  isCandidateFilterActive(key: string): boolean {
+    return this.candidateFilters().has(key);
   }
 
   pageItems<T>(list: T[]): T[] {
