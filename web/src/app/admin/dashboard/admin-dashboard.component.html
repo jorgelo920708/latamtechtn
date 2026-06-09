@@ -210,6 +210,23 @@
 
       @if (activeTab() === 'candidates' && loaded().candidates && !loadError()) {
         <div class="section-toolbar">
+          @if (importResult()) {
+            <span class="import-result">{{ importResult() }}</span>
+          }
+          <button
+            type="button"
+            class="btn btn-ghost btn-sm"
+            [disabled]="importing()"
+            [title]="t()?.importHint"
+            (click)="csvInput.click()"
+          >
+            @if (importing()) {
+              {{ t()?.importing }} {{ importProgress() }}/{{ importTotal() }}
+            } @else {
+              {{ t()?.importBtn }}
+            }
+          </button>
+          <input #csvInput type="file" accept=".csv,text/csv,.tsv" hidden (change)="onImportCsv($event)" />
           <button type="button" class="btn btn-primary btn-sm" (click)="openCreate('candidate')">
             <app-icon name="plus" /> {{ t()?.newItem }}
           </button>

@@ -67,9 +67,14 @@ export interface AdminCandidateInput {
   englishLevel: string;
   phone?: string;
   linkedinUrl?: string;
+  cvUrl?: string;
   mainRole?: string;
+  otherRoles?: string;
   mainStack?: string;
   yearsExperience?: string;
+  workedInternational?: boolean;
+  willingContractor?: boolean;
+  jobSearchStatus?: string;
   desiredSalary?: number;
   minSalary?: number;
   availability?: string;

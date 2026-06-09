@@ -702,7 +702,17 @@
 .section-toolbar {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
   margin-bottom: 16px;
+}
+
+.import-result {
+  margin-right: auto;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--success);
 }
 
 .link-btn {

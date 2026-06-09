@@ -127,6 +127,9 @@ export interface AdminDashboardCopy {
   fieldCompany: string;
   fieldStatus: string;
   formError: string;
+  importBtn: string;
+  importing: string;
+  importHint: string;
   records: AdminRecordsCopy;
 }
 
