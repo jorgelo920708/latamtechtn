@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { Resend } from 'resend';
 
 export interface TalentLeadEmailData {
@@ -38,7 +38,7 @@ export interface ContactEmailData {
 }
 
 @Injectable()
-export class MailService {
+export class MailService implements OnModuleInit {
   private readonly logger = new Logger(MailService.name);
   private readonly apiKey = process.env.RESEND_API_KEY;
   private readonly resend = this.apiKey ? new Resend(this.apiKey) : null;
@@ -48,6 +48,20 @@ export class MailService {
   private readonly adminEmail = (
     process.env.ADMIN_EMAIL ?? 'elbacaseres83@gmail.com'
   ).toLowerCase();
+
+  onModuleInit(): void {
+    if (!this.resend) {
+      this.logger.warn(
+        'Correos DESHABILITADOS: falta RESEND_API_KEY en el entorno. ' +
+          'Configurala en Railway para activar el envío.',
+      );
+      return;
+    }
+    this.logger.log(
+      `Correos habilitados — from="${this.from}", admin="${this.adminEmail}". ` +
+        'Si el remitente usa un dominio sin verificar en Resend, los envíos se rechazan.',
+    );
+  }
 
   async notifyNewTalentLead(lead: TalentLeadEmailData): Promise<void> {
     const rows: [string, string][] = [
@@ -159,10 +173,24 @@ export class MailService {
       return;
     }
     try {
-      await this.resend.emails.send({ from: this.from, to, subject, html });
+      const { data, error } = await this.resend.emails.send({
+        from: this.from,
+        to,
+        subject,
+        html,
+      });
+      // El SDK de Resend NO lanza en errores de API: devuelve { data, error }.
+      // Hay que inspeccionar `error` o el rechazo pasa desapercibido.
+      if (error) {
+        this.logger.error(
+          `Resend rechazó "${subject}" → ${to}: [${error.name}] ${error.message}`,
+        );
+        return;
+      }
+      this.logger.log(`Email "${subject}" enviado a ${to} (id: ${data?.id})`);
     } catch (error) {
       this.logger.error(
-        `Error enviando "${subject}": ${(error as Error).message}`,
+        `Error de red enviando "${subject}" → ${to}: ${(error as Error).message}`,
       );
     }
   }
