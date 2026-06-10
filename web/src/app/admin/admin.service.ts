@@ -114,15 +114,6 @@ const ADMIN_LOGIN = gql`
   }
 `;
 
-const CHANGE_PASSWORD = gql`
-  mutation ChangePassword($input: ChangePasswordInput!) {
-    changePassword(input: $input) {
-      id
-      email
-    }
-  }
-`;
-
 const TALENT_LEADS = gql`
   query TalentLeads {
     talentLeads {
@@ -315,16 +306,6 @@ export class AdminService {
         fetchPolicy: 'no-cache',
       })
       .pipe(map((r) => r.data!.sendTestEmail));
-  }
-
-  changePassword(currentPassword: string, newPassword: string) {
-    return this.apollo
-      .mutate<{ changePassword: { id: string } }>({
-        mutation: CHANGE_PASSWORD,
-        variables: { input: { currentPassword, newPassword } },
-        fetchPolicy: 'no-cache',
-      })
-      .pipe(map((r) => r.data!.changePassword));
   }
 
   logout(): void {

@@ -268,9 +268,6 @@ export class AdminDashboardComponent implements OnInit {
       .slice(0, 6);
   });
 
-  pwSubmitting = signal(false);
-  pwSuccess = signal(false);
-  pwError = signal<string | null>(null);
   resetSending = signal(false);
   resetSent = signal(false);
   testEmailSending = signal(false);
@@ -280,11 +277,6 @@ export class AdminDashboardComponent implements OnInit {
     from: string;
     to: string;
   } | null>(null);
-
-  pwForm = this.fb.nonNullable.group({
-    currentPassword: ['', Validators.required],
-    newPassword: ['', [Validators.required, Validators.minLength(8)]],
-  });
 
   testEmailTo = this.fb.nonNullable.control('');
 
@@ -895,34 +887,6 @@ export class AdminDashboardComponent implements OnInit {
         this.markLoaded('companies');
       },
       error: (err) => this.handleError(err),
-    });
-  }
-
-  changePassword(): void {
-    if (this.pwForm.invalid) {
-      this.pwForm.markAllAsTouched();
-      return;
-    }
-    this.pwSubmitting.set(true);
-    this.pwError.set(null);
-    this.pwSuccess.set(false);
-    const { currentPassword, newPassword } = this.pwForm.getRawValue();
-    this.adminService.changePassword(currentPassword, newPassword).subscribe({
-      next: () => {
-        this.pwSubmitting.set(false);
-        this.pwSuccess.set(true);
-        this.pwForm.reset();
-      },
-      error: (err: unknown) => {
-        this.pwSubmitting.set(false);
-        const msg = String((err as { message?: string })?.message ?? '');
-        const copy = this.t();
-        this.pwError.set(
-          msg.includes('actual')
-            ? (copy?.errorCurrent ?? '')
-            : (copy?.errorGeneric ?? ''),
-        );
-      },
     });
   }
 

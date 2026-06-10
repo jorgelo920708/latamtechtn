@@ -410,40 +410,6 @@
 
       @if (activeTab() === 'account') {
         <div class="account-card">
-          <h2>{{ t()?.accountTitle }}</h2>
-          <form [formGroup]="pwForm" (ngSubmit)="changePassword()" novalidate>
-            <div class="field">
-              <label for="cp-current">{{ t()?.currentPassword }}</label>
-              <input
-                id="cp-current"
-                type="password"
-                formControlName="currentPassword"
-                autocomplete="current-password"
-              />
-            </div>
-            <div class="field">
-              <label for="cp-new">{{ t()?.newPassword }}</label>
-              <input
-                id="cp-new"
-                type="password"
-                formControlName="newPassword"
-                autocomplete="new-password"
-              />
-              <span class="field-hint">{{ t()?.passwordHint }}</span>
-            </div>
-            @if (pwError()) {
-              <p class="form-error">{{ pwError() }}</p>
-            }
-            @if (pwSuccess()) {
-              <p class="form-ok">{{ t()?.saved }}</p>
-            }
-            <button type="submit" class="btn btn-primary" [disabled]="pwSubmitting()">
-              {{ pwSubmitting() ? t()?.saving : t()?.save }}
-            </button>
-          </form>
-        </div>
-
-        <div class="account-card">
           <h2>{{ t()?.resetByEmailTitle }}</h2>
           <p class="field-hint account-lead">{{ t()?.resetByEmailText }}</p>
           @if (resetSent()) {
