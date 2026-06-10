@@ -175,6 +175,25 @@ export class MailService implements OnModuleInit {
     to?: string | null,
   ): Promise<MailSendResult & { from: string; to: string }> {
     const target = to?.trim() || this.adminEmail;
+
+    // Diagnóstico temporal: si la key no llegó al runtime, reportar qué
+    // variables RESEND/MAIL ve realmente process.env (nombre exacto con
+    // JSON.stringify para destapar espacios/caracteres invisibles + longitud
+    // del valor, NUNCA el valor). Sirve para detectar typos invisibles en el
+    // nombre de la variable en Railway.
+    if (!this.resend) {
+      const seen = Object.keys(process.env)
+        .filter((k) => /resend|mail/i.test(k))
+        .map((k) => `${JSON.stringify(k)}=len:${(process.env[k] ?? '').length}`);
+      const diag = seen.length ? seen.join(', ') : '(ninguna var RESEND/MAIL)';
+      return {
+        ok: false,
+        detail: `RESEND_API_KEY ausente. Runtime ve → ${diag}`,
+        from: this.from,
+        to: target,
+      };
+    }
+
     const content =
       this.eyebrow('Prueba') +
       this.heading('¡El correo funciona! ✅') +
