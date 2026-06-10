@@ -15,6 +15,8 @@ import {
   AdminContactInput,
   ContactRequestType,
 } from '../contact-request/contact-request.dto';
+import { MailService } from '../mail/mail.service';
+import { MailTestResultType } from '../mail/mail.dto';
 
 @Resolver()
 @UseGuards(AdminGuard)
@@ -24,7 +26,15 @@ export class AdminResolver {
     private readonly candidateApplicationFacade: CandidateApplicationFacade,
     private readonly contactRequestFacade: ContactRequestFacade,
     private readonly companyFacade: CompanyFacade,
+    private readonly mailService: MailService,
   ) {}
+
+  @Mutation(() => MailTestResultType)
+  sendTestEmail(
+    @Args('to', { type: () => String, nullable: true }) to?: string,
+  ) {
+    return this.mailService.sendTest(to);
+  }
 
   @Query(() => [TalentLeadType])
   talentLeads() {

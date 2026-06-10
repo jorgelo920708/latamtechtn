@@ -164,6 +164,13 @@ input LoginInput {
   password: String!
 }
 
+type MailTestResultType {
+  detail: String!
+  from: String!
+  ok: Boolean!
+  to: String!
+}
+
 type Mutation {
   adminCreateCandidate(input: AdminCandidateInput!): CandidateApplicationType!
   adminCreateCompany(input: AdminCompanyInput!): CompanyType!
@@ -184,6 +191,7 @@ type Mutation {
   createTalentLead(input: CreateTalentLeadInput!): TalentLeadType!
   requestPasswordReset(input: RequestPasswordResetInput!): StatusType!
   resetPassword(input: ResetPasswordInput!): StatusType!
+  sendTestEmail(to: String): MailTestResultType!
 }
 
 type PublicStatsType {

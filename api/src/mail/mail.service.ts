@@ -37,6 +37,11 @@ export interface ContactEmailData {
   message: string;
 }
 
+export interface MailSendResult {
+  ok: boolean;
+  detail: string;
+}
+
 @Injectable()
 export class MailService implements OnModuleInit {
   private readonly logger = new Logger(MailService.name);
@@ -165,12 +170,38 @@ export class MailService implements OnModuleInit {
     );
   }
 
-  private async send(to: string, subject: string, html: string): Promise<void> {
+  /** Envía un correo de prueba para diagnosticar la configuración de Resend. */
+  async sendTest(
+    to?: string | null,
+  ): Promise<MailSendResult & { from: string; to: string }> {
+    const target = to?.trim() || this.adminEmail;
+    const content =
+      this.eyebrow('Prueba') +
+      this.heading('¡El correo funciona! ✅') +
+      this.paragraph(
+        'Si estás viendo este mensaje, el envío de correos de LATAM Tech Talent Network está configurado correctamente.',
+      ) +
+      this.infoCard([
+        ['Remitente', this.from],
+        ['Destinatario', target],
+      ]);
+    const result = await this.send(
+      target,
+      'Prueba de correo — LATAM Tech Talent',
+      this.wrap('Prueba de configuración de correo.', content),
+    );
+    return { ...result, from: this.from, to: target };
+  }
+
+  private async send(
+    to: string,
+    subject: string,
+    html: string,
+  ): Promise<MailSendResult> {
     if (!this.resend) {
-      this.logger.warn(
-        `RESEND_API_KEY ausente — email "${subject}" no enviado`,
-      );
-      return;
+      const detail = 'RESEND_API_KEY ausente — correos deshabilitados';
+      this.logger.warn(`${detail} (no se envió "${subject}")`);
+      return { ok: false, detail };
     }
     try {
       const { data, error } = await this.resend.emails.send({
@@ -182,16 +213,16 @@ export class MailService implements OnModuleInit {
       // El SDK de Resend NO lanza en errores de API: devuelve { data, error }.
       // Hay que inspeccionar `error` o el rechazo pasa desapercibido.
       if (error) {
-        this.logger.error(
-          `Resend rechazó "${subject}" → ${to}: [${error.name}] ${error.message}`,
-        );
-        return;
+        const detail = `[${error.name}] ${error.message}`;
+        this.logger.error(`Resend rechazó "${subject}" → ${to}: ${detail}`);
+        return { ok: false, detail };
       }
       this.logger.log(`Email "${subject}" enviado a ${to} (id: ${data?.id})`);
+      return { ok: true, detail: `Enviado (id: ${data?.id ?? 'n/a'})` };
     } catch (error) {
-      this.logger.error(
-        `Error de red enviando "${subject}" → ${to}: ${(error as Error).message}`,
-      );
+      const detail = `Error de red: ${(error as Error).message}`;
+      this.logger.error(`${detail} (enviando "${subject}" → ${to})`);
+      return { ok: false, detail };
     }
   }
 
