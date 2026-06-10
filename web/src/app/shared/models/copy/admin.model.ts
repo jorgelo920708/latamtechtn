@@ -116,6 +116,14 @@ export interface AdminDashboardCopy {
   resetByEmailBtn: string;
   resetByEmailSending: string;
   resetByEmailSent: string;
+  testEmailTitle: string;
+  testEmailText: string;
+  testEmailPlaceholder: string;
+  testEmailBtn: string;
+  testEmailSending: string;
+  testEmailOk: string;
+  testEmailFail: string;
+  testEmailFrom: string;
   yes: string;
   no: string;
   newItem: string;

@@ -273,11 +273,20 @@ export class AdminDashboardComponent implements OnInit {
   pwError = signal<string | null>(null);
   resetSending = signal(false);
   resetSent = signal(false);
+  testEmailSending = signal(false);
+  testEmailResult = signal<{
+    ok: boolean;
+    detail: string;
+    from: string;
+    to: string;
+  } | null>(null);
 
   pwForm = this.fb.nonNullable.group({
     currentPassword: ['', Validators.required],
     newPassword: ['', [Validators.required, Validators.minLength(8)]],
   });
+
+  testEmailTo = this.fb.nonNullable.control('');
 
   readonly phoneCodes = PHONE_CODES;
   modalEntity = signal<ModalEntity | null>(null);
@@ -930,6 +939,26 @@ export class AdminDashboardComponent implements OnInit {
       error: () => {
         this.resetSending.set(false);
         this.resetSent.set(true);
+      },
+    });
+  }
+
+  sendTestEmail(): void {
+    this.testEmailSending.set(true);
+    this.testEmailResult.set(null);
+    this.adminService.sendTestEmail(this.testEmailTo.value).subscribe({
+      next: (res) => {
+        this.testEmailSending.set(false);
+        this.testEmailResult.set(res);
+      },
+      error: (err: unknown) => {
+        this.testEmailSending.set(false);
+        this.testEmailResult.set({
+          ok: false,
+          detail: String((err as { message?: string })?.message ?? 'Error'),
+          from: '',
+          to: this.testEmailTo.value,
+        });
       },
     });
   }

@@ -460,6 +460,42 @@
             </button>
           }
         </div>
+
+        <div class="account-card">
+          <h2>{{ t()?.testEmailTitle }}</h2>
+          <p class="field-hint account-lead">{{ t()?.testEmailText }}</p>
+          <div class="field">
+            <input
+              id="te-to"
+              type="email"
+              [formControl]="testEmailTo"
+              [placeholder]="t()?.testEmailPlaceholder ?? ''"
+              [attr.aria-label]="t()?.testEmailTitle"
+              autocomplete="off"
+            />
+          </div>
+          <button
+            type="button"
+            class="btn btn-ghost"
+            (click)="sendTestEmail()"
+            [disabled]="testEmailSending()"
+          >
+            <app-icon name="mail" />
+            {{ testEmailSending() ? t()?.testEmailSending : t()?.testEmailBtn }}
+          </button>
+          @if (testEmailResult(); as res) {
+            @if (res.ok) {
+              <p class="form-ok">{{ t()?.testEmailOk }}</p>
+            } @else {
+              <p class="form-error">{{ t()?.testEmailFail }} {{ res.detail }}</p>
+            }
+            @if (res.from) {
+              <p class="field-hint te-meta">
+                {{ t()?.testEmailFrom }} {{ res.from }} → {{ res.to }}
+              </p>
+            }
+          }
+        </div>
       }
     </main>
   </div>

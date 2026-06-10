@@ -248,6 +248,17 @@ const ADMIN_DELETE_COMPANY = gql`
   }
 `;
 
+const SEND_TEST_EMAIL = gql`
+  mutation SendTestEmail($to: String) {
+    sendTestEmail(to: $to) {
+      ok
+      detail
+      from
+      to
+    }
+  }
+`;
+
 const ADMIN_CREATE_CONTACT = gql`
   mutation AdminCreateContact($input: AdminContactInput!) {
     adminCreateContact(input: $input) { id }
@@ -292,6 +303,18 @@ export class AdminService {
           this.email.set(auth.email);
         }),
       );
+  }
+
+  sendTestEmail(to?: string) {
+    return this.apollo
+      .mutate<{
+        sendTestEmail: { ok: boolean; detail: string; from: string; to: string };
+      }>({
+        mutation: SEND_TEST_EMAIL,
+        variables: { to: to?.trim() || null },
+        fetchPolicy: 'no-cache',
+      })
+      .pipe(map((r) => r.data!.sendTestEmail));
   }
 
   changePassword(currentPassword: string, newPassword: string) {
