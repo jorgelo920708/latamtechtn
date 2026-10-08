@@ -81,3 +81,15 @@ La foto se referencia en `AssetUrl.ELBA_PHOTO` → `/assets/images/elba-profile.
 Guardá la foto real en **`web/src/assets/images/elba-profile.jpg`** y se mostrará
 automáticamente. Hasta que el archivo exista, el `<img>` cae a un placeholder SVG
 (`elba-profile.svg`) vía `(error)`, así que nunca se ve una imagen rota.
+
+## Despliegue en Railway
+
+El proyecto contiene tres servicios:
+
+- `latamtechtn`: API NestJS, Dockerfile en la raíz, salud en `/health`, dominio `api.latamtechtn.com`.
+- `Postgres`: PostgreSQL con volumen persistente; la API usa su conexión privada.
+- `web`: Angular compilado y servido por Nginx, raíz `/web`, Dockerfile y configuración en ese directorio, salud en `/health`. Nginx admite rutas SPA como `/admin/login` y evita cachear `index.html`.
+
+En la API, configura `DATABASE_URL` y `DIRECT_URL` como `${{Postgres.DATABASE_URL}}`. Conserva las variables de Resend y autenticación. `CORS_ORIGINS` debe incluir los dominios públicos y el dominio temporal de la web en Railway.
+
+Los CV se almacenan en la tabla `CvFile`; se migran junto con las candidaturas y no necesitan un servicio de archivos separado. Conserva Vercel y Supabase hasta verificar el cambio de DNS y los datos migrados.
